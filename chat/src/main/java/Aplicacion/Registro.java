@@ -17,8 +17,11 @@ import javax.swing.JLabel;
 import java.awt.Component;
 import javax.swing.Box;
 import java.awt.Font;
+import java.awt.Image;
+
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
+import javax.swing.JFileChooser;
 import javax.swing.JTextArea;
 import javax.swing.border.LineBorder;
 
@@ -28,6 +31,7 @@ import com.toedter.calendar.JDateChooser;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 public class Registro{
 
@@ -40,6 +44,7 @@ public class Registro{
 	private JPasswordField textContraseña2;
 	private JTextField textFieldFecha;
 	private JButton botonregistro;
+	private JLabel lblImagen;
 
 	
 
@@ -194,9 +199,7 @@ public class Registro{
 		horizontalStrut_3.setPreferredSize(new Dimension(120, 0));
 		panelReg_SUR.add(horizontalStrut_3);
 		
-		JButton btnRegCargarArchivo = new JButton("Cargar Archivo");
-		panelReg_SUR.add(btnRegCargarArchivo);
-		
+	
 		JPanel panelReg_OESTE = new JPanel();
 		panelReg_OESTE.setBackground(new Color(0, 255, 127));
 		panelReg_OESTE.setPreferredSize(new Dimension(290, 200));
@@ -252,17 +255,40 @@ public class Registro{
 		panelTituloImagen.setOpaque(false);
 		panelReg_ESTE.add(panelTituloImagen);
 		
-		JLabel lblImagen = new JLabel("IMAGEN:");
+		lblImagen = new JLabel("IMAGEN:");
 		lblImagen.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		panelTituloImagen.add(lblImagen);
 		
 		JPanel panelFoto = new JPanel();
-		panelFoto.setPreferredSize(new Dimension(290, 120));
+		panelFoto.setPreferredSize(new Dimension(280, 120));
 		panelFoto.setOpaque(false);
 		panelReg_ESTE.add(panelFoto);
 		
-		FotoCuenta foto = new FotoCuenta("mcclovin.png");
-		panelFoto.add(foto);
+		JButton btnRegCargarArchivo = new JButton("Cargar Imagen");
+		panelReg_SUR.add(btnRegCargarArchivo);
+		
+		btnRegCargarArchivo.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+			JFileChooser chooser = new JFileChooser();
+			chooser.showOpenDialog(btnRegCargarArchivo);
+			File img = chooser.getSelectedFile();
+			if (img.getName().toLowerCase().endsWith(".png")) {
+				ImageIcon imgPerfil = new ImageIcon(img.getAbsolutePath());
+				Image imgEscalada = imgPerfil.getImage().getScaledInstance(120, 120, Image.SCALE_SMOOTH);
+				JLabel imagenLabel = new JLabel(new ImageIcon(imgEscalada));
+				panelFoto.removeAll();
+				panelFoto.add(imagenLabel);
+				panelFoto.revalidate();
+				panelFoto.repaint();
+			}
+			
+			System.out.println(img);
+				
+			}
+		});
+		
+		
 		
 		
 	}
