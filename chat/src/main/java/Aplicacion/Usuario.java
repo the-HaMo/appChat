@@ -38,5 +38,8 @@ public class Usuario {
 		return premium;
 	}
 	
+	public boolean isPassword(String Password) {
+		return contraseña.equals(Password);
+	}
 	
 }
