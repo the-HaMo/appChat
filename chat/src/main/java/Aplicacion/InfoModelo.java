@@ -1,6 +1,7 @@
 package Aplicacion;
 
 import java.awt.Dimension;
+import java.awt.Font;
 
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
@@ -18,9 +19,10 @@ public class InfoModelo extends JPanel{
 		this.setOpaque(false);
 		//this.setBackground(new Color(200,200,100))
 		JLabel nomb=new JLabel(obj,JLabel.LEFT);
-		nomb.setMinimumSize(new Dimension(75,20));
-		nomb.setMaximumSize(new Dimension(75,20));
-		nomb.setPreferredSize(new Dimension(75,20));
+		nomb.setFont(new Font("Tahoma", Font.BOLD, 15));
+		nomb.setMinimumSize(new Dimension(90,20));
+		nomb.setMaximumSize(new Dimension(90,20));
+		nomb.setPreferredSize(new Dimension(90,20));
 		/*
 		JLabel tlf=new JLabel(telf,JLabel.LEFT);
 		tlf.setMinimumSize(new Dimension(125,20));
