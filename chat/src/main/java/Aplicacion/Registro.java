@@ -216,8 +216,8 @@ public class Registro{
 		panelRegFecha.add(lblFecha);
 		
 		Component horizontalStrut_4 = Box.createHorizontalStrut(20);
+		horizontalStrut_4.setPreferredSize(new Dimension(25, 0));
 		horizontalStrut_4.setMinimumSize(new Dimension(0, 0));
-		horizontalStrut_4.setPreferredSize(new Dimension(12, 0));
 		panelRegFecha.add(horizontalStrut_4);
 		
 		JDateChooser dateChooser = new JDateChooser();
@@ -260,9 +260,12 @@ public class Registro{
 		panelTituloImagen.add(lblImagen);
 		
 		JPanel panelFoto = new JPanel();
-		panelFoto.setPreferredSize(new Dimension(280, 120));
+		panelFoto.setPreferredSize(new Dimension(100, 120));
 		panelFoto.setOpaque(false);
 		panelReg_ESTE.add(panelFoto);
+				
+		FotoCuenta foto = new FotoCuenta("sinFotoContc.png");
+		panelFoto.add(foto);
 		
 		JButton btnRegCargarArchivo = new JButton("Cargar Imagen");
 		panelReg_SUR.add(btnRegCargarArchivo);
@@ -274,6 +277,7 @@ public class Registro{
 			chooser.showOpenDialog(btnRegCargarArchivo);
 			File img = chooser.getSelectedFile();
 			if (img.getName().toLowerCase().endsWith(".png")) {
+				panelFoto.remove(foto);
 				ImageIcon imgPerfil = new ImageIcon(img.getAbsolutePath());
 				Image imgEscalada = imgPerfil.getImage().getScaledInstance(120, 120, Image.SCALE_SMOOTH);
 				JLabel imagenLabel = new JLabel(new ImageIcon(imgEscalada));
