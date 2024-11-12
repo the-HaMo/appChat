@@ -8,7 +8,7 @@ public class Usuario {
 	private String telefono;
 	private String contraseña;
 	private ImageIcon imagen;
-	private boolean premium; //propiedad calculada
+	private boolean premium; //propiedad calculada y Varia 
 	
 	public Usuario(String nombre, String telefono, String contraseña, ImageIcon imagen, boolean premium) {
 		this.nombre = nombre;
