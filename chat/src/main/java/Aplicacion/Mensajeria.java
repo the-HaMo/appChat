@@ -132,9 +132,11 @@ public class Mensajeria {
         frame.getContentPane().add(panel_MensajeriaOESTE, BorderLayout.WEST);
 
         Usuario usu = new Usuario("Sergio", "696918622", "hola", new ImageIcon(getClass().getResource("/mcclovin.png")), false);
+        Usuario usu1 = new Usuario("Moha", "696918622", "hola", new ImageIcon(getClass().getResource("/mcclovin.png")), false);  
         JList<Elemento> lista = new JList<Elemento>();
         DefaultListModel<Elemento> model = new DefaultListModel<Elemento>();
         model.addElement(new Elemento(usu));
+        model.addElement(new Elemento(usu1));
         lista.setModel(model);
         lista.setCellRenderer(new ElementoListRenderer());
 
