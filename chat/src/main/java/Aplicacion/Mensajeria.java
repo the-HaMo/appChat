@@ -34,7 +34,7 @@ import javax.swing.SwingConstants;
 public class Mensajeria {
 
     private JFrame frame;
-    private Elemento selectedElement; // Variable para almacenar el elemento seleccionado
+   
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -159,7 +159,7 @@ public class Mensajeria {
             @Override
             public void mouseClicked(MouseEvent e) {
             	if(e.getClickCount()==2) {
-            		selectedElement = lista.getSelectedValue();
+            		Elemento selectedElement = lista.getSelectedValue();
             		if (selectedElement != null) {
                         ImageIcon iconoOriginal = selectedElement.getFto();
                         Image imagenOriginal = iconoOriginal.getImage();

@@ -263,7 +263,8 @@ public class Registro{
 		panelFoto.setPreferredSize(new Dimension(100, 120));
 		panelFoto.setOpaque(false);
 		panelReg_ESTE.add(panelFoto);
-				
+		
+		
 		FotoCuenta foto = new FotoCuenta("sinFotoContc.png");
 		panelFoto.add(foto);
 		
