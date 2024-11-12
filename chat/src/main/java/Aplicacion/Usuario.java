@@ -9,14 +9,15 @@ public class Usuario {
 	private String contraseña;
 	private ImageIcon imagen;
 	private boolean premium; //propiedad calculada y Varia 
-	private String fecha_nac;
+	private String fechaNac;
 	
-	public Usuario(String nombre, String telefono, String contraseña, ImageIcon imagen, boolean premium) {
+	public Usuario(String nombre, String telefono, String contraseña, ImageIcon imagen, boolean premium, String fechaNac) {
 		this.nombre = nombre;
 		this.telefono = telefono;
 		this.contraseña = contraseña;
 		this.imagen = imagen;
 		this.premium = premium;
+		this.fechaNac = fechaNac;
 	}
 
 	public String getNombre() {
@@ -37,6 +38,10 @@ public class Usuario {
 	
 	public boolean isPremium() {
 		return premium;
+	}
+	
+	public String getfechaNac() {
+		return fechaNac;
 	}
 	
 	public boolean isPassword(String Password) {
