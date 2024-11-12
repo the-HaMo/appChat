@@ -9,6 +9,7 @@ public class Usuario {
 	private String contraseña;
 	private ImageIcon imagen;
 	private boolean premium; //propiedad calculada y Varia 
+	private String fecha_nac;
 	
 	public Usuario(String nombre, String telefono, String contraseña, ImageIcon imagen, boolean premium) {
 		this.nombre = nombre;
