@@ -37,6 +37,7 @@ import javax.swing.SwingConstants;
 public class Mensajeria extends JFrame {
 
     private JFrame frame;
+    private JPanel chat;
    
 
     public static void main(String[] args) {
@@ -126,7 +127,7 @@ public class Mensajeria extends JFrame {
 
         JPanel panel_MensajeriaESTE = new JPanel();
         panel_MensajeriaESTE.setOpaque(false);
-        panel_MensajeriaESTE.setPreferredSize(new Dimension(470, 350));
+        panel_MensajeriaESTE.setPreferredSize(new Dimension(450, 350));
         frame.getContentPane().add(panel_MensajeriaESTE, BorderLayout.EAST);
 
         JPanel panel_MensajeriaOESTE = new JPanel();
@@ -171,21 +172,27 @@ public class Mensajeria extends JFrame {
             }
         });*/
         
-        JPanel chat=new JPanel();
+        chat = new JPanel();
+        chat.setSize(400,680);
+        chat.setBackground(Color.lightGray);
+        chat.setMinimumSize(new Dimension(400,700));
+        chat.setMaximumSize(new Dimension(400,700));
+        chat.setPreferredSize(new Dimension(420, 570));
+		
         chat.setLayout(new BoxLayout(chat, BoxLayout.Y_AXIS));
-        chat.setPreferredSize(new Dimension(440, 570));
-        chat.setMinimumSize(new Dimension(440, 570)); // mismo tamaño que modelo)
-        chat.setMaximumSize(new Dimension(440, 570));
-        chat.setBackground(Color.pink);
-        frame.setVisible(true);
-        panel_MensajeriaESTE.add(chat);
-        BubbleText m1=new BubbleText(chat, "hola", Color.white, "Paco 9:30", BubbleText.SENT);
+		
+        
+        BubbleText m1=new BubbleText(chat, "hola", Color.green, "Paco 9:30", BubbleText.SENT);
         chat.add(m1);
         BubbleText m2=new BubbleText(chat, "hola jefe", Color.white, "Jorge 9:33", BubbleText.RECEIVED,10);
         chat.add(m2); 
         BubbleText m3=new BubbleText(chat,7, Color.white, "Jorge 9:33", BubbleText.RECEIVED, 18);
-              
         chat.add(m3);
+        
+		
+		panel_MensajeriaESTE.add(chat);
+        
+        
         frame.repaint();
         frame.revalidate();
         
