@@ -63,11 +63,6 @@ public class añadirContacto {
 		panelNorteAlerta.setOpaque(false);
 		frame.getContentPane().add(panelNorteAlerta, BorderLayout.NORTH);
 		
-		JLabel lblWarning = new JLabel();
-		Image triangulo = new ImageIcon(getClass().getResource("/warning.png")).getImage();
-		lblWarning.setIcon(new ImageIcon(triangulo.getScaledInstance(30, 30, Image.SCALE_SMOOTH)));
-		panelNorteAlerta.add(lblWarning);
-		
 		JLabel lblAlerta = new JLabel("ALERTA");
 		lblAlerta.setFont(new Font("Tahoma", Font.BOLD, 18));
 		lblAlerta.setPreferredSize(new Dimension(100, 40));
