@@ -1,5 +1,6 @@
 package Aplicacion;
 
+import Clases.Usuario;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
@@ -13,6 +14,8 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
+
+import Clases.Usuario;
 
 
 public class Elemento extends JPanel{

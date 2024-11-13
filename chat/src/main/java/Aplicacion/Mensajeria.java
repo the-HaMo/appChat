@@ -1,5 +1,6 @@
 package Aplicacion;
 
+import Clases.Usuario;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -131,7 +132,7 @@ public class Mensajeria {
         panel_MensajeriaOESTE.setPreferredSize(new Dimension(350, 350));
         frame.getContentPane().add(panel_MensajeriaOESTE, BorderLayout.WEST);
 
-        Usuario usu = new Usuario("Sergio", "696918622", "hola", new ImageIcon(getClass().getResource("/mcclovin.png")), false);
+        Usuario usu = new Usuario("Sergio", "696918622", "hola", new ImageIcon(getClass().getResource("/mcclovin.png")), false, "24/02/1999");
         JList<Elemento> lista = new JList<Elemento>();
         DefaultListModel<Elemento> model = new DefaultListModel<Elemento>();
         model.addElement(new Elemento(usu));
