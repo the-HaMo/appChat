@@ -1,6 +1,8 @@
 
 package Aplicacion;
 
+import Clases.*;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -197,7 +199,7 @@ public class Registro {
 
         JDateChooser dateChooser = new JDateChooser();
         dateChooser.setFont(new Font("Tahoma", Font.BOLD, 13));
-        dateChooser.setDateFormatString("dd-MM-yyyy");
+        dateChooser.setDateFormatString("dd/MM/yyyy");
         dateChooser.setPreferredSize(new Dimension(120, 20));
         panelRegFecha.add(dateChooser);
 
