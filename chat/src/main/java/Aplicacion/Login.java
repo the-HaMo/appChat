@@ -54,6 +54,7 @@ public class Login {
 	 */
 	public Login() {
 		initialize();
+		this.ventana.setVisible(true);
 	}
 
 	/**

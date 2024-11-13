@@ -1,6 +1,8 @@
 package Aplicacion;
 
 import Clases.Usuario;
+import tds.BubbleText;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -147,15 +149,10 @@ public class Mensajeria {
 
         scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         panel_MensajeriaOESTE.add(scroll);
-
-        JPanel panel_MensajeriaSUR = new JPanel();
-        frame.getContentPane().add(panel_MensajeriaSUR, BorderLayout.SOUTH);
-
-        // Agrega un JLabel al panel_MensajeriaESTE para mostrar la imagen ampliada
+/*
         JLabel lblImagenAmpliada = new JLabel();
         lblImagenAmpliada.setPreferredSize(new Dimension(460, 560)); // Ajusta el tamaño según sea necesario
         panel_MensajeriaESTE.add(lblImagenAmpliada);
-
         // Agrega un MouseListener a la lista para actualizar la variable selectedElement
         lista.addMouseListener(new MouseAdapter() {
             @Override
@@ -163,6 +160,7 @@ public class Mensajeria {
             	if(e.getClickCount()==2) {
             		Elemento selectedElement = lista.getSelectedValue();
             		if (selectedElement != null) {
+            			
                         ImageIcon iconoOriginal = selectedElement.getFto();
                         Image imagenOriginal = iconoOriginal.getImage();
                         Image imagenAmpliada = imagenOriginal.getScaledInstance(460, 560, Image.SCALE_SMOOTH); // Ajusta el tamaño según sea necesario
@@ -171,7 +169,22 @@ public class Mensajeria {
             	}
                 
             }
-        });
+        });*/
+        
+        JPanel chat=new JPanel();
+        chat.setLayout(new BoxLayout(chat, BoxLayout.Y_AXIS));
+        chat.setPreferredSize(new Dimension(440, 570));
+        chat.setBackground(Color.pink);
+        panel_MensajeriaESTE.add(chat);
+        BubbleText m1=new BubbleText(chat, "hola", Color.white, "Paco 9:30", BubbleText.SENT);
+        chat.add(m1);
+        BubbleText m2=new BubbleText(chat, "hola jefe", Color.white, "Jorge 9:33", BubbleText.RECEIVED,10);
+        chat.add(m2); 
+        BubbleText m3=new BubbleText(chat,7, Color.white, "Jorge 9:33", BubbleText.RECEIVED, 18);
+        chat.add(m3);
+        chat.repaint();
+        chat.revalidate();
+        
     }
 
     void Mostrar() {
