@@ -11,6 +11,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Image;
+import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -33,6 +34,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
+import javax.swing.JScrollBar;
 
 public class Mensajeria extends JFrame {
 
@@ -135,8 +137,8 @@ public class Mensajeria extends JFrame {
         panel_MensajeriaOESTE.setPreferredSize(new Dimension(350, 350));
         frame.getContentPane().add(panel_MensajeriaOESTE, BorderLayout.WEST);
 
-        Usuario usu = new Usuario("Sergio", "696918622", "hola", new ImageIcon(getClass().getResource("/sinFotoContc.png")), false, "24/09/2004");
-        Usuario usu1 = new Usuario("Moha", "625962740", "hola", new ImageIcon(getClass().getResource("/mcclovin.png")), false, "10/10/1999");
+        Usuario usu = new Usuario("Sergio", "696918622", "hola", new ImageIcon(getClass().getResource("/sinFotoContc.png")), "24/09/2004");
+        Usuario usu1 = new Usuario("Moha", "625962740", "hola", new ImageIcon(getClass().getResource("/mcclovin.png")),  "10/10/1999");
 
         JList<Elemento> lista = new JList<Elemento>();
         DefaultListModel<Elemento> model = new DefaultListModel<Elemento>();
@@ -175,14 +177,16 @@ public class Mensajeria extends JFrame {
         });*/
         
         chat = new JPanel();
-        chat.setSize(400,680);
+        chat.setSize(400,700);
         chat.setBackground(Color.lightGray);
-        chat.setMinimumSize(new Dimension(400,700));
-        chat.setMaximumSize(new Dimension(400,700));
-        chat.setPreferredSize(new Dimension(420, 570));
+        
 		
         chat.setLayout(new BoxLayout(chat, BoxLayout.Y_AXIS));
 		
+        JScrollPane scrollChat = new JScrollPane(chat);
+        scrollChat.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollChat.setPreferredSize(new Dimension(420, 570));
+        panel_MensajeriaESTE.add(scrollChat);
         
         BubbleText m1=new BubbleText(chat, "hola", Color.green, "Paco 9:30", BubbleText.SENT);
         chat.add(m1);
@@ -190,9 +194,17 @@ public class Mensajeria extends JFrame {
         chat.add(m2); 
         BubbleText m3=new BubbleText(chat,7, Color.white, "Jorge 9:33", BubbleText.RECEIVED, 18);
         chat.add(m3);
-        
+        BubbleText m4=new BubbleText(chat,"hola gente de youtube soy yo mandando un texto grande a ver que tal surge todo", Color.green, "Paco 9:33", BubbleText.SENT, 18);
+        chat.add(m4);
+        BubbleText m5=new BubbleText(chat,"hola gente de youtube soy yo mandando un texto grande a ver que tal surge todo", Color.green, "Paco 9:33", BubbleText.SENT, 18);
+        chat.add(m5);
+        BubbleText m6=new BubbleText(chat,"hola gente de youtube soy yo mandando un texto grande a ver que tal surge todo", Color.green, "Paco 9:33", BubbleText.SENT, 18);
+        chat.add(m6);
+
 		
-		panel_MensajeriaESTE.add(chat);
+		//panel_MensajeriaESTE.add(chat);
+		
+		
         
         
         frame.repaint();

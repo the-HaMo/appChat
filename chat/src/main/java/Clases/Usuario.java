@@ -8,17 +8,30 @@ public class Usuario {
 	private String telefono;
 	private String contraseña;
 	private ImageIcon imagen;
-	private boolean premium; //propiedad calculada y Varia
+	private boolean premium=false; //propiedad calculada y Varia . AL PRINCIPIO NO ES PREMIUM
 	private String fechaNacimiento;
+	private int id=0;
 	
-	public Usuario(String nombre, String telefono, String contraseña, ImageIcon imagen, boolean premium, String fechaNacimiento) {
+	public Usuario(String nombre, String telefono, String contraseña, ImageIcon imagen, String fechaNacimiento) {
 		this.nombre = nombre;
 		this.telefono = telefono;
 		this.contraseña = contraseña;
 		this.imagen = imagen;
-		this.premium = premium;
 		this.fechaNacimiento = fechaNacimiento;
 	}
+	
+	
+
+	public Usuario(String nombre, String telefono, String contraseña, String fechaNacimiento) {
+		super();
+		this.nombre = nombre;
+		this.telefono = telefono;
+		this.contraseña = contraseña;
+		this.fechaNacimiento = fechaNacimiento;
+		this.imagen=new ImageIcon(getClass().getResource("/sinFotoContc.png"));
+	}
+
+
 
 	public String getNombre() {
 		return nombre;
@@ -51,5 +64,21 @@ public class Usuario {
 	public boolean isPassword(String Password) {
 		return contraseña.equals(Password);
 	}
+
+	public void setImagen(ImageIcon imagen) {
+		this.imagen = imagen;
+	}
+	
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public int getId() {
+		return id;
+	}
+	public String getPremiumString() {
+		return Boolean.toString(premium);
+	}
+	
 	
 }
