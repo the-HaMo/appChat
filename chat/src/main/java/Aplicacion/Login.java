@@ -150,7 +150,7 @@ public class Login {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				Mensajeria mens=new Mensajeria();
+				chat mens=new chat();
 				mens.Mostrar();
 				ventana.setVisible(false);
 			}
