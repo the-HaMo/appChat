@@ -132,6 +132,7 @@ public class chat {
         Message.setColumns(10);
         
         // Lista de contactos
+       
         Usuario usu = new Usuario("Sergio", "696918622", "hola", new ImageIcon(getClass().getResource("/sinFotoContc.png")), "24/09/2004");
         Usuario usu1 = new Usuario("Moha", "625962740", "hola", new ImageIcon(getClass().getResource("/mcclovin.png")), "10/10/1999");
         Usuario usu2 = new Usuario("Sergio", "696918622", "hola", new ImageIcon(getClass().getResource("/sinFotoContc.png")), "24/09/2004");
