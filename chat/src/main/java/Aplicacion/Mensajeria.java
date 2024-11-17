@@ -11,12 +11,12 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -200,7 +200,6 @@ public class Mensajeria extends JFrame {
         chat.add(m5);
         BubbleText m6=new BubbleText(chat,"hola gente de youtube soy yo mandando un texto grande a ver que tal surge todo", Color.green, "Paco 9:33", BubbleText.SENT, 18);
         chat.add(m6);
-
 		
 		//panel_MensajeriaESTE.add(chat);
 		

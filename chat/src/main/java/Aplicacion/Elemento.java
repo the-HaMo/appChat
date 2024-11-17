@@ -55,7 +55,7 @@ public class Elemento extends JPanel{
 		
 	}
 	
-	private Image imagenCircular(Image img) {
+	public Image imagenCircular(Image img) { // antes private
 		BufferedImage  imgCicrculo=new BufferedImage(72, 72, BufferedImage.TYPE_4BYTE_ABGR);
 		Graphics2D graphics=imgCicrculo.createGraphics();
 		Ellipse2D.Double forma=new Ellipse2D.Double(0,0,72,72);
