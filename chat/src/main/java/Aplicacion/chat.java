@@ -132,15 +132,15 @@ public class chat {
         Message.setColumns(10);
         
         // Lista de contactos
-        Usuario usu = new Usuario("Sergio", "696918622", "hola", new ImageIcon(getClass().getResource("/sinFotoContc.png")), false, "24/09/2004");
-        Usuario usu1 = new Usuario("Moha", "625962740", "hola", new ImageIcon(getClass().getResource("/mcclovin.png")), false, "10/10/1999");
-        Usuario usu2 = new Usuario("Sergio", "696918622", "hola", new ImageIcon(getClass().getResource("/sinFotoContc.png")), false, "24/09/2004");
-        Usuario usu3 = new Usuario("Moha", "625962740", "hola", new ImageIcon(getClass().getResource("/mcclovin.png")), false, "10/10/1999");
-        Usuario usu4 = new Usuario("Sergio", "696918622", "hola", new ImageIcon(getClass().getResource("/sinFotoContc.png")), false, "24/09/2004");
-        Usuario usu5 = new Usuario("Moha", "625962740", "hola", new ImageIcon(getClass().getResource("/mcclovin.png")), false, "10/10/1999");
-        Usuario usu6 = new Usuario("Sergio", "696918622", "hola", new ImageIcon(getClass().getResource("/sinFotoContc.png")), false, "24/09/2004");
-        Usuario usu7 = new Usuario("Moha", "625962740", "hola", new ImageIcon(getClass().getResource("/mcclovin.png")), false, "10/10/1999");
-
+        Usuario usu = new Usuario("Sergio", "696918622", "hola", new ImageIcon(getClass().getResource("/sinFotoContc.png")), "24/09/2004");
+        Usuario usu1 = new Usuario("Moha", "625962740", "hola", new ImageIcon(getClass().getResource("/mcclovin.png")), "10/10/1999");
+        Usuario usu2 = new Usuario("Sergio", "696918622", "hola", new ImageIcon(getClass().getResource("/sinFotoContc.png")), "24/09/2004");
+        Usuario usu3 = new Usuario("Moha", "625962740", "hola", new ImageIcon(getClass().getResource("/mcclovin.png")), "10/10/1999");
+        Usuario usu4 = new Usuario("Sergio", "696918622", "hola", new ImageIcon(getClass().getResource("/sinFotoContc.png")),"24/09/2004");
+        Usuario usu5 = new Usuario("Moha", "625962740", "hola", new ImageIcon(getClass().getResource("/mcclovin.png")),"10/10/1999");
+        Usuario usu6 = new Usuario("Sergio", "696918622", "hola", new ImageIcon(getClass().getResource("/sinFotoContc.png")),"24/09/2004");
+        Usuario usu7 = new Usuario("Moha", "625962740", "hola", new ImageIcon(getClass().getResource("/mcclovin.png")),"10/10/1999");
+        
         JList<Elemento> lista = new JList<Elemento>();
         DefaultListModel<Elemento> model = new DefaultListModel<Elemento>();
         model.addElement(new Elemento(usu));
