@@ -17,6 +17,7 @@ import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import java.awt.Component;
 import javax.swing.Box;
+import javax.swing.JOptionPane;
 import java.awt.Font;
 import java.awt.Image;
 import javax.swing.JButton;
@@ -28,6 +29,8 @@ import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+
+import Controlador.Controlador;
 
 public class Registro {
 
@@ -55,11 +58,6 @@ public class Registro {
     }
 
     public Registro() {
-        initialize();
-    }
-
-    public Registro(JButton botonregistro) {
-        this.botonregistro = botonregistro;
         initialize();
     }
 
@@ -166,12 +164,26 @@ public class Registro {
         JButton btnRegAceptar = new JButton("Aceptar");
         panelReg_SUR.add(btnRegAceptar);
         btnRegAceptar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ventanaReg.setVisible(false);
-                botonregistro.setEnabled(true);
-            }
-        });
+    			public void actionPerformed(ActionEvent e) {
+    				boolean rellenado = false;
+    				rellenado = checkFields();
+    				if (rellenado) {
+    					boolean registrado = false;
+    					registrado = Controlador.INSTANCE.registrarUsuario(
+    							textNombre.getText(),
+    							textTelefono.getText(), 
+    							new String(textContraseña1.getPassword()), 
+    							textFieldFecha.getText());
+    					if (registrado) {
+    						System.out.println("Usuario registrado correctamente");
+    						ventanaReg.setVisible(false);
+    					} else {
+    						System.out.println("Error al registrar el usuario");
+    						ventanaReg.setVisible(false);
+    					}
+    				}
+    			}
+    		});
 
         Component horizontalStrut_3 = Box.createHorizontalStrut(20);
         horizontalStrut_3.setPreferredSize(new Dimension(120, 0));
@@ -271,6 +283,54 @@ public class Registro {
             }
         });
     }
+    
+    private boolean checkFields() {
+		boolean salida = true;
+		/* borrar todos los errores en pantalla */
+		//ocultarErrores();
+		if (textNombre.getText().trim().isEmpty()) {
+			salida = false;
+		}
+		if (textApellidos.getText().trim().isEmpty()) {
+			salida = false;
+		}
+		if (textTelefono.getText().trim().isEmpty()) {
+			salida = false;
+		}
+		String cont1 = new String(textContraseña1.getPassword());
+		String cont2 = new String(textContraseña2.getPassword());
+		if (cont1.isEmpty()) {
+			salida = false;
+		} 
+		if (cont2.isEmpty()) {
+			salida = false;
+		} 
+		if (!cont1.equals(cont2)) {
+			salida = false;
+		}
+		/* Comprobar que no exista otro usuario con igual login */
+		if (Controlador.INSTANCE.esUsuarioRegistrado(textTelefono.getText())) {
+			salida = false;
+		}
+		if (textFieldFecha.getText().isEmpty()) {
+			salida = false;
+		}
+/*
+		this.revalidate();
+		this.pack();*/
+		
+		return salida;
+	}
+
+	/*private void crearManejadorBotonCancelar() {
+		btnCancelar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				LoginView loginView = new LoginView();
+				loginView.mostrarVentana();
+				RegistroView.this.dispose();
+			}
+		});
+	}*/
 
     public void Mostrar() {
         this.ventanaReg.setVisible(true);
