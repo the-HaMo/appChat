@@ -118,7 +118,6 @@ public class Login {
 					
 				//BLOQUEAR BOTON REGISTRO MIENTRAS REGISTRO ESTE ABIERTO
 				Registro reg = new Registro();
-				boton_registrar.setEnabled(false);
 				reg.Mostrar();
 
 			}

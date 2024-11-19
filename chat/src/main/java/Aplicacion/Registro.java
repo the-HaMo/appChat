@@ -18,6 +18,7 @@ import javax.swing.JLabel;
 import java.awt.Component;
 import javax.swing.Box;
 import javax.swing.JOptionPane;
+import java.text.SimpleDateFormat;
 import java.awt.Font;
 import java.awt.Image;
 import javax.swing.JButton;
@@ -40,9 +41,11 @@ public class Registro {
     private JTextField textTelefono;
     private JPasswordField textContraseña1;
     private JPasswordField textContraseña2;
-    private JTextField textFieldFecha;
+    private String Fecha;
     private JButton botonregistro;
     private JLabel lblImagen;
+    private SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+    private JDateChooser dateChooser = new JDateChooser();
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -163,27 +166,7 @@ public class Registro {
 
         JButton btnRegAceptar = new JButton("Aceptar");
         panelReg_SUR.add(btnRegAceptar);
-        btnRegAceptar.addActionListener(new ActionListener() {
-    			public void actionPerformed(ActionEvent e) {
-    				boolean rellenado = false;
-    				rellenado = checkFields();
-    				if (rellenado) {
-    					boolean registrado = false;
-    					registrado = Controlador.INSTANCE.registrarUsuario(
-    							textNombre.getText(),
-    							textTelefono.getText(), 
-    							new String(textContraseña1.getPassword()), 
-    							textFieldFecha.getText());
-    					if (registrado) {
-    						System.out.println("Usuario registrado correctamente");
-    						ventanaReg.setVisible(false);
-    					} else {
-    						System.out.println("Error al registrar el usuario");
-    						ventanaReg.setVisible(false);
-    					}
-    				}
-    			}
-    		});
+       
 
         Component horizontalStrut_3 = Box.createHorizontalStrut(20);
         horizontalStrut_3.setPreferredSize(new Dimension(120, 0));
@@ -209,10 +192,11 @@ public class Registro {
         horizontalStrut_4.setMinimumSize(new Dimension(0, 0));
         panelRegFecha.add(horizontalStrut_4);
 
-        JDateChooser dateChooser = new JDateChooser();
+       
         dateChooser.setFont(new Font("Tahoma", Font.BOLD, 13));
         dateChooser.setDateFormatString("dd/MM/yyyy");
         dateChooser.setPreferredSize(new Dimension(120, 20));
+        //
         panelRegFecha.add(dateChooser);
 
         JPanel panelRegSaludo = new JPanel();
@@ -282,12 +266,34 @@ public class Registro {
                 System.out.println(img);//esto se puede borrar
             }
         });
+        btnRegAceptar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                boolean rellenado = checkFields();
+                if (rellenado) {
+                    boolean registrado = Controlador.INSTANCE.registrarUsuario(
+                            textNombre.getText(),
+                            textTelefono.getText(), 
+                            new String(textContraseña1.getPassword()), 
+                            getFecha()                           
+                    );
+                    if (registrado) {
+                        System.out.println("Usuario registrado correctamente");
+                    } else {
+                        System.out.println("Error al registrar el usuario");
+                    }
+                    ventanaReg.setVisible(false);
+                }
+                System.out.println("Rellena todos los campos");
+            }
+        });
+
+        
+        
     }
     
     private boolean checkFields() {
 		boolean salida = true;
-		/* borrar todos los errores en pantalla */
-		//ocultarErrores();
+		
 		if (textNombre.getText().trim().isEmpty()) {
 			salida = false;
 		}
@@ -308,11 +314,11 @@ public class Registro {
 		if (!cont1.equals(cont2)) {
 			salida = false;
 		}
-		/* Comprobar que no exista otro usuario con igual login */
+		/* Comprobar que no exista otro usuario con igual telf */
 		if (Controlador.INSTANCE.esUsuarioRegistrado(textTelefono.getText())) {
 			salida = false;
 		}
-		if (textFieldFecha.getText().isEmpty()) {
+		if (getFecha()==null) {
 			salida = false;
 		}
 /*
@@ -336,7 +342,7 @@ public class Registro {
         this.ventanaReg.setVisible(true);
     }
 
-    public void setFecha(String fecha) {
-        textFieldFecha.setText(fecha);
+    public String getFecha() {
+    	return new String(formato.format(dateChooser.getDate()));
     }
 }
