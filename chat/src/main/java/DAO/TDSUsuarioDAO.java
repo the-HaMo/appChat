@@ -19,12 +19,12 @@ import beans.Propiedad;
  */
 public final class TDSUsuarioDAO implements UsuarioDAO {
 
-	//private static final String USUARIO = "Usuario";
+	private static final String USUARIO = "Usuario";
 
 	private static final String NOMBRE = "nombre";
 	private static final String TELEFONO = "telefono";
 	private static final String PASSWORD = "password";
-	//private static final ImageIcon FOTO = new ImageIcon();
+	//private static final String FOTO = "url";
 	private static final String PREMIUM = "premium";
 	private static final String FECHA_NACIMIENTO = "fechaNacimiento";
 
@@ -53,7 +53,7 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 
 	private Entidad usuarioToEntidad(Usuario usuario) {
 		Entidad eUsuario = new Entidad();
-		eUsuario.setNombre(NOMBRE);
+		eUsuario.setNombre(USUARIO);
 
 		eUsuario.setPropiedades(new ArrayList<Propiedad>(
 				Arrays.asList(
