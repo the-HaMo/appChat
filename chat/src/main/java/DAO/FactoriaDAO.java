@@ -5,7 +5,7 @@ package DAO;
 
 public abstract class FactoriaDAO {
 	
-	public static final String DAO_TDS = "D.TDSFactoriaDAO";
+	public static final String DAO_TDS = "DAO.TDSFactoriaDAO";
 
 	private static FactoriaDAO unicaInstancia = null;
 	
@@ -16,7 +16,7 @@ public abstract class FactoriaDAO {
 	public static FactoriaDAO getInstancia(String tipo) throws DAOException{
 		if (unicaInstancia == null)
 			try { 
-				unicaInstancia=(FactoriaDAO) Class.forName(tipo).newInstance();
+				 unicaInstancia = (FactoriaDAO) Class.forName(tipo).getDeclaredConstructor().newInstance();
 			} catch (Exception e) {	
 				throw new DAOException(e.getMessage());
 		} 
@@ -32,5 +32,5 @@ public abstract class FactoriaDAO {
 	
 	// Metodos factoria para obtener adaptadores
 	
-	//public abstract UsuarioDAO getUsuarioDAO();	
+	public abstract UsuarioDAO getUsuarioDAO();	
 }
