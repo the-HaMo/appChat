@@ -282,8 +282,10 @@ public class Registro {
                         System.out.println("Error al registrar el usuario");
                     }
                     ventanaReg.setVisible(false);
+                }else {
+                	System.out.println("Rellena todos los campos");
                 }
-                System.out.println("Rellena todos los campos");
+                
             }
         });
 
