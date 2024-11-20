@@ -40,12 +40,14 @@ public enum Controlador {
 	public boolean registrarUsuario(String nombre, String telefono, String password, String fechaNacimiento) {
 	    if (esUsuarioRegistrado(telefono)) {
 	        return false;
+	    }else {
+	    	Usuario usuario = new Usuario(nombre, telefono, password, fechaNacimiento);
+		    RepositorioUsuarios.INSTANCE.addUsuario(usuario);
+		    UsuarioDAO usuarioDAO = factoria.getUsuarioDAO(); // Adaptador DAO para almacenar el nuevo Usuario en la BD
+		    usuarioDAO.create(usuario);
+		    return true;
 	    }
-	    Usuario usuario = new Usuario(nombre, telefono, password, fechaNacimiento);
-	    RepositorioUsuarios.INSTANCE.addUsuario(usuario);
-	    UsuarioDAO usuarioDAO = factoria.getUsuarioDAO(); // Adaptador DAO para almacenar el nuevo Usuario en la BD
-	    usuarioDAO.create(usuario);
-	    return true;
+	    
 	}
 /*
 	public boolean borrarUsuario(Usuario usuario) {
