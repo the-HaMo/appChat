@@ -1,5 +1,7 @@
 package Clases;
 
+import java.util.List;
+
 import javax.swing.ImageIcon;
 
 public class Usuario {
@@ -11,6 +13,7 @@ public class Usuario {
 	private boolean premium=false; //propiedad calculada y Varia . AL PRINCIPIO NO ES PREMIUM
 	private String fechaNacimiento;
 	private int id=0;
+	private List<Contacto> listaContactos;
 	
 	public Usuario(String nombre, String telefono, String contraseña, ImageIcon imagen, String fechaNacimiento) {
 		this.nombre = nombre;
@@ -79,6 +82,8 @@ public class Usuario {
 	public String getPremiumString() {
 		return Boolean.toString(premium);
 	}
-	
-	
+
+	public List<Contacto> getListaContactos() {
+		return listaContactos;
+	}
 }
