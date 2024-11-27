@@ -1,5 +1,6 @@
 package Aplicacion;
 
+import Controlador.*;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -115,8 +116,6 @@ public class Login {
 		boton_registrar.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
-					
-				//BLOQUEAR BOTON REGISTRO MIENTRAS REGISTRO ESTE ABIERTO
 				Registro reg = new Registro();
 				reg.Mostrar();
 
@@ -138,22 +137,13 @@ public class Login {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ventana.setVisible(false);
+				ventana.dispose();
 			}
 		});
 		
 		JButton boton_aceptar = new JButton("ACEPTAR");
 		panel_sur.add(boton_aceptar);
-		boton_aceptar.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-
-				chat mens=new chat();
-				mens.Mostrar();
-				ventana.setVisible(false);
-			}
-		});
+		
 		
 		
 		JPanel panel_centro = new JPanel();
@@ -185,6 +175,24 @@ public class Login {
 		casilla_contraseña.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		casilla_contraseña.setColumns(10);
 		panel_centro.add(casilla_contraseña);
+		
+		boton_aceptar.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						
+						boolean login = Controlador.INSTANCE.loginUsuario(
+								casilla_telf.getText(),
+								casilla_contraseña.getText());
+						if (login) {
+							chat mens=new chat();
+							mens.Mostrar();
+							ventana.dispose();
+						} else {
+							System.err.println("Nombre de usuario o contraseña no valido");
+					}						
+				}
+			});
 	}
 
 }
