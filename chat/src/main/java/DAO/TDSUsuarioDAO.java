@@ -23,7 +23,7 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 	private static final String NOMBRE = "nombre";
 	private static final String TELEFONO = "telefono";
 	private static final String PASSWORD = "password";
-	//private static final String FOTO = "url";
+	private static final String FOTO = "foto";
 	private static final String PREMIUM = "premium";
 	private static final String FECHA_NACIMIENTO = "fechaNacimiento";
 
@@ -40,7 +40,7 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 		String nombre = servPersistencia.recuperarPropiedadEntidad(eUsuario, NOMBRE);
 		String telefono = servPersistencia.recuperarPropiedadEntidad(eUsuario, TELEFONO);
 		String password = servPersistencia.recuperarPropiedadEntidad(eUsuario, PASSWORD);
-		//ImageIcon foto = servPersistencia.recuperarPropiedadEntidad(eUsuario, FOTO);	NO PUEDE GUARDAR FOTOS DE PERFIL CREO
+		String foto = servPersistencia.recuperarPropiedadEntidad(eUsuario, FOTO);
 		String premium = servPersistencia.recuperarPropiedadEntidad(eUsuario, PREMIUM);
 		String fechaNacimiento = servPersistencia.recuperarPropiedadEntidad(eUsuario, FECHA_NACIMIENTO);
 		
@@ -59,6 +59,7 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 						new Propiedad(NOMBRE, usuario.getNombre()),
 						new Propiedad(TELEFONO, usuario.getTelefono()), 
 						new Propiedad(PASSWORD, usuario.getContraseña()),
+						new Propiedad(FOTO, usuario.getFoto()),
 						new Propiedad(PREMIUM, usuario.getPremiumString()),
 						new Propiedad(FECHA_NACIMIENTO, usuario.getFechaNacimiento()))));
 		return eUsuario;
