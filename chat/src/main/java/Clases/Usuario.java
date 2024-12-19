@@ -10,7 +10,9 @@ public class Usuario {
 	private String telefono;
 	private String contraseña;
 	private ImageIcon imagen;
+	private String link;
 	private boolean premium=false; //propiedad calculada y Varia . AL PRINCIPIO NO ES PREMIUM
+	private String saludo;
 	private String fechaNacimiento;
 	private int id=0;
 	private List<Contacto> listaContactos;
@@ -85,5 +87,23 @@ public class Usuario {
 
 	public List<Contacto> getListaContactos() {
 		return listaContactos;
+	}
+	
+	public boolean addContacto(Contacto c) {
+		if (listaContactos.contains(c)) {
+			return false;
+		} else {
+			listaContactos.add(c);
+			return true;
+		}
+	}
+
+	public boolean contieneContacto(String telf) {
+		for (Contacto contact : listaContactos) {
+			if (contact.getTelefono().equals(telf)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

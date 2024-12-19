@@ -1,9 +1,13 @@
 package Controlador;
 
 import DAO.UsuarioDAO;
+import DAO.ContactoIndividualDAO;
 import DAO.DAOException;
 import DAO.FactoriaDAO;
+import DAO.TDSContactoIndividualDAO;
+import DAO.TDSUsuarioDAO;
 import Clases.Usuario;
+import Clases.ContactoIndividual;
 import Clases.RepositorioUsuarios;
 
 public enum Controlador {
@@ -49,15 +53,21 @@ public enum Controlador {
 	    }
 	    
 	}
-/*
-	public boolean borrarUsuario(Usuario usuario) {
-		if (!esUsuarioRegistrado(usuario.getLogin()))
-			return false;
 
-		UsuarioDAO usuarioDAO = factoria.getUsuarioDAO(); // Adaptador DAO para borrar el Usuario de la BD 
-		usuarioDAO.delete(usuario);
+	public ContactoIndividual crearContacto(String nombre, String telefono) { // no se guardaran aun en la BD del usuario
+	    if (usuarioActual.contieneContacto(telefono)) {
+	        return null;
+	    }
+	    if (RepositorioUsuarios.INSTANCE.findUsuario(telefono) != null) {
+	        return null;
+	    }
+	    ContactoIndividual contacto = new ContactoIndividual(nombre, telefono, usuarioActual);
+	    usuarioActual.addContacto(contacto);
+	    ContactoIndividualDAO contactoDAO = factoria.getContactoDAO(); // Adaptador DAO para almacenar el nuevo Contacto en la BD
+	    contactoDAO.register(contacto);
+	    UsuarioDAO usuarioDAO = factoria.getUsuarioDAO(); // Habra que hacer que se actualice los contactos del usuario
+	    usuarioDAO.update(usuarioActual);
+	    return contacto;
+	}
 
-		RepositorioUsuarios.INSTANCE.removeUsuario(usuario);
-		return true;
-	} */
 }

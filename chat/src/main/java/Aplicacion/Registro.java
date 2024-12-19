@@ -46,6 +46,7 @@ public class Registro {
     private JLabel lblImagen;
     private SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
     private JDateChooser dateChooser = new JDateChooser();
+    private JTextArea textAreaSaludo;
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -296,6 +297,9 @@ public class Registro {
     private boolean checkFields() {
 		boolean salida = true;
 		
+		if (textAreaSaludo.getText().trim().isEmpty()) {
+			textAreaSaludo.setText("Hola, estoy en la aplicacion");
+		}
 		if (textNombre.getText().trim().isEmpty()) {
 			salida = false;
 		}
@@ -322,11 +326,7 @@ public class Registro {
 		}
 		if (getFecha()==null) {
 			salida = false;
-		}
-/*
-		this.revalidate();
-		this.pack();*/
-		
+		}		
 		return salida;
 	}
 
