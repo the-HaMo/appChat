@@ -7,6 +7,11 @@ import DAO.FactoriaDAO;
 import DAO.TDSContactoIndividualDAO;
 import DAO.TDSUsuarioDAO;
 import Clases.Usuario;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import Clases.ContactoIndividual;
 import Clases.RepositorioUsuarios;
 
@@ -40,19 +45,28 @@ public enum Controlador {
 		}
 		return false;
 	}
+	
+	
 
-	public boolean registrarUsuario(String nombre, String telefono, String password, String fechaNacimiento) {
-	    if (esUsuarioRegistrado(telefono)) {
-	        return false;
-	    }else {
-	    	Usuario usuario = new Usuario(nombre, telefono, password, fechaNacimiento);
-		    RepositorioUsuarios.INSTANCE.addUsuario(usuario);
-		    UsuarioDAO usuarioDAO = factoria.getUsuarioDAO(); // Adaptador DAO para almacenar el nuevo Usuario en la BD
-		    usuarioDAO.create(usuario);
-		    return true;
-	    }
-	    
-	}
+	public boolean registrarUsuario(String nombre, String telefono, String contraseña, String link, String fechaNacimientoStr, String saludo) {
+        if (esUsuarioRegistrado(telefono)) {
+            return false;
+        } else {
+        	SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            Date fechaNacimiento = null;
+            try {
+                fechaNacimiento = dateFormat.parse(fechaNacimientoStr);
+            } catch (ParseException e) {
+                e.printStackTrace();
+                return false;
+            }
+            Usuario usuario = new Usuario(nombre, telefono, contraseña, link, fechaNacimiento, saludo);
+            RepositorioUsuarios.INSTANCE.addUsuario(usuario);
+            UsuarioDAO usuarioDAO = factoria.getUsuarioDAO(); // Adaptador DAO para almacenar el nuevo Usuario en la BD
+            usuarioDAO.create(usuario);
+            return true;
+        }
+    }
 
 	public ContactoIndividual crearContacto(String nombre, String telefono) { // no se guardaran aun en la BD del usuario
 	    if (usuarioActual.contieneContacto(telefono)) {
