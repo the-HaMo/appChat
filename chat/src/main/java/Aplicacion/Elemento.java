@@ -27,7 +27,7 @@ public class Elemento extends JPanel{
 	public Elemento(Usuario usu) {
 		this.nombre=usu.getNombre();
 		this.telf=usu.getTelefono();
-		this.fto=usu.getImagen();
+		this.fto=usu.getImageIcon();
 		
 		this.setLayout(new BoxLayout(this,BoxLayout.X_AXIS));
 		fixSize(this,300,100);

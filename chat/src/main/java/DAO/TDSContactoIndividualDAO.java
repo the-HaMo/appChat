@@ -48,7 +48,7 @@ public final class TDSContactoIndividualDAO implements ContactoIndividualDAO {
             Arrays.asList(
                 new Propiedad("nombre", contacto.getNombre()),
                 new Propiedad("telefono", contacto.getTelefono()),
-                //new Propiedad("mensajes", contacto.getMensajes().toString()), // Assuming mensajes is a List<Mensaje>   HAY QUE PASARLO A STRING
+                new Propiedad("mensajes", contacto.getMensajes().toString()), // Assuming mensajes is a List<Mensaje>   HAY QUE PASARLO A STRING
                 new Propiedad("usuario", String.valueOf(contacto.getUsuario().getId()))
             )
         ));
@@ -70,8 +70,8 @@ public final class TDSContactoIndividualDAO implements ContactoIndividualDAO {
 		servPersistencia.anadirPropiedadEntidad(eContact, "nombre", contacto.getNombre());
 		servPersistencia.eliminarPropiedadEntidad(eContact, "telefono");
 		servPersistencia.anadirPropiedadEntidad(eContact, "telefono", String.valueOf(contacto.getTelefono()));
-		//servPersistencia.eliminarPropiedadEntidad(eContact, "mensajes");
-		//servPersistencia.anadirPropiedadEntidad(eContact, "mensajes",contacto.getMensajes().toString());		// HAY QUE PASARLO A STRING
+		servPersistencia.eliminarPropiedadEntidad(eContact, "mensajes");
+		servPersistencia.anadirPropiedadEntidad(eContact, "mensajes",contacto.getMensajes().toString());		// HAY QUE PASARLO A STRING
 		servPersistencia.eliminarPropiedadEntidad(eContact, "usuario");
 		servPersistencia.anadirPropiedadEntidad(eContact, "usuario", String.valueOf(contacto.getUsuario().getId()));
     }
