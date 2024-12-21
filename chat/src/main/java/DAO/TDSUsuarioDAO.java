@@ -10,6 +10,7 @@ import java.util.List;
 
 import tds.driver.FactoriaServicioPersistencia;
 import tds.driver.ServicioPersistencia;
+import umu.tds.apps.persistencia.AdaptadorMessageTDS;
 import Clases.Usuario;
 import beans.Entidad;
 import beans.Propiedad;
@@ -31,12 +32,18 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 	private static final String FECHA_NACIMIENTO = "fechaNacimiento";
 
 	private ServicioPersistencia servPersistencia;
-	private SimpleDateFormat dateFormat;
+	private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+	private static TDSUsuarioDAO unicaInstancia = null;
 
 	public TDSUsuarioDAO() {
 		servPersistencia = FactoriaServicioPersistencia.getInstance().getServicioPersistencia();
-		dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 	}
+
+	public static TDSUsuarioDAO getInstancia() {
+        if (unicaInstancia == null)
+            unicaInstancia = new TDSUsuarioDAO();
+        return unicaInstancia;
+    }
 
 	private Usuario entidadToUsuario(Entidad eUsuario) {
         String nombre = servPersistencia.recuperarPropiedadEntidad(eUsuario, NOMBRE);
@@ -45,15 +52,14 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
         String foto = servPersistencia.recuperarPropiedadEntidad(eUsuario, FOTO);
         String saludo = servPersistencia.recuperarPropiedadEntidad(eUsuario, SALUDO);
         Boolean premium = Boolean.valueOf(servPersistencia.recuperarPropiedadEntidad(eUsuario, PREMIUM));
-        String fechaNacimientoStr = servPersistencia.recuperarPropiedadEntidad(eUsuario, FECHA_NACIMIENTO);
-        Date fechaNacimiento=null;
+        String fechaStr = servPersistencia.recuperarPropiedadEntidad(eUsuario, FECHA_NACIMIENTO);
+        Date fecha=null;
 		try {
-			fechaNacimiento = fechaNacimiento = dateFormat.parse(fechaNacimientoStr);
+			fecha = dateFormat.parse(fechaStr);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-
-		Usuario usuario = new Usuario(nombre, telefono, password, foto, fechaNacimiento, saludo, premium);
+		Usuario usuario = new Usuario(nombre, telefono, password, foto, fecha, saludo, premium);
         usuario.setId(eUsuario.getId());
 
         return usuario;
@@ -84,7 +90,6 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 	public boolean delete(Usuario usuario) {
 		Entidad eUsuario;
 		eUsuario = servPersistencia.recuperarEntidad(usuario.getId());
-
 		return servPersistencia.borrarEntidad(eUsuario);
 	}
 

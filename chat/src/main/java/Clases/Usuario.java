@@ -4,7 +4,6 @@ package Clases;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
 import java.util.List;
@@ -28,9 +27,9 @@ public class Usuario {
         this.telefono = telefono;
         this.contraseña = contraseña;
         this.fechaNacimiento = fechaNacimiento;
-        this.saludo = saludo;
+        this.saludo = vacio(saludo);
         this.premium = false;
-        if ((url == "")||(url == null)) {
+        if (url.isBlank()) {
             this.link = getClass().getResource("/sinFotoContc.png").toString();
         } else {
             this.link = url;
@@ -42,8 +41,8 @@ public class Usuario {
         this.telefono = telefono;
         this.contraseña = contraseña;
         this.fechaNacimiento = fechaNacimiento;
-        this.saludo = saludo;
-        if ((url == "")||(url == null)) {
+        this.saludo = vacio(saludo);
+        if (url.isBlank()){
             this.link = getClass().getResource("/sinFotoContc.png").toString();
         } else {
             this.link = url;
@@ -111,6 +110,12 @@ public class Usuario {
         }
     }
 
+	public String vacio(String s) {
+		if (s.isBlank()) {
+			s=("Hola, estoy en la aplicacion");
+		}
+			return s;
+	}
 
     public void setId(int id) {
         this.id = id;
@@ -136,12 +141,11 @@ public class Usuario {
         return listaContactos;
     }
 
-    public boolean addContacto(Contacto c) {
+    public void addContacto(Contacto c) {
         if (listaContactos.contains(c)) {
-            return false;
+            return;
         } else {
             listaContactos.add(c);
-            return true;
         }
     }
 

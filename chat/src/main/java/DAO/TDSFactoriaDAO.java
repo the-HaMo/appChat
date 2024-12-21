@@ -23,4 +23,10 @@ public final class TDSFactoriaDAO extends FactoriaDAO {
 		return new TDSContactoIndividualDAO();
 	}
 
+	@Override
+	public TDSMensajeDAO getMensajeDAO() {
+		// TODO Auto-generated method stub
+		return new TDSMensajeDAO();
+	}
+
 }

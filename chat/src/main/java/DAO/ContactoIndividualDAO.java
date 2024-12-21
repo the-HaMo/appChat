@@ -5,7 +5,7 @@ import Clases.*;
 
 public interface ContactoIndividualDAO {
 	
-	void register(ContactoIndividual contacto);
+	void create(ContactoIndividual contacto);
 	void delete(ContactoIndividual contacto);
 	void update(ContactoIndividual contacto);
 	ContactoIndividual get(int id);
