@@ -1,27 +1,18 @@
 package Controlador;
 
 import DAO.UsuarioDAO;
-import umu.tds.apps.AppChat.Contact;
-import umu.tds.apps.AppChat.IndividualContact;
-import umu.tds.apps.AppChat.Message;
-import umu.tds.apps.AppChat.User;
+
 import DAO.ContactoIndividualDAO;
 import DAO.DAOException;
 import DAO.FactoriaDAO;
-import DAO.TDSContactoIndividualDAO;
-import DAO.TDSUsuarioDAO;
 import Clases.Usuario;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import Clases.Contacto;
 import Clases.ContactoIndividual;
 import Clases.Mensaje;
