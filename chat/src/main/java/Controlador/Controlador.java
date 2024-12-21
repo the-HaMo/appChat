@@ -1,6 +1,10 @@
 package Controlador;
 
 import DAO.UsuarioDAO;
+import umu.tds.apps.AppChat.Contact;
+import umu.tds.apps.AppChat.IndividualContact;
+import umu.tds.apps.AppChat.Message;
+import umu.tds.apps.AppChat.User;
 import DAO.ContactoIndividualDAO;
 import DAO.DAOException;
 import DAO.FactoriaDAO;
@@ -10,9 +14,17 @@ import Clases.Usuario;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import Clases.Contacto;
 import Clases.ContactoIndividual;
+import Clases.Mensaje;
 import Clases.RepositorioUsuarios;
 
 public enum Controlador {
@@ -68,7 +80,7 @@ public enum Controlador {
         }
     }
 
-	public ContactoIndividual crearContacto(String nombre, String telefono) { // no se guardaran aun en la BD del usuario
+	public ContactoIndividual crearContacto(String nombre, String telefono) {
 	    if (usuarioActual.contieneContacto(telefono)) {
 	        return null;
 	    }
@@ -78,10 +90,41 @@ public enum Controlador {
 	    ContactoIndividual contacto = new ContactoIndividual(nombre, telefono, usuarioActual);
 	    usuarioActual.addContacto(contacto);
 	    ContactoIndividualDAO contactoDAO = factoria.getContactoDAO(); // Adaptador DAO para almacenar el nuevo Contacto en la BD
-	    contactoDAO.register(contacto);
+	    contactoDAO.create(contacto);
 	    UsuarioDAO usuarioDAO = factoria.getUsuarioDAO(); // Habra que hacer que se actualice los contactos del usuario
 	    usuarioDAO.update(usuarioActual);
 	    return contacto;
 	}
+	
+	public List<Contacto> getContactosUsuarioActual() {
+		if (usuarioActual == null) {
+			return new LinkedList<Contacto>();
+		}
+		Usuario u = RepositorioUsuarios.INSTANCE.findUsuario(usuarioActual.getId());
+		return u.getListaContactos();
+	}
+	
+	 
+	public List<Mensaje> getMensajesDeContacto(Contacto contacto) {
+		if (usuarioActual == null) {
+			return new LinkedList<>();
+		}
+		List<Mensaje> mensajes = contacto.getMensajes().stream()	//Filtra los mensajes del contacto donde el emisor o receptor son o bien el usuario actual o el contacto
+				.filter(m -> (m.getEmisor().equals(usuarioActual) || m.getReceptor().equals(usuarioActual))
+						&&(m.getEmisor().equals(contacto) || m.getReceptor().equals(contacto)))
+				.sorted(Comparator.comparing(Mensaje::getHora))
+				.collect(Collectors.toList());
+		// Ordenar los mensajes por fecha y hora
+		return mensajes;
+	}
+	
+	public Mensaje getUltimoMensaje(Contacto c) {
+		List<Mensaje> mensajes = getMensajesDeContacto(c);
+		if (mensajes.isEmpty())
+			return null;
+		return mensajes.get(mensajes.size() - 1);
+		}
+	}
+	
 
-}
+
