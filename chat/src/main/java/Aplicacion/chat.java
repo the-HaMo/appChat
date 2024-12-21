@@ -25,6 +25,7 @@ import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import javax.swing.border.TitledBorder;
 import javax.swing.JTextField;
@@ -94,9 +95,9 @@ public class chat {
         usuarioActual.setLayout(new BoxLayout(usuarioActual, BoxLayout.X_AXIS));
         
         
-        Usuario usu1 = new Usuario("Moha", "625962740", "hola", new ImageIcon(getClass().getResource("/mcclovin.png")), "10/10/1999");
+        Usuario usu1 = new Usuario("Moha", "625962740", "hola","", null, "Hey! I'm using AppChat");
         Elemento ele1 = new Elemento(usu1);
-        ImageIcon img = usu1.getImagen();
+        ImageIcon img = usu1.getImageIcon();
         Image imgcir =  ele1.imagenCircular(img.getImage());
         JLabel perfil = new JLabel();
         perfil.setIcon(new ImageIcon(imgcir));
@@ -253,13 +254,13 @@ public class chat {
         Message.setColumns(10);
         
         // Lista de contactos
-        Usuario usu = new Usuario("Sergio", "696918622", "hola", new ImageIcon(getClass().getResource("/sinFotoContc.png")), "24/09/2004");
-        Usuario usu2 = new Usuario("Sergio", "696918622", "hola", new ImageIcon(getClass().getResource("/sinFotoContc.png")), "24/09/2004");
-        Usuario usu3 = new Usuario("Moha", "625962740", "hola", new ImageIcon(getClass().getResource("/mcclovin.png")), "10/10/1999");
-        Usuario usu4 = new Usuario("Sergio", "696918622", "hola", new ImageIcon(getClass().getResource("/sinFotoContc.png")),"24/09/2004");
-        Usuario usu5 = new Usuario("Moha", "625962740", "hola", new ImageIcon(getClass().getResource("/mcclovin.png")),"10/10/1999");
-        Usuario usu6 = new Usuario("Sergio", "696918622", "hola", new ImageIcon(getClass().getResource("/sinFotoContc.png")),"24/09/2004");
-        Usuario usu7 = new Usuario("Moha", "625962740", "hola", new ImageIcon(getClass().getResource("/mcclovin.png")),"10/10/1999");
+        Usuario usu = new Usuario("Moha", "625962740", "hola",null, null, "Hey! I'm using AppChat");
+        Usuario usu2 =  new Usuario("Moha", "625962740", "hola","", null, "Hey! I'm using AppChat");
+        Usuario usu3 =  new Usuario("Moha", "625962740", "hola","", null, "Hey! I'm using AppChat");
+        Usuario usu4 =  new Usuario("Moha", "625962740", "hola","", null, "Hey! I'm using AppChat");
+        Usuario usu5 =  new Usuario("Moha", "625962740", "hola","", null, "Hey! I'm using AppChat");
+        Usuario usu6 = new Usuario("Moha", "625962740", "hola","", null, "Hey! I'm using AppChat");
+        Usuario usu7 =  new Usuario("Moha", "625962740", "hola","", null, "Hey! I'm using AppChat");
         
         JList<Elemento> lista = new JList<Elemento>();
         DefaultListModel<Elemento> model = new DefaultListModel<Elemento>();

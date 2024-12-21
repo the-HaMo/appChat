@@ -46,6 +46,8 @@ public class Registro {
     private JLabel lblImagen;
     private SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
     private JDateChooser dateChooser = new JDateChooser();
+    private JTextArea textAreaSaludo;
+    private JTextField url_ruta;
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -160,13 +162,11 @@ public class Registro {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ventanaReg.setVisible(false);
-                botonregistro.setEnabled(true);
             }
         });
 
         JButton btnRegAceptar = new JButton("Aceptar");
         panelReg_SUR.add(btnRegAceptar);
-       
 
         Component horizontalStrut_3 = Box.createHorizontalStrut(20);
         horizontalStrut_3.setPreferredSize(new Dimension(120, 0));
@@ -192,11 +192,9 @@ public class Registro {
         horizontalStrut_4.setMinimumSize(new Dimension(0, 0));
         panelRegFecha.add(horizontalStrut_4);
 
-       
         dateChooser.setFont(new Font("Tahoma", Font.BOLD, 13));
         dateChooser.setDateFormatString("dd/MM/yyyy");
         dateChooser.setPreferredSize(new Dimension(120, 20));
-        //
         panelRegFecha.add(dateChooser);
 
         JPanel panelRegSaludo = new JPanel();
@@ -209,7 +207,7 @@ public class Registro {
         JLabel lblSaludo = new JLabel("Saludo:");
         panelRegSaludo.add(lblSaludo);
 
-        JTextArea textAreaSaludo = new JTextArea();
+        textAreaSaludo = new JTextArea();
         textAreaSaludo.setBorder(new LineBorder(SystemColor.activeCaptionBorder));
         textAreaSaludo.setPreferredSize(new Dimension(200, 70));
         panelRegSaludo.add(textAreaSaludo);
@@ -227,7 +225,7 @@ public class Registro {
         panelTituloImagen.setOpaque(false);
         panelReg_ESTE.add(panelTituloImagen);
 
-        lblImagen = new JLabel("FOTO DE PERFIL:");
+        lblImagen = new JLabel("URL de FOTO");
         lblImagen.setFont(new Font("Tahoma", Font.PLAIN, 15));
         panelTituloImagen.add(lblImagen);
 
@@ -236,12 +234,9 @@ public class Registro {
         panelFoto.setOpaque(false);
         panelReg_ESTE.add(panelFoto);
 
-        JLabel foto = new JLabel();
-        foto.setOpaque(true);
-        foto.setBackground(Color.WHITE);
-        Image fotoPerfil = new ImageIcon(getClass().getResource("/sinFotoContc.png")).getImage();
-        foto.setIcon(new ImageIcon(fotoPerfil.getScaledInstance(100, 120, Image.SCALE_SMOOTH)));
-        panelFoto.add(foto);
+        url_ruta = new JTextField();
+        url_ruta.setPreferredSize(new Dimension(180, 19));
+        panelFoto.add(url_ruta);
 
         JButton btnRegCargarArchivo = new JButton("Cargar Imagen");
         panelReg_SUR.add(btnRegCargarArchivo);
@@ -252,29 +247,24 @@ public class Registro {
                 JFileChooser chooser = new JFileChooser();
                 chooser.showOpenDialog(btnRegCargarArchivo);
                 File img = chooser.getSelectedFile();
-                if (img.getName().toLowerCase().endsWith(".png")) {
-                    ImageIcon imgPerfil = new ImageIcon(img.getAbsolutePath());
-                    Image imgEscalada = imgPerfil.getImage().getScaledInstance(100, 120, Image.SCALE_SMOOTH);
-                    JLabel imagenLabel = new JLabel(new ImageIcon(imgEscalada));
-                    imagenLabel.setOpaque(true);
-                    imagenLabel.setBackground(Color.WHITE);
-                    panelFoto.removeAll();
-                    panelFoto.add(imagenLabel);
-                    panelFoto.revalidate();
-                    panelFoto.repaint();
+                if (img != null && img.getName().toLowerCase().endsWith(".png")) {
+                    String filePath = img.getAbsolutePath(); 
+                    url_ruta.setText(filePath); 
                 }
-                System.out.println(img);//esto se puede borrar
             }
         });
+
         btnRegAceptar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 boolean rellenado = checkFields();
                 if (rellenado) {
                     boolean registrado = Controlador.INSTANCE.registrarUsuario(
                             textNombre.getText(),
-                            textTelefono.getText(), 
-                            new String(textContraseña1.getPassword()), 
-                            getFecha()                           
+                            textTelefono.getText(),
+                            new String(textContraseña1.getPassword()),
+                            url_ruta.getText(),
+                            getFecha(),
+                            textAreaSaludo.getText()
                     );
                     if (registrado) {
                         System.out.println("Usuario registrado correctamente");
@@ -282,69 +272,54 @@ public class Registro {
                         System.out.println("Error al registrar el usuario");
                     }
                     ventanaReg.setVisible(false);
-                }else {
-                	System.out.println("Rellena todos los campos");
+                } else {
+                    System.out.println("Rellena todos los campos");
                 }
-                
             }
         });
-
-        
-        
     }
-    
-    private boolean checkFields() {
-		boolean salida = true;
-		
-		if (textNombre.getText().trim().isEmpty()) {
-			salida = false;
-		}
-		if (textApellidos.getText().trim().isEmpty()) {
-			salida = false;
-		}
-		if (textTelefono.getText().trim().isEmpty()) {
-			salida = false;
-		}
-		String cont1 = new String(textContraseña1.getPassword());
-		String cont2 = new String(textContraseña2.getPassword());
-		if (cont1.isEmpty()) {
-			salida = false;
-		} 
-		if (cont2.isEmpty()) {
-			salida = false;
-		} 
-		if (!cont1.equals(cont2)) {
-			salida = false;
-		}
-		/* Comprobar que no exista otro usuario con igual telf */
-		if (Controlador.INSTANCE.esUsuarioRegistrado(textTelefono.getText())) {
-			salida = false;
-		}
-		if (getFecha()==null) {
-			salida = false;
-		}
-/*
-		this.revalidate();
-		this.pack();*/
-		
-		return salida;
-	}
 
-	/*private void crearManejadorBotonCancelar() {
-		btnCancelar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				LoginView loginView = new LoginView();
-				loginView.mostrarVentana();
-				RegistroView.this.dispose();
-			}
-		});
-	}*/
+    private boolean checkFields() {
+        boolean salida = true;
+
+        if (textAreaSaludo.getText().trim().isEmpty()) {
+            textAreaSaludo.setText("Hola, estoy en la aplicacion");
+        }
+        if (textNombre.getText().trim().isEmpty()) {
+            salida = false;
+        }
+        if (textApellidos.getText().trim().isEmpty()) {
+            salida = false;
+        }
+        if (textTelefono.getText().trim().isEmpty()) {
+            salida = false;
+        }
+        String cont1 = new String(textContraseña1.getPassword());
+        String cont2 = new String(textContraseña2.getPassword());
+        if (cont1.isEmpty()) {
+            salida = false;
+        }
+        if (cont2.isEmpty()) {
+            salida = false;
+        }
+        if (!cont1.equals(cont2)) {
+            salida = false;
+        }
+        /* Comprobar que no exista otro usuario con igual telf */
+        if (Controlador.INSTANCE.esUsuarioRegistrado(textTelefono.getText())) {
+            salida = false;
+        }
+        if (getFecha() == null) {
+            salida = false;
+        }
+        return salida;
+    }
 
     public void Mostrar() {
         this.ventanaReg.setVisible(true);
     }
 
     public String getFecha() {
-    	return new String(formato.format(dateChooser.getDate()));
+        return new String(formato.format(dateChooser.getDate()));
     }
 }
