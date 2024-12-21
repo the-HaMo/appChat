@@ -13,9 +13,7 @@ import beans.Entidad;
 import beans.Propiedad;
 import tds.driver.FactoriaServicioPersistencia;
 import tds.driver.ServicioPersistencia;
-import umu.tds.apps.persistencia.AdaptadorGroupTDS;
-import umu.tds.apps.persistencia.AdaptadorIndividualContactTDS;
-import umu.tds.apps.persistencia.AdaptadorUserTDS;
+
 
 public final class TDSMensajeDAO implements MensajeDAO {
 

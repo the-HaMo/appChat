@@ -9,12 +9,6 @@ import java.util.StringTokenizer;
 
 import tds.driver.FactoriaServicioPersistencia;
 import tds.driver.ServicioPersistencia;
-import umu.tds.apps.AppChat.IndividualContact;
-import umu.tds.apps.AppChat.Message;
-import umu.tds.apps.AppChat.User;
-import umu.tds.apps.persistencia.AdaptadorMessageTDS;
-import umu.tds.apps.persistencia.AdaptadorUserTDS;
-import umu.tds.apps.persistencia.PoolDAO;
 import Clases.*;
 import beans.Entidad;
 import beans.Propiedad;
