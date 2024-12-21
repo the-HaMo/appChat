@@ -11,7 +11,6 @@ public class ContactoIndividual extends Contacto {
 		this.usu = usu;
 	}
 	
-	
 	public ContactoIndividual(String nombre, String telefono,Usuario usu, List<Mensaje> mensajes) {
 		super(nombre, telefono,mensajes);
 		this.usu = usu;
