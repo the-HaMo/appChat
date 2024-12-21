@@ -10,7 +10,6 @@ import java.util.List;
 
 import tds.driver.FactoriaServicioPersistencia;
 import tds.driver.ServicioPersistencia;
-import umu.tds.apps.persistencia.AdaptadorMessageTDS;
 import Clases.Usuario;
 import beans.Entidad;
 import beans.Propiedad;
