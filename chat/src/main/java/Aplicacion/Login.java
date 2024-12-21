@@ -133,14 +133,6 @@ public class Login {
 		
 		JButton boton_cancelar = new JButton("CANCELAR");
 		panel_sur.add(boton_cancelar);
-		boton_cancelar.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				ventana.dispose();
-			}
-		});
-		
 		JButton boton_aceptar = new JButton("ACEPTAR");
 		panel_sur.add(boton_aceptar);
 		
