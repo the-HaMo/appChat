@@ -5,9 +5,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import tds.driver.FactoriaServicioPersistencia;
 import tds.driver.ServicioPersistencia;
+import umu.tds.apps.AppChat.IndividualContact;
+import umu.tds.apps.AppChat.Message;
+import umu.tds.apps.AppChat.User;
+import umu.tds.apps.persistencia.AdaptadorMessageTDS;
+import umu.tds.apps.persistencia.AdaptadorUserTDS;
+import umu.tds.apps.persistencia.PoolDAO;
 import Clases.*;
 import beans.Entidad;
 import beans.Propiedad;
@@ -18,16 +25,28 @@ import beans.Propiedad;
  *
  */
 public final class TDSContactoIndividualDAO implements ContactoIndividualDAO {
-
+	
+    private static final String NOMBRE = "nombre";
+    private static final String TELEFONO = "telefono";
+    private static final String USUARIO = "usuario";
+    private static final String MENSAJES = "mensajes";
+	
+	
     private static ServicioPersistencia servPersistencia;
     private static TDSContactoIndividualDAO unicaInstancia = null;
 
     public TDSContactoIndividualDAO() {
         servPersistencia = FactoriaServicioPersistencia.getInstance().getServicioPersistencia();
     }
+    
+    public static TDSContactoIndividualDAO getInstancia() {
+        if (unicaInstancia == null) {
+            unicaInstancia = new TDSContactoIndividualDAO();
+        }
+        return unicaInstancia;
+    }
 
-    @Override
-    public void register(ContactoIndividual contacto) {
+    private Entidad contactoToEntidad(ContactoIndividual contacto) {
         Entidad eContacto = new Entidad();
         boolean guardado;
 
@@ -39,26 +58,49 @@ public final class TDSContactoIndividualDAO implements ContactoIndividualDAO {
         }
 
         if (guardado) {
-            // Si esta guardado, no se sigue
-            return;
+            return eContacto;
         }
 
         eContacto.setNombre(contacto.getNombre());
         eContacto.setPropiedades(new ArrayList<Propiedad>(
             Arrays.asList(
-                new Propiedad("nombre", contacto.getNombre()),
-                new Propiedad("telefono", contacto.getTelefono()),
-                //new Propiedad("mensajes", contacto.getMensajes().toString()), // Assuming mensajes is a List<Mensaje>   HAY QUE PASARLO A STRING
-                new Propiedad("usuario", String.valueOf(contacto.getUsuario().getId()))
+                new Propiedad(NOMBRE, contacto.getNombre()),
+                new Propiedad(TELEFONO, contacto.getTelefono()),
+                new Propiedad(MENSAJES, CodigoMensajes(contacto.getMensajes())), // Assuming mensajes is a List<Mensaje>   HAY QUE PASARLO A STRING
+                new Propiedad(USUARIO, String.valueOf(contacto.getUsuario().getId()))
             )
         ));
 
-        servPersistencia.registrarEntidad(eContacto);
+        return eContacto;
+    }
+    
+	private ContactoIndividual entidadToContacto(Entidad eContacto) {
+		String nombre = servPersistencia.recuperarPropiedadEntidad(eContacto, NOMBRE);
+		String telefono = servPersistencia.recuperarPropiedadEntidad(eContacto, TELEFONO);
+		ContactoIndividual contacto = new ContactoIndividual(nombre,telefono , null);
+		contacto.setId(eContacto.getId());		
+		// Mensajes que el contacto tiene
+		List<Mensaje> mensajes = MensajesDesdeID(servPersistencia.recuperarPropiedadEntidad(eContacto, MENSAJES));
+		for (Mensaje m : mensajes)
+			contacto.addMensaje(m);
+
+		// Obtener usuario del contacto
+		contacto.setUsuario(getUsuario(servPersistencia.recuperarPropiedadEntidad(eContacto, USUARIO)));
+		
+		return contacto;
     }
 
     @Override
     public void delete(ContactoIndividual contacto) {
-        // TODO Auto-generated method stub
+    	Entidad eContacto;
+		TDSMensajeDAO mensajeDAO = TDSMensajeDAO.getInstancia();
+
+		for (Mensaje mensaje : contacto.getMensajes()) {
+			mensajeDAO.delete(mensaje);
+		}
+
+		eContacto = servPersistencia.recuperarEntidad(contacto.getId());
+		servPersistencia.borrarEntidad(eContacto);
     }
 
     @Override
@@ -66,40 +108,24 @@ public final class TDSContactoIndividualDAO implements ContactoIndividualDAO {
         // TODO Auto-generated method stub
     	Entidad eContact = servPersistencia.recuperarEntidad(contacto.getId());
 
-		servPersistencia.eliminarPropiedadEntidad(eContact, "nombre");
-		servPersistencia.anadirPropiedadEntidad(eContact, "nombre", contacto.getNombre());
-		servPersistencia.eliminarPropiedadEntidad(eContact, "telefono");
-		servPersistencia.anadirPropiedadEntidad(eContact, "telefono", String.valueOf(contacto.getTelefono()));
-		//servPersistencia.eliminarPropiedadEntidad(eContact, "mensajes");
-		//servPersistencia.anadirPropiedadEntidad(eContact, "mensajes",contacto.getMensajes().toString());		// HAY QUE PASARLO A STRING
-		servPersistencia.eliminarPropiedadEntidad(eContact, "usuario");
-		servPersistencia.anadirPropiedadEntidad(eContact, "usuario", String.valueOf(contacto.getUsuario().getId()));
+		servPersistencia.eliminarPropiedadEntidad(eContact, NOMBRE);
+		servPersistencia.anadirPropiedadEntidad(eContact, NOMBRE, contacto.getNombre());
+		servPersistencia.eliminarPropiedadEntidad(eContact, TELEFONO);
+		servPersistencia.anadirPropiedadEntidad(eContact, TELEFONO, String.valueOf(contacto.getTelefono()));
+		servPersistencia.eliminarPropiedadEntidad(eContact, MENSAJES);
+		servPersistencia.anadirPropiedadEntidad(eContact, MENSAJES,CodigoMensajes(contacto.getMensajes()));		
+		servPersistencia.eliminarPropiedadEntidad(eContact, USUARIO);
+		servPersistencia.anadirPropiedadEntidad(eContact, USUARIO, String.valueOf(contacto.getUsuario().getId()));
     }
 
     @Override
     public ContactoIndividual get(int id) {
-        // TODO Auto-generated method stub
-        Entidad eContact = servPersistencia.recuperarEntidad(id);
 
-		// recuperar propiedades que no son objetos
-		String nombre = servPersistencia.recuperarPropiedadEntidad(eContact, "nombre");
-		
-		String telefono = servPersistencia.recuperarPropiedadEntidad(eContact, "telefono");
-		
-		ContactoIndividual contact = new ContactoIndividual(nombre, telefono,null, new LinkedList<Mensaje>());
-		contact.setId(id);
-
-		// Mensajes que el contacto tiene
-		//List<Mensaje> mensajes = obtenerMensajesDesdeCodigos(servPersistencia.recuperarPropiedadEntidad(eContact, "mensajes"));
-		//for (Mensaje m : mensajes)
-		//	contact.addMensaje(m);
-
-		// Obtener usuario del contacto
-		//contact.setUsuario(obtenerUsuarioDesdeCodigo(servPersistencia.recuperarPropiedadEntidad(eContact, "usuario")));
-
-		// Devolvemos el objeto contacto
-		return contact;
+    	Entidad eContacto = servPersistencia.recuperarEntidad(id);
+        return entidadToContacto(eContacto);
     }
+    
+    
 
     
     @Override
@@ -114,12 +140,36 @@ public final class TDSContactoIndividualDAO implements ContactoIndividualDAO {
         return contactos;
     }
     
+    private Usuario getUsuario(String id) {
+		TDSUsuarioDAO usuariosDAO = TDSUsuarioDAO.getInstancia();
+		return usuariosDAO.get(Integer.valueOf(id));
+	}
 
-    public static TDSContactoIndividualDAO getInstancia() {
-        if (unicaInstancia == null) {
-            unicaInstancia = new TDSContactoIndividualDAO();
-        }
-        return unicaInstancia;
-    }
+
+	@Override
+	public void create(ContactoIndividual contacto) {
+		Entidad eContacto = this.contactoToEntidad(contacto);
+		eContacto = servPersistencia.registrarEntidad(eContacto);
+        contacto.setId(contacto.getId());
+		
+	}
+	
+	
+	private String CodigoMensajes(List<Mensaje> mensajes) {
+		return mensajes.stream()
+				.map(m -> String.valueOf(m.getId()))
+				.reduce("", (x, y) -> x + y + " ")
+				.trim();
+	}
  
+	private List<Mensaje> MensajesDesdeID(String idMensajes) {
+		List<Mensaje> mensajes = new LinkedList<>();
+		StringTokenizer token = new StringTokenizer(idMensajes, " ");
+		TDSMensajeDAO mensajeDAO = TDSMensajeDAO.getInstancia();
+		while (token.hasMoreTokens()) {
+			String id = (String) token.nextElement();
+			mensajes.add(mensajeDAO.get(Integer.valueOf(id)));
+		}
+		return mensajes;
+	}
 }

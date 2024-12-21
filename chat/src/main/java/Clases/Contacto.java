@@ -3,6 +3,7 @@ package Clases;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 public abstract class Contacto {
 
@@ -49,7 +50,6 @@ public abstract class Contacto {
 
     public void setId(int id) {
         this.id = id;
-    }
-    
+    }  
     
 }
