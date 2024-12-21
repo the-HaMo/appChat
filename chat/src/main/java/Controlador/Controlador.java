@@ -1,10 +1,6 @@
 package Controlador;
 
 import DAO.UsuarioDAO;
-import umu.tds.apps.AppChat.Contact;
-import umu.tds.apps.AppChat.IndividualContact;
-import umu.tds.apps.AppChat.Message;
-import umu.tds.apps.AppChat.User;
 import DAO.ContactoIndividualDAO;
 import DAO.DAOException;
 import DAO.FactoriaDAO;
@@ -126,5 +122,4 @@ public enum Controlador {
 		}
 	}
 	
-
 

@@ -29,7 +29,7 @@ public class Usuario {
         this.fechaNacimiento = fechaNacimiento;
         this.saludo = vacio(saludo);
         this.premium = false;
-        if (url.isBlank()||url==null) {
+        if (url==null) {
             this.link = getClass().getResource("/sinFotoContc.png").toString();
         } else {
             this.link = url;
