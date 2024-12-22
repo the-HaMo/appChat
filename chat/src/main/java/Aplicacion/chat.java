@@ -134,7 +134,7 @@ public class chat {
         JPanel buttons = new JPanel();
         buttons.setBackground(Color.GREEN);
         buttons.setMaximumSize(new Dimension(40, 0));
-        buttons.setPreferredSize(new Dimension(300, 10));
+        buttons.setPreferredSize(new Dimension(350, 10));
         panelNorte.add(buttons, BorderLayout.EAST);
         buttons.setLayout(new BoxLayout(buttons, BoxLayout.X_AXIS));
         
@@ -175,6 +175,23 @@ public class chat {
         separator_2.setMaximumSize(new Dimension(30, 2));
         buttons.add(separator_2);
         
+        JButton addContacto = new JButton();
+        addContacto.setMinimumSize(new Dimension(65, 65));
+        addContacto.setMaximumSize(new Dimension(65, 65));
+        addContacto.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+        addContacto.setSize(new Dimension(75, 75));
+        addContacto.setBackground(new Color(0, 255, 0));
+        addContacto.setPreferredSize(new Dimension(65, 65));
+        ImageIcon addContactoPhoto = new ImageIcon(getClass().getResource("/addUsuario.png"));
+        Image addContactoScalar = addContactoPhoto.getImage().getScaledInstance(65, 65, Image.SCALE_SMOOTH);
+        addContacto.setIcon(new ImageIcon(addContactoScalar));
+        buttons.add(addContacto);
+        
+        JSeparator separator_4 = new JSeparator();
+        separator_4.setBackground(Color.GREEN);
+        separator_4.setMaximumSize(new Dimension(30, 2));
+        buttons.add(separator_4);
+        
         JButton premium = new JButton();
         premium.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
         premium.setSize(new Dimension(75, 75));
@@ -184,7 +201,7 @@ public class chat {
         Image premiumScalar = premiumPhoto.getImage().getScaledInstance(65, 65, Image.SCALE_SMOOTH);
         premium.setIcon(new ImageIcon(premiumScalar));
         buttons.add(premium);
-        
+      
         JPanel title = new JPanel();
         title.setBackground(Color.GREEN);
         panelNorte.add(title, BorderLayout.CENTER);
