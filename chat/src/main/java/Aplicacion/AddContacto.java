@@ -8,19 +8,17 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import javax.swing.JLabel;
 import java.awt.Font;
-import java.awt.Image;
 
 import javax.swing.border.LineBorder;
 import java.awt.Color;
 import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 
 import java.awt.Component;
 import javax.swing.Box;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
-public class añadirContacto {
+public class AddContacto {
 
 	private JFrame frame;
 	private JTextField txtNombre;
@@ -33,7 +31,7 @@ public class añadirContacto {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					añadirContacto window = new añadirContacto();
+					AddContacto window = new AddContacto();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -45,7 +43,7 @@ public class añadirContacto {
 	/**
 	 * Create the application.
 	 */
-	public añadirContacto() {
+	public AddContacto() {
 		initialize();
 	}
 
@@ -131,4 +129,7 @@ public class añadirContacto {
 		panelCentroAlerta.add(verticalStrut_2);
 	}
 
+	  public void Mostrar() {
+	        this.frame.setVisible(true);
+	    }
 }
