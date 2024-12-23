@@ -12,6 +12,7 @@ import javax.swing.RepaintManager;
 import javax.swing.ScrollPaneConstants;
 
 import Clases.Usuario;
+import Controlador.Controlador;
 import tds.BubbleText;
 
 import java.awt.Dimension;
@@ -24,19 +25,12 @@ import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
-import java.util.Date;
-
-import javax.swing.border.TitledBorder;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JSeparator;
 import javax.swing.border.CompoundBorder;
 import java.awt.Font;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
 public class chat {
@@ -73,6 +67,8 @@ public class chat {
      */
     private void initialize() {
 
+    	Usuario actual=Controlador.INSTANCE.getUsuarioActual();
+    	
         frame = new JFrame("AppChat");
         frame.setResizable(true);
         frame.getContentPane().setPreferredSize(new Dimension(700, 720));
@@ -96,14 +92,12 @@ public class chat {
         panelNorte.add(usuarioActual, BorderLayout.WEST);
         usuarioActual.setLayout(new BoxLayout(usuarioActual, BoxLayout.X_AXIS));
         
-        
-        Usuario usu1 = new Usuario("Moha", "625962740", "hola","", null, "Hey! I'm using AppChat");
-        Elemento ele1 = new Elemento(usu1);
-        ImageIcon img = usu1.getImageIcon();
+        Elemento ele1 = new Elemento(actual);
+        ImageIcon img = actual.getImageIcon();
         Image imgcir =  ele1.imagenCircular(img.getImage());
         JLabel perfil = new JLabel();
         perfil.setIcon(new ImageIcon(imgcir));
-        JLabel saludo = new JLabel(usu1.getNombre()); // Para el salido
+        JLabel saludo = new JLabel(actual.getSaludo()); // Para el salido
         
         JButton photo = new JButton();
         photo.setBackground(Color.GREEN);
@@ -125,10 +119,10 @@ public class chat {
         usuarioActual.add(panel);
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         
-        JLabel nombre = new JLabel(usu1.getNombre());
+        JLabel nombre = new JLabel(actual.getNombre());
         panel.add(nombre);
         
-        JLabel saludoTex = new JLabel("Hey! I'm using AppChat"); // Para el saludo
+        JLabel saludoTex = new JLabel(actual.getSaludo()); // Para el saludo
         saludoTex.setForeground(Color.BLACK);
         saludoTex.setFont(new Font("Arial", Font.PLAIN, 11));
         panel.add(saludoTex);
@@ -153,13 +147,12 @@ public class chat {
         Image addContactoScalar = addContactoPhoto.getImage().getScaledInstance(65, 65, Image.SCALE_SMOOTH);
         addContacto.setIcon(new ImageIcon(addContactoScalar));
         buttons.add(addContacto);
-        
-        /*
+     
         addContacto.addActionListener(e -> {
         	AddContacto Contacto = new AddContacto();
         	Contacto.Mostrar();
         });
-        */
+        
         
         JSeparator separator_3 = new JSeparator();
         separator_3.setMaximumSize(new Dimension(25, 2));
