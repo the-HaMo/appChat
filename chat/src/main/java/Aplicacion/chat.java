@@ -24,6 +24,8 @@ import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -140,19 +142,27 @@ public class chat {
         
 
         
-        JButton search = new JButton();
-        search.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-        search.setSize(new Dimension(75, 75));
-        search.setBackground(Color.GREEN);
-        search.setPreferredSize(new Dimension(65, 65));
-        ImageIcon lup = new ImageIcon(getClass().getResource("/lupa.png"));
-        Image scalara = lup.getImage().getScaledInstance(65, 65, Image.SCALE_SMOOTH);
+        JButton addContacto = new JButton();
+        addContacto.setMinimumSize(new Dimension(65, 65));
+        addContacto.setMaximumSize(new Dimension(65, 65));
+        addContacto.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+        addContacto.setSize(new Dimension(75, 75));
+        addContacto.setBackground(new Color(0, 255, 0));
+        addContacto.setPreferredSize(new Dimension(65, 65));
+        ImageIcon addContactoPhoto = new ImageIcon(getClass().getResource("/addUsuario.png"));
+        Image addContactoScalar = addContactoPhoto.getImage().getScaledInstance(65, 65, Image.SCALE_SMOOTH);
+        addContacto.setIcon(new ImageIcon(addContactoScalar));
+        buttons.add(addContacto);
+        
+        /*
+        addContacto.addActionListener(e -> {
+        	AddContacto Contacto = new AddContacto();
+        	Contacto.Mostrar();
+        });
+        */
         
         JSeparator separator_3 = new JSeparator();
         separator_3.setMaximumSize(new Dimension(25, 2));
-        search.setIcon(new ImageIcon(scalara));
-        search.setPreferredSize(new Dimension(45, 45));
-        buttons.add(search);
         
         JSeparator separator_1 = new JSeparator();
         separator_1.setBackground(Color.GREEN);
@@ -175,17 +185,16 @@ public class chat {
         separator_2.setMaximumSize(new Dimension(30, 2));
         buttons.add(separator_2);
         
-        JButton addContacto = new JButton();
-        addContacto.setMinimumSize(new Dimension(65, 65));
-        addContacto.setMaximumSize(new Dimension(65, 65));
-        addContacto.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-        addContacto.setSize(new Dimension(75, 75));
-        addContacto.setBackground(new Color(0, 255, 0));
-        addContacto.setPreferredSize(new Dimension(65, 65));
-        ImageIcon addContactoPhoto = new ImageIcon(getClass().getResource("/addUsuario.png"));
-        Image addContactoScalar = addContactoPhoto.getImage().getScaledInstance(65, 65, Image.SCALE_SMOOTH);
-        addContacto.setIcon(new ImageIcon(addContactoScalar));
-        buttons.add(addContacto);
+        JButton search = new JButton();
+        search.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+        search.setSize(new Dimension(75, 75));
+        search.setBackground(Color.GREEN);
+        search.setPreferredSize(new Dimension(65, 65));
+        ImageIcon lup = new ImageIcon(getClass().getResource("/lupa.png"));
+        Image scalara = lup.getImage().getScaledInstance(65, 65, Image.SCALE_SMOOTH);
+        search.setIcon(new ImageIcon(scalara));
+        search.setPreferredSize(new Dimension(45, 45));
+        buttons.add(search);
         
         JSeparator separator_4 = new JSeparator();
         separator_4.setBackground(Color.GREEN);
