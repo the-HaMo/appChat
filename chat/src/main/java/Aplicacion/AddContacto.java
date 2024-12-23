@@ -8,8 +8,15 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.border.LineBorder;
+
+import Clases.Contacto;
+import Clases.ContactoIndividual;
+import Controlador.Controlador;
+
 import java.awt.Color;
 import javax.swing.BoxLayout;
 
@@ -76,9 +83,30 @@ public class AddContacto {
 		
 		JButton btnAceptar = new JButton("ACEPTAR");
 		panelSurAlerta.add(btnAceptar);
+		btnAceptar.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				boolean existe= Controlador.INSTANCE.esUsuarioRegistrado(txtTelefono.getText());
+				if(existe) {
+					ContactoIndividual c = Controlador.INSTANCE.crearContacto(txtNombre.getText(), txtTelefono.getText());
+					if (c != null) {
+						Controlador.INSTANCE.getUsuarioActual().addContacto(c);
+						System.out.println("Contacto creado con exito");
+					}else {
+						System.err.println("Error al crear contacto");
+					}
+				}
+				frame.dispose();
+			}
+		});
 		
 		JButton btnCancelar = new JButton("CANCELAR");
 		panelSurAlerta.add(btnCancelar);
+		btnCancelar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+			}
+		});
 		
 		JPanel panelOesteAlerta = new JPanel();
 		panelOesteAlerta.setPreferredSize(new Dimension(70, 10));
