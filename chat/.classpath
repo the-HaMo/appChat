@@ -48,7 +48,5 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/MSI/OneDrive - UNIVERSIDAD DE MURCIA/Escritorio/3_Carrera_PC/TDS/com.jgoodies.common_1.8.1.v20240327-0800.jar"/>
-	<classpathentry kind="lib" path="C:/Users/MSI/OneDrive - UNIVERSIDAD DE MURCIA/Escritorio/3_Carrera_PC/TDS/com.jgoodies.forms_1.9.0.v20240327-0800.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
