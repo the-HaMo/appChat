@@ -41,33 +41,20 @@ public final class TDSContactoIndividualDAO implements ContactoIndividualDAO {
         return unicaInstancia;
     }
 
-    private Entidad contactoToEntidad(ContactoIndividual contacto) {
-        Entidad eContacto = new Entidad();
-        boolean guardado;
 
-        try {
-            eContacto = servPersistencia.recuperarEntidad(contacto.getId());
-            guardado = true;
-        } catch (NullPointerException e) {
-            guardado = false;
-        }
+	private Entidad contactoToEntidad(ContactoIndividual contacto) {
+		Entidad eContacto = new Entidad();
 
-        if (guardado) {
-            return eContacto;
-        }
+		eContacto.setNombre(CONTACTO);
+		eContacto.setPropiedades(new ArrayList<Propiedad>(
+				Arrays.asList(
+						new Propiedad(NOMBRE, contacto.getNombre()),
+						new Propiedad(TELEFONO, contacto.getTelefono()),
+						new Propiedad(MENSAJES, CodigoMensajes(contacto.getMensajes())), // Assuming mensajes is a List<Mensaje>
+						new Propiedad(USUARIO, String.valueOf(contacto.getUsuario().getId())))));
+		return eContacto;
+	}
 
-        eContacto.setNombre(CONTACTO);
-        eContacto.setPropiedades(new ArrayList<Propiedad>(
-            Arrays.asList(
-                new Propiedad(NOMBRE, contacto.getNombre()),
-                new Propiedad(TELEFONO, contacto.getTelefono()),
-                new Propiedad(MENSAJES, CodigoMensajes(contacto.getMensajes())), // Assuming mensajes is a List<Mensaje>   HAY QUE PASARLO A STRING
-                new Propiedad(USUARIO, String.valueOf(contacto.getUsuario().getId()))
-            )
-        ));
-
-        return eContacto;
-    }
     
 	private ContactoIndividual entidadToContacto(Entidad eContacto) {
 		String nombre = servPersistencia.recuperarPropiedadEntidad(eContacto, NOMBRE);
@@ -142,7 +129,7 @@ public final class TDSContactoIndividualDAO implements ContactoIndividualDAO {
 
 	@Override
 	public void create(ContactoIndividual contacto) {
-		Entidad eContacto = this.contactoToEntidad(contacto);
+		Entidad eContacto = contactoToEntidad(contacto);
 		eContacto = servPersistencia.registrarEntidad(eContacto);
         contacto.setId(eContacto.getId());
 		
