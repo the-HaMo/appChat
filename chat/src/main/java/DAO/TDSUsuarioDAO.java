@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
-
 import tds.driver.FactoriaServicioPersistencia;
 import tds.driver.ServicioPersistencia;
 import Clases.Contacto;
@@ -155,11 +154,14 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 	}
 	
 	private String ContactoACodigo(List<Contacto> contactos) {
-		return contactos.stream()
-				.filter(c -> c instanceof ContactoIndividual) // me quedo con los contactos individuales
-				.map(c -> String.valueOf(c.getId()))
-				.reduce("", (x, y) -> x + y + " ") // concateno todos 				
-				.trim();
+	    if (contactos == null || contactos.isEmpty()) {
+	        return "";
+	    }
+	    return contactos.stream()
+	        .filter(c -> c instanceof ContactoIndividual) // me quedo con los contactos individuales
+	        .map(c -> String.valueOf(c.getId()))
+	        .reduce("", (x, y) -> x + y + " ") // concateno todos
+	        .trim();
 	}
 
 }

@@ -249,6 +249,7 @@ public class chat {
         Message.setColumns(10);
 
         // Lista de contactos
+        
         Usuario usu = new Usuario("Moha", "625962740", "hola", null, null, "Hey! I'm using AppChat");
         Usuario usu2 = new Usuario("Moha", "625962740", "hola", "", null, "Hey! I'm using AppChat");
         Usuario usu3 = new Usuario("Moha", "625962740", "hola", "", null, "Hey! I'm using AppChat");
@@ -259,7 +260,8 @@ public class chat {
 
         JList<Elemento> lista = new JList<Elemento>();
         DefaultListModel<Elemento> model = new DefaultListModel<Elemento>();
-        model.addElement(new Elemento(usu));
+		
+       model.addElement(new Elemento(usu));
         model.addElement(new Elemento(usu2));
         model.addElement(new Elemento(usu3));
         model.addElement(new Elemento(usu4));

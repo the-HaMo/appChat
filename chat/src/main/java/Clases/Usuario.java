@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -20,7 +21,7 @@ public class Usuario {
     private String saludo;
     private Date fechaNacimiento;
     private int id = 0;
-    private List<Contacto> listaContactos;
+    private List<Contacto> listaContactos= new LinkedList<Contacto>();
 
     public Usuario(String nombre, String telefono, String contraseña, String url, Date fechaNacimiento, String saludo) {
         this.nombre = nombre;
@@ -142,14 +143,13 @@ public class Usuario {
     }
 
     public void addContacto(Contacto c) {
-        if (listaContactos.contains(c)) {
-            return;
-        } else {
-            listaContactos.add(c);
-        }
+        listaContactos.add(c);
     }
 
     public boolean contieneContacto(String telf) {
+        if (listaContactos == null || listaContactos.isEmpty()) {
+            return false;
+        }
         for (Contacto contact : listaContactos) {
             if (contact.getTelefono().equals(telf)) {
                 return true;
