@@ -23,7 +23,7 @@ import beans.Propiedad;
  */
 public final class TDSUsuarioDAO implements UsuarioDAO {
 
-
+	private static final String USUARIO = "Usuario";
 	private static final String NOMBRE = "nombre";
 	private static final String TELEFONO = "telefono";
 	private static final String PASSWORD = "password";
@@ -74,7 +74,7 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 
     private Entidad usuarioToEntidad(Usuario usuario) {
         Entidad eUsuario = new Entidad();
-        eUsuario.setNombre(usuario.getNombre());
+        eUsuario.setNombre(USUARIO);
 
         eUsuario.setPropiedades(new ArrayList<Propiedad>(
                 Arrays.asList(
@@ -133,7 +133,7 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 	}
 
 	public List<Usuario> getAll() {
-		List<Entidad> entidades = servPersistencia.recuperarEntidades(NOMBRE);
+		List<Entidad> entidades = servPersistencia.recuperarEntidades(USUARIO);
 
 		List<Usuario> usuarios = new LinkedList<Usuario>();
 		for (Entidad eUsuario : entidades) {
