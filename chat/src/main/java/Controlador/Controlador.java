@@ -21,9 +21,11 @@ public enum Controlador {
 	INSTANCE;
 	private Usuario usuarioActual;
 	private FactoriaDAO factoria;
+	private RepositorioUsuarios repositorioUsuarios;
 
 	private Controlador() {
 		usuarioActual = null;
+		repositorioUsuarios = RepositorioUsuarios.INSTANCE;
 		try {
 			factoria = FactoriaDAO.getInstancia();
 		} catch (DAOException e) {
@@ -36,11 +38,12 @@ public enum Controlador {
 	}
 
 	public boolean esUsuarioRegistrado(String telf) {
-		return RepositorioUsuarios.INSTANCE.findUsuario(telf) != null;
+	    return repositorioUsuarios.findUsuario(telf) != null;
 	}
 
 	public boolean loginUsuario(String telefono, String password) {
-		Usuario usuario = RepositorioUsuarios.INSTANCE.findUsuario(telefono);
+		Usuario usuario = repositorioUsuarios.findUsuario(telefono);
+		
 		if (usuario != null && usuario.getContraseña().equals(password)) {
 			this.usuarioActual = usuario;
 			return true;
@@ -63,7 +66,7 @@ public enum Controlador {
                 return false;
             }
             Usuario usuario = new Usuario(nombre, telefono, contraseña, link, fechaNacimiento, saludo);
-            RepositorioUsuarios.INSTANCE.addUsuario(usuario);
+            repositorioUsuarios.addUsuario(usuario);
             UsuarioDAO usuarioDAO = factoria.getUsuarioDAO(); // Adaptador DAO para almacenar el nuevo Usuario en la BD
             usuarioDAO.create(usuario);
             return true;
@@ -74,7 +77,7 @@ public enum Controlador {
 	    if (usuarioActual.contieneContacto(telefono)) {
 	        return null;
 	    }
-	    if (RepositorioUsuarios.INSTANCE.findUsuario(telefono) == null) {//No existe Usuario
+	    if (repositorioUsuarios.findUsuario(telefono) == null) {//No existe Usuario
 	        return null;
 	    }
 	    ContactoIndividual contacto = new ContactoIndividual(nombre, telefono, usuarioActual);
@@ -90,7 +93,7 @@ public enum Controlador {
 		if (usuarioActual == null) {
 			return new LinkedList<Contacto>();
 		}
-		Usuario u = RepositorioUsuarios.INSTANCE.findUsuario(usuarioActual.getId());
+		Usuario u = repositorioUsuarios.findUsuario(usuarioActual.getId());
 		return u.getListaContactos();
 	}
 	
