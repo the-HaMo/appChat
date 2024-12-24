@@ -24,6 +24,7 @@ public final class TDSContactoIndividualDAO implements ContactoIndividualDAO {
     private static final String TELEFONO = "telefono";
     private static final String USUARIO = "usuario";
     private static final String MENSAJES = "mensajes";
+    private static final String CONTACTO = "contacto";
 	
 	
     private static ServicioPersistencia servPersistencia;
@@ -55,7 +56,7 @@ public final class TDSContactoIndividualDAO implements ContactoIndividualDAO {
             return eContacto;
         }
 
-        eContacto.setNombre(contacto.getNombre());
+        eContacto.setNombre(CONTACTO);
         eContacto.setPropiedades(new ArrayList<Propiedad>(
             Arrays.asList(
                 new Propiedad(NOMBRE, contacto.getNombre()),
@@ -71,8 +72,7 @@ public final class TDSContactoIndividualDAO implements ContactoIndividualDAO {
 	private ContactoIndividual entidadToContacto(Entidad eContacto) {
 		String nombre = servPersistencia.recuperarPropiedadEntidad(eContacto, NOMBRE);
 		String telefono = servPersistencia.recuperarPropiedadEntidad(eContacto, TELEFONO);
-		ContactoIndividual contacto = new ContactoIndividual(nombre,telefono , null);
-		contacto.setId(eContacto.getId());		
+		ContactoIndividual contacto = new ContactoIndividual(nombre,telefono , null);		
 		// Mensajes que el contacto tiene
 		List<Mensaje> mensajes = MensajesDesdeID(servPersistencia.recuperarPropiedadEntidad(eContacto, MENSAJES));
 		for (Mensaje m : mensajes)
@@ -80,7 +80,7 @@ public final class TDSContactoIndividualDAO implements ContactoIndividualDAO {
 
 		// Obtener usuario del contacto
 		contacto.setUsuario(getUsuario(servPersistencia.recuperarPropiedadEntidad(eContacto, USUARIO)));
-		
+		contacto.setId(eContacto.getId());
 		return contacto;
     }
 
@@ -125,7 +125,7 @@ public final class TDSContactoIndividualDAO implements ContactoIndividualDAO {
     @Override
     public List<ContactoIndividual> getAll() {
         LinkedList<ContactoIndividual> contactos = new LinkedList<>();
-        List<Entidad> eContactos = servPersistencia.recuperarEntidades("contacto");
+        List<Entidad> eContactos = servPersistencia.recuperarEntidades(CONTACTO);
 
         for (Entidad eContacto : eContactos) {
             contactos.add(get(eContacto.getId()));
@@ -144,7 +144,7 @@ public final class TDSContactoIndividualDAO implements ContactoIndividualDAO {
 	public void create(ContactoIndividual contacto) {
 		Entidad eContacto = this.contactoToEntidad(contacto);
 		eContacto = servPersistencia.registrarEntidad(eContacto);
-        contacto.setId(contacto.getId());
+        contacto.setId(eContacto.getId());
 		
 	}
 	
