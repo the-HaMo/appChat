@@ -102,9 +102,6 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 		return servPersistencia.borrarEntidad(eUsuario);
 	}
 
-	/**
-	 * Permite que un Usuario modifique su perfil: password y email
-	 */
 	public void update(Usuario usuario) {
 	    Entidad eUsuario = servPersistencia.recuperarEntidad(usuario.getId());
 
