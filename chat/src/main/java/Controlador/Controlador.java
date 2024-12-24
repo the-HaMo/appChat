@@ -74,7 +74,7 @@ public enum Controlador {
     }
 
 	public ContactoIndividual crearContacto(String nombre, String telefono) {
-	    if (usuarioActual.contieneContacto(telefono)) {
+	    if (usuarioActual.contieneContacto(telefono)){
 	        return null;
 	    }
 	    if (repositorioUsuarios.findUsuario(telefono) == null) {//No existe Usuario
