@@ -119,9 +119,9 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 	            prop.setValor(usuario.getPremiumString());
 	        } else if (prop.getNombre().equals(FECHA_NACIMIENTO)) {
 	            prop.setValor(usuario.getFechaNacimiento().toString());
-			} else if (prop.getNombre().equals(CONTACTOS)) {
-				prop.setValor(ContactoACodigo(usuario.getListaContactos()));
-			}
+	        } else if (prop.getNombre().equals(CONTACTOS)) {
+	            prop.setValor(ContactoACodigo(usuario.getListaContactos()));
+	        }
 	        servPersistencia.modificarPropiedad(prop);
 	    }
 	}
