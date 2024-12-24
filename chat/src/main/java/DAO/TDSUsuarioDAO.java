@@ -7,9 +7,12 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import tds.driver.FactoriaServicioPersistencia;
 import tds.driver.ServicioPersistencia;
+import Clases.Contacto;
+import Clases.ContactoIndividual;
 import Clases.Usuario;
 import beans.Entidad;
 import beans.Propiedad;
@@ -29,6 +32,7 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 	private static final String SALUDO = "saludo";
 	private static final String PREMIUM = "premium";
 	private static final String FECHA_NACIMIENTO = "fechaNacimiento";
+	private static final String CONTACTOS = "contactos";
 
 	private ServicioPersistencia servPersistencia;
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -60,6 +64,11 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 		}
 		Usuario usuario = new Usuario(nombre, telefono, password, foto, fecha, saludo, premium);
         usuario.setId(eUsuario.getId());
+        
+        List<ContactoIndividual> contactos = codigosAContactos(servPersistencia.recuperarPropiedadEntidad(eUsuario, CONTACTOS));
+
+		for (ContactoIndividual c : contactos)
+			usuario.addContacto(c);
 
         return usuario;
     }
@@ -76,7 +85,8 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
                         new Propiedad(FOTO, usuario.getLink()),
                         new Propiedad(PREMIUM, usuario.getPremiumString()),
                         new Propiedad(FECHA_NACIMIENTO, dateFormat.format(usuario.getFechaNacimiento())),
-                        new Propiedad(SALUDO, usuario.getSaludo()))));
+                        new Propiedad(SALUDO, usuario.getSaludo()),
+        				new Propiedad(CONTACTOS, ContactoACodigo(usuario.getListaContactos())))));
         return eUsuario;
     }
 
@@ -113,7 +123,9 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 	            prop.setValor(usuario.getPremiumString());
 	        } else if (prop.getNombre().equals(FECHA_NACIMIENTO)) {
 	            prop.setValor(usuario.getFechaNacimiento().toString());
-	        }
+			} else if (prop.getNombre().equals(CONTACTOS)) {
+				prop.setValor(ContactoACodigo(usuario.getListaContactos()));
+			}
 	        servPersistencia.modificarPropiedad(prop);
 	    }
 	}
@@ -133,6 +145,24 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 		}
 
 		return usuarios;
+	}
+	
+	private List<ContactoIndividual> codigosAContactos(String ids) {
+		List<ContactoIndividual> contactos = new LinkedList<>();
+		StringTokenizer str = new StringTokenizer(ids, " ");
+		TDSContactoIndividualDAO adaptadorC = TDSContactoIndividualDAO.getInstancia();
+		while (str.hasMoreTokens()) {
+			contactos.add(adaptadorC.get(Integer.valueOf((String) str.nextElement())));
+		}
+		return contactos;
+	}
+	
+	private String ContactoACodigo(List<Contacto> contactos) {
+		return contactos.stream()
+				.filter(c -> c instanceof ContactoIndividual) // me quedo con los contactos individuales
+				.map(c -> String.valueOf(c.getId()))
+				.reduce("", (x, y) -> x + y + " ") // concateno todos 				
+				.trim();
 	}
 
 }
