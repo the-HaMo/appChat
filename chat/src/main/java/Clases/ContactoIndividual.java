@@ -5,7 +5,7 @@ import java.util.List;
 
 public class ContactoIndividual extends Contacto {
 
-	private Usuario usu;
+	private Usuario usu;	//Usuario que es el contacto
 	public ContactoIndividual(String nombre, String telefono,Usuario usu) {
 		super(nombre, telefono);
 		this.usu = usu;
@@ -28,8 +28,6 @@ public class ContactoIndividual extends Contacto {
 	public String getFoto() {
 		return usu.getLink();
 	}
-	
-
 	
 	public boolean isUsuario(Usuario u) {
 		return usu.equals(u);

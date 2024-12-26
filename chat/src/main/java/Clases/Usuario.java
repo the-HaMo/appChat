@@ -141,8 +141,10 @@ public class Usuario {
         return listaContactos;
     }
 
-    public void addContacto(Contacto c) {
-        listaContactos.add(c);
+    public void addContacto(Contacto contacto) {
+        if (!listaContactos.contains(contacto)) {
+            listaContactos.add(contacto);
+        }
     }
 
     public boolean contieneContacto(String telf) {
