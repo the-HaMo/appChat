@@ -128,6 +128,7 @@ private void initialize() {
     Image addContactoScalar = addContactoPhoto.getImage().getScaledInstance(65, 65, Image.SCALE_SMOOTH);
     addContacto.setIcon(new ImageIcon(addContactoScalar));
     buttons.add(addContacto);
+    
     addContacto.addActionListener(e -> {
         AddContacto Contacto = new AddContacto(this);
         Contacto.Mostrar();
@@ -152,7 +153,12 @@ private void initialize() {
     Image groupScalar = grupo.getImage().getScaledInstance(65, 65, Image.SCALE_SMOOTH);
     group.setIcon(new ImageIcon(groupScalar));
     buttons.add(group);
-
+    
+    group.addActionListener(e -> {
+    	GrupoView grup = new GrupoView();
+    	grup.Mostrar();
+    });
+    
     JSeparator separator_2 = new JSeparator();
     separator_2.setPreferredSize(new Dimension(10, 2));
     separator_2.setBackground(Color.GREEN);

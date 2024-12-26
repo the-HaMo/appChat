@@ -42,6 +42,19 @@ public class Elemento extends JPanel {
         initializeComponent();
         addInfoComponent(new InfoModelo(ultimoMensaje.getTexto()));
     }
+    
+    public Elemento(Contacto c) {
+    	this.nombre = c.getNombre();
+        this.telf = c.getTelefono();
+        this.contacto = c;if (c instanceof ContactoIndividual) {
+            ContactoIndividual ci = (ContactoIndividual) c;
+            this.fto = ci.getUsuario().getImageIcon();
+        } else {
+            this.fto = new ImageIcon(getClass().getResource("/sinFotoContc.png"));
+        }
+        initializeComponent();
+        
+    }
 
     public Elemento(Usuario usuario) {
         this.nombre = usuario.getNombre();
