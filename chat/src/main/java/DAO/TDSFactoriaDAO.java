@@ -29,4 +29,10 @@ public final class TDSFactoriaDAO extends FactoriaDAO {
 		return new TDSMensajeDAO();
 	}
 
+	@Override
+	public GrupoDAO getGrupoDAO() {
+		// TODO Auto-generated method stub
+		return new TDSGrupoDAO();
+	}
+
 }
