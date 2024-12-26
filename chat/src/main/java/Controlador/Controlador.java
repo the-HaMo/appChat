@@ -80,7 +80,7 @@ public enum Controlador {
 	    if (repositorioUsuarios.findUsuario(telefono) == null) {//No existe Usuario
 	        return null;
 	    }
-	    ContactoIndividual contacto = new ContactoIndividual(nombre, telefono, usuarioActual);
+	    ContactoIndividual contacto = new ContactoIndividual(nombre, telefono, repositorioUsuarios.findUsuario(telefono));
 	    usuarioActual.addContacto(contacto);
 	    ContactoIndividualDAO contactoDAO = factoria.getContactoDAO(); // Adaptador DAO para almacenar el nuevo Contacto en la BD
 	    contactoDAO.create(contacto);
@@ -89,11 +89,12 @@ public enum Controlador {
 	    return contacto;
 	}
 	
+	
 	public List<Contacto> getContactosUsuarioActual() {
 		if (usuarioActual == null) {
 			return new LinkedList<Contacto>();
 		}
-		Usuario u = repositorioUsuarios.findUsuario(usuarioActual.getId());
+		Usuario u = repositorioUsuarios.findUsuario(usuarioActual.getTelefono());
 		return u.getListaContactos();
 	}
 	
