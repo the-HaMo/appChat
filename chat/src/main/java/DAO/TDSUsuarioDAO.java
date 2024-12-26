@@ -10,9 +10,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 import tds.driver.FactoriaServicioPersistencia;
 import tds.driver.ServicioPersistencia;
-import Clases.Contacto;
-import Clases.ContactoIndividual;
-import Clases.Usuario;
+import Clases.*;
 import beans.Entidad;
 import beans.Propiedad;
 
@@ -32,6 +30,7 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 	private static final String PREMIUM = "premium";
 	private static final String FECHA_NACIMIENTO = "fechaNacimiento";
 	private static final String CONTACTOS = "contactos";
+	private static final String GRUPOS = "grupos";
 
 	private ServicioPersistencia servPersistencia;
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -65,9 +64,11 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
         usuario.setId(eUsuario.getId());
         
         List<ContactoIndividual> contactos = codigosAContactos(servPersistencia.recuperarPropiedadEntidad(eUsuario, CONTACTOS));
-
+        List<Grupo> grupos = codigosAGrupos(servPersistencia.recuperarPropiedadEntidad(eUsuario, GRUPOS));
 		for (ContactoIndividual c : contactos)
 			usuario.addContacto(c);
+		for (Grupo g : grupos)
+			usuario.addContacto(g);
 
         return usuario;
     }
@@ -85,6 +86,7 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
                         new Propiedad(PREMIUM, usuario.getPremiumString()),
                         new Propiedad(FECHA_NACIMIENTO, dateFormat.format(usuario.getFechaNacimiento())),
                         new Propiedad(SALUDO, usuario.getSaludo()),
+                        new Propiedad(GRUPOS, GruposACodigo(usuario.getListaContactos())),
         				new Propiedad(CONTACTOS, ContactoACodigo(usuario.getListaContactos())))));
         return eUsuario;
     }
@@ -114,6 +116,7 @@ public void update(Usuario usuario) {
     servPersistencia.eliminarPropiedadEntidad(eUsuario, PREMIUM);
     servPersistencia.eliminarPropiedadEntidad(eUsuario, FECHA_NACIMIENTO);
     servPersistencia.eliminarPropiedadEntidad(eUsuario, CONTACTOS);
+    servPersistencia.eliminarPropiedadEntidad(eUsuario, GRUPOS);
 
     // Add updated properties
     servPersistencia.anadirPropiedadEntidad(eUsuario, NOMBRE, usuario.getNombre());
@@ -124,6 +127,7 @@ public void update(Usuario usuario) {
     servPersistencia.anadirPropiedadEntidad(eUsuario, PREMIUM, usuario.getPremiumString());
     servPersistencia.anadirPropiedadEntidad(eUsuario, FECHA_NACIMIENTO, dateFormat.format(usuario.getFechaNacimiento()));
     servPersistencia.anadirPropiedadEntidad(eUsuario, CONTACTOS, ContactoACodigo(usuario.getListaContactos()));
+    servPersistencia.anadirPropiedadEntidad(eUsuario, GRUPOS, GruposACodigo(usuario.getListaContactos()));
 }
 
 	public Usuario get(int id) {
@@ -163,5 +167,26 @@ public void update(Usuario usuario) {
 	        .reduce("", (x, y) -> x + y + " ") // concateno todos
 	        .trim();
 	}
+	
 
+	private List<Grupo> codigosAGrupos(String ids) {
+		List<Grupo> grupos = new LinkedList<>();
+		StringTokenizer str = new StringTokenizer(ids, " ");
+		TDSGrupoDAO adaptadorG = TDSGrupoDAO.getInstancia();
+		while (str.hasMoreTokens()) {
+			grupos.add(adaptadorG.get(Integer.valueOf((String) str.nextElement())));
+		}
+		return grupos;
+	}
+	
+	private String GruposACodigo(List<Contacto> contactos) {
+	    if (contactos == null || contactos.isEmpty()) {
+	        return "";
+	    }
+	    return contactos.stream()
+	        .filter(c -> c instanceof Grupo) // me quedo con los contactos individuales
+	        .map(c -> String.valueOf(c.getId()))
+	        .reduce("", (x, y) -> x + y + " ") // concateno todos
+	        .trim();
+	}
 }

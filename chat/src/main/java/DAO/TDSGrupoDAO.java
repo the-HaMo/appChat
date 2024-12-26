@@ -13,7 +13,6 @@ import tds.driver.ServicioPersistencia;
 
 public class TDSGrupoDAO implements GrupoDAO{
 
-	private static final String ADMIN = "administrador";
 	private static final String NOMBRE = "nombre";
 	private static final String CONTACTOS = "contactos";
 	private static final String MENSAJES = "mensajes";
@@ -37,8 +36,7 @@ public class TDSGrupoDAO implements GrupoDAO{
 		String nombre = servPersistencia.recuperarPropiedadEntidad(eGrupo, NOMBRE);
 		List<Mensaje> mensajes = MensajesDesdeID(servPersistencia.recuperarPropiedadEntidad(eGrupo, MENSAJES));
 		List<ContactoIndividual> contactos = codigosAContactos(servPersistencia.recuperarPropiedadEntidad(eGrupo, CONTACTOS));
-		Usuario admin = UsuarioCodigo(servPersistencia.recuperarPropiedadEntidad(eGrupo, ADMIN));
-		return new Grupo(nombre,mensajes, contactos,admin);
+		return new Grupo(nombre,mensajes, contactos);
 	}
 
 	private Entidad grupoToEntidad(Grupo grupo) {
@@ -48,7 +46,6 @@ public class TDSGrupoDAO implements GrupoDAO{
 		eGrupo.setPropiedades(new ArrayList<Propiedad>(
 				Arrays.asList(
 						new Propiedad(NOMBRE, grupo.getNombre()),
-						new Propiedad(ADMIN, String.valueOf(grupo.getAdmin().getId())),
 						new Propiedad(MENSAJES, CodigoMensajes(grupo.getMensajes())),
 						new Propiedad(CONTACTOS, ContactoACodigo(grupo.getContactos())))));
 		return eGrupo;
@@ -77,13 +74,11 @@ public class TDSGrupoDAO implements GrupoDAO{
 		servPersistencia.eliminarPropiedadEntidad(eGrupo, NOMBRE);
 		servPersistencia.eliminarPropiedadEntidad(eGrupo, CONTACTOS);
 		servPersistencia.eliminarPropiedadEntidad(eGrupo, MENSAJES);
-		servPersistencia.eliminarPropiedadEntidad(eGrupo, ADMIN);
 
 		// Add updated properties
 		servPersistencia.anadirPropiedadEntidad(eGrupo, NOMBRE, grupo.getNombre());
 		servPersistencia.anadirPropiedadEntidad(eGrupo, CONTACTOS, ContactoACodigo(grupo.getContactos()));
 		servPersistencia.anadirPropiedadEntidad(eGrupo, MENSAJES, CodigoMensajes(grupo.getMensajes()));
-		servPersistencia.anadirPropiedadEntidad(eGrupo, ADMIN, String.valueOf(grupo.getAdmin().getId()));
 	}
 
 
@@ -143,9 +138,5 @@ public class TDSGrupoDAO implements GrupoDAO{
 				.trim();
 	}
 
-	private Usuario UsuarioCodigo(String id) {
-		TDSUsuarioDAO adaptadorUsuarios = TDSUsuarioDAO.getInstancia();
-		return adaptadorUsuarios.get(Integer.valueOf(id));
-	}
 
 }
