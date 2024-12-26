@@ -88,7 +88,7 @@ public enum Controlador {
 	    usuarioDAO.update(usuarioActual);
 	    return contacto;
 	}
-	
+
 	
 	public List<Contacto> getContactosUsuarioActual() {
 		if (usuarioActual == null) {
