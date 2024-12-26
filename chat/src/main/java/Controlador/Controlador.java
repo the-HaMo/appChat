@@ -82,6 +82,9 @@ public enum Controlador {
 	    if (repositorioUsuarios.findUsuario(telefono) == null) {//No existe Usuario
 	        return null;
 	    }
+		if (usuarioActual.getTelefono().equals(telefono)) {
+			return null;
+		}
 	    ContactoIndividual contacto = new ContactoIndividual(nombre, telefono, repositorioUsuarios.findUsuario(telefono));
 	    usuarioActual.addContacto(contacto);
 	    ContactoIndividualDAO contactoDAO = factoria.getContactoDAO(); // Adaptador DAO para almacenar el nuevo Contacto en la BD
