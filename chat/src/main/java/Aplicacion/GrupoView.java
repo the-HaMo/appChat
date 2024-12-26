@@ -166,7 +166,17 @@ public class GrupoView {
                 }
             }
         });
-    }
+
+
+    	grupo.addActionListener(e -> {
+    		
+    		// Logica de negocio
+    		
+    		ventanaGrupo.setVisible(false);
+    	});
+        
+}
+    
     
     public void Mostrar() {
         this.ventanaGrupo.setVisible(true);
