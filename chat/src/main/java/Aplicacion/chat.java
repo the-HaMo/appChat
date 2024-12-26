@@ -60,7 +60,7 @@ private void initialize() {
 
     frame = new JFrame("AppChat");
     frame.setResizable(true);
-    frame.getContentPane().setPreferredSize(new Dimension(700, 720));
+    frame.getContentPane().setPreferredSize(new Dimension(750, 720));
     frame.getContentPane().setLayout(new BorderLayout(0, 0));
     frame.setBounds(100, 100, 820, 700);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -71,7 +71,7 @@ private void initialize() {
     JPanel panelNorte = new JPanel();
     panelNorte.setBorder(new LineBorder(new Color(0, 0, 0), 5));
     panelNorte.setBackground(Color.GREEN);
-    panelNorte.setPreferredSize(new Dimension(720, 75));
+    panelNorte.setPreferredSize(new Dimension(750, 75));
     frame.getContentPane().add(panelNorte, BorderLayout.NORTH);
     panelNorte.setLayout(new BorderLayout(0, 0));
 
@@ -113,7 +113,7 @@ private void initialize() {
     JPanel buttons = new JPanel();
     buttons.setBackground(Color.GREEN);
     buttons.setMaximumSize(new Dimension(40, 0));
-    buttons.setPreferredSize(new Dimension(350, 10));
+    buttons.setPreferredSize(new Dimension(360, 10));
     panelNorte.add(buttons, BorderLayout.EAST);
     buttons.setLayout(new BoxLayout(buttons, BoxLayout.X_AXIS));
 
@@ -139,7 +139,7 @@ private void initialize() {
 
     JSeparator separator_1 = new JSeparator();
     separator_1.setBackground(Color.GREEN);
-    separator_1.setMaximumSize(new Dimension(30, 2));
+    separator_1.setMaximumSize(new Dimension(10, 2));
     separator_1.setPreferredSize(new Dimension(10, 2));
     buttons.add(separator_1);
 
@@ -154,15 +154,18 @@ private void initialize() {
     buttons.add(group);
 
     JSeparator separator_2 = new JSeparator();
+    separator_2.setPreferredSize(new Dimension(10, 2));
     separator_2.setBackground(Color.GREEN);
-    separator_2.setMaximumSize(new Dimension(30, 2));
+    separator_2.setMaximumSize(new Dimension(8, 2));
     buttons.add(separator_2);
 
     JButton search = new JButton();
+    search.setMinimumSize(new Dimension(90, 65));
+    search.setMaximumSize(new Dimension(90, 65));
     search.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
     search.setSize(new Dimension(75, 75));
     search.setBackground(Color.GREEN);
-    search.setPreferredSize(new Dimension(65, 65));
+    search.setPreferredSize(new Dimension(90, 65));
     ImageIcon lup = new ImageIcon(getClass().getResource("/lupa.png"));
     Image scalara = lup.getImage().getScaledInstance(65, 65, Image.SCALE_SMOOTH);
     search.setIcon(new ImageIcon(scalara));
@@ -170,19 +173,44 @@ private void initialize() {
     buttons.add(search);
 
     JSeparator separator_4 = new JSeparator();
+    separator_4.setPreferredSize(new Dimension(10, 2));
     separator_4.setBackground(Color.GREEN);
-    separator_4.setMaximumSize(new Dimension(30, 2));
+    separator_4.setMaximumSize(new Dimension(10, 2));
     buttons.add(separator_4);
 
     JButton premium = new JButton();
     premium.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
     premium.setSize(new Dimension(75, 75));
     premium.setBackground(new Color(0, 255, 0));
-    premium.setPreferredSize(new Dimension(65, 65));
+    premium.setPreferredSize(new Dimension(60, 65));
     ImageIcon premiumPhoto = new ImageIcon(getClass().getResource("/corona.png"));
     Image premiumScalar = premiumPhoto.getImage().getScaledInstance(65, 65, Image.SCALE_SMOOTH);
     premium.setIcon(new ImageIcon(premiumScalar));
     buttons.add(premium);
+    
+    JSeparator separator_5 = new JSeparator();
+    separator_5.setPreferredSize(new Dimension(10, 2));
+    separator_5.setMaximumSize(new Dimension(10, 2));
+    separator_5.setBackground(Color.GREEN);
+    buttons.add(separator_5);
+    
+    JButton logout = new JButton();
+    logout.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+    logout.setSize(new Dimension(75, 75));
+    logout.setBackground(new Color(0, 255, 0));
+    logout.setPreferredSize(new Dimension(60, 65));
+    ImageIcon logoutPhoto = new ImageIcon(getClass().getResource("/logout.png"));
+    Image logoutScalar = logoutPhoto.getImage().getScaledInstance(65, 65, Image.SCALE_SMOOTH);
+    logout.setIcon(new ImageIcon(logoutScalar));
+    buttons.add(logout);
+    
+    logout.addActionListener(e -> {
+    	// Hay que guardar el estado del Usuario, lista de usuarios, mensajes, grupos...
+    	// guardarEstadoUsuarioActual();
+    	frame.setVisible(false);
+    	Login login = new Login();
+    	login.Mostrar();
+    });
 
     JPanel title = new JPanel();
     title.setBackground(Color.GREEN);
@@ -332,7 +360,7 @@ private void cargarMensajesContacto(Contacto contacto) {
 }
 
 
-    void Mostrar() {
+public void Mostrar() {
         this.frame.setVisible(true);
     }
 }
