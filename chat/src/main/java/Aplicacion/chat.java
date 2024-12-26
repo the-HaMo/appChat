@@ -10,6 +10,8 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
 import Clases.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import Controlador.Controlador;
 import tds.BubbleText;
 import java.awt.Dimension;
@@ -300,18 +302,19 @@ private void initialize() {
     scrollChat.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
     panelEast.add(scrollChat);
 
-    /*lista.addMouseListener(new MouseAdapter() {
-        public void mouseClicked(java.awt.event.MouseEvent evt) {
+    lista.addMouseListener(new MouseAdapter() {
+        public void mouseClicked(MouseEvent evt) {
             if (evt.getClickCount() == 2) {
                 int index = lista.locationToIndex(evt.getPoint());
                 if (index >= 0) {
                     Elemento elemento = model.getElementAt(index);
                     Contacto contacto = elemento.getContacto();
-                    cargarMensajesContacto(contacto);
+                    cargarConversacion(contacto);
                     }
                 }
             }
-    });*/
+    });
+    /*
     BubbleText m1 = new BubbleText(chat, "hola", Color.green, "Paco " + Clases.Mensaje.onlyHourNow(LocalDateTime.now()), BubbleText.SENT);
     chat.add(m1);
     BubbleText m2 = new BubbleText(chat, "hola jefe", Color.white, "Jorge " + Clases.Mensaje.onlyHourNow(LocalDateTime.now()), BubbleText.RECEIVED);
@@ -319,8 +322,8 @@ private void initialize() {
     BubbleText m3 = new BubbleText(chat, 7, Color.white, "Jorge " + Clases.Mensaje.onlyHourNow(LocalDateTime.now()), BubbleText.RECEIVED, 18);
     chat.add(m3);
     BubbleText m4 = new BubbleText(chat, "hola que tal bien??.", Color.green, "Paco " + Clases.Mensaje.onlyHourNow(LocalDateTime.now()), BubbleText.SENT);
-    chat.add(m4);
-    chat.scrollRectToVisible(new Rectangle(0, 400 + m4.getHeight(), 1, 1));
+    chat.add(m4);*/
+    chat.scrollRectToVisible(new Rectangle(0, 420, 1, 1));
 
     frame.repaint();
     frame.revalidate();
@@ -341,7 +344,7 @@ public void actualizarListaContactos() {
     lista.revalidate();
 }
 
-private void cargarMensajesContacto(Contacto contacto) {
+private void cargarConversacion(Contacto contacto) {
     chat.removeAll(); // Limpiar el panel de chat actual
     
     BubbleText bubbleText;
