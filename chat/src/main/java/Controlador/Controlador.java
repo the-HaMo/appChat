@@ -133,8 +133,6 @@ public enum Controlador {
 
 		// Se añade el grupo al usuario actual y al resto de participantes
 		usuarioActual.addContacto(g);
-		
-
 		// Conexion con persistencia
 		GrupoDAO adaptadorGrupo = factoria.getGrupoDAO();
 		UsuarioDAO adaptadorUsu = factoria.getUsuarioDAO();
