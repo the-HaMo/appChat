@@ -89,6 +89,7 @@ public enum Controlador {
 	    return contacto;
 	}
 	
+	
 	public List<Contacto> getContactosUsuarioActual() {
 		if (usuarioActual == null) {
 			return new LinkedList<Contacto>();
