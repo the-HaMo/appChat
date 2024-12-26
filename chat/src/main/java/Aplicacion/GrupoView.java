@@ -112,6 +112,12 @@ public class GrupoView {
         
         JButton grupo = new JButton("Crear grupo");
         grupoBoton.add(grupo);
+		grupo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VentanaChat.actualizarListaContactos();
+				ventanaGrupo.dispose();
+			}
+		});
 		
 
         // Botones

@@ -10,6 +10,9 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
 import Clases.*;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import Controlador.Controlador;
@@ -155,9 +158,9 @@ private void initialize() {
     group.setIcon(new ImageIcon(groupScalar));
     buttons.add(group);
 
-	group.addActionListener(e -> {
-		GrupoView grupoView = new GrupoView(this);
-		grupoView.Mostrar();
+    group.addActionListener(e ->{
+			GrupoView grupoView = new GrupoView(this);
+			grupoView.Mostrar();
 	});
 
     JSeparator separator_2 = new JSeparator();
