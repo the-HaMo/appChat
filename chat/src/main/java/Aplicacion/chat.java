@@ -130,7 +130,7 @@ private void initialize() {
     buttons.add(addContacto);
 
     addContacto.addActionListener(e -> {
-        AddContacto Contacto = new AddContacto();
+        AddContacto Contacto = new AddContacto(this);
         Contacto.Mostrar();
         actualizarListaContactos();
     });
@@ -286,7 +286,7 @@ private void initialize() {
     frame.revalidate();
 }
 
-private void actualizarListaContactos() {
+public void actualizarListaContactos() {
     model.clear();
 
     List<Contacto> contactos = Controlador.INSTANCE.getContactosUsuarioActual();
