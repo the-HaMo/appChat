@@ -13,21 +13,11 @@ import Controlador.Controlador;
 public class GrupoView {
 
     private JFrame ventanaGrupo;
+    private chat VentanaChat;
 
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    GrupoView window = new GrupoView();
-                    window.ventanaGrupo.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
 
-    public GrupoView() {
+    public GrupoView(chat VentanaChat) {
+    	this.VentanaChat = VentanaChat;
         initialize();
     }
 
@@ -122,6 +112,7 @@ public class GrupoView {
         
         JButton grupo = new JButton("Crear grupo");
         grupoBoton.add(grupo);
+		
 
         // Botones
         JButton FlechaIzquierda = new JButton("\u2190");
@@ -176,9 +167,8 @@ public class GrupoView {
             }
         });
     }
- 
-public void Mostrar() {
-    this.ventanaGrupo.setVisible(true);
-    }    
- 
+    
+    public void Mostrar() {
+        this.ventanaGrupo.setVisible(true);
+    }
 }
