@@ -89,14 +89,18 @@ public final class TDSContactoIndividualDAO implements ContactoIndividualDAO {
         // TODO Auto-generated method stub
     	Entidad eContact = servPersistencia.recuperarEntidad(contacto.getId());
 
-		servPersistencia.eliminarPropiedadEntidad(eContact, NOMBRE);
-		servPersistencia.anadirPropiedadEntidad(eContact, NOMBRE, contacto.getNombre());
-		servPersistencia.eliminarPropiedadEntidad(eContact, TELEFONO);
-		servPersistencia.anadirPropiedadEntidad(eContact, TELEFONO, String.valueOf(contacto.getTelefono()));
-		servPersistencia.eliminarPropiedadEntidad(eContact, MENSAJES);
-		servPersistencia.anadirPropiedadEntidad(eContact, MENSAJES,CodigoMensajes(contacto.getMensajes()));		
-		servPersistencia.eliminarPropiedadEntidad(eContact, USUARIO);
-		servPersistencia.anadirPropiedadEntidad(eContact, USUARIO, String.valueOf(contacto.getUsuario().getId()));
+		for (Propiedad prop : eContact.getPropiedades()) {
+	        if (prop.getNombre().equals(NOMBRE)) {
+	            prop.setValor(contacto.getNombre());
+	        } else if (prop.getNombre().equals(TELEFONO)) {
+	            prop.setValor( String.valueOf(contacto.getTelefono()));
+	        } else if (prop.getNombre().equals(MENSAJES)) {
+	            prop.setValor(CodigoMensajes(contacto.getMensajes()));
+	        }else if (prop.getNombre().equals(USUARIO)) {
+                prop.setValor(String.valueOf(contacto.getUsuario().getId()));
+            }
+	        servPersistencia.modificarPropiedad(prop);
+	    	}
     }
 
     @Override

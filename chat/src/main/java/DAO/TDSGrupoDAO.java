@@ -69,16 +69,17 @@ public class TDSGrupoDAO implements GrupoDAO{
 	@Override
 	public void update(Grupo grupo) {
 		Entidad eGrupo = servPersistencia.recuperarEntidad(grupo.getId());
-
-		// Remove existing properties
-		servPersistencia.eliminarPropiedadEntidad(eGrupo, NOMBRE);
-		servPersistencia.eliminarPropiedadEntidad(eGrupo, CONTACTOS);
-		servPersistencia.eliminarPropiedadEntidad(eGrupo, MENSAJES);
-
-		// Add updated properties
-		servPersistencia.anadirPropiedadEntidad(eGrupo, NOMBRE, grupo.getNombre());
-		servPersistencia.anadirPropiedadEntidad(eGrupo, CONTACTOS, ContactoACodigo(grupo.getContactos()));
-		servPersistencia.anadirPropiedadEntidad(eGrupo, MENSAJES, CodigoMensajes(grupo.getMensajes()));
+		
+		for (Propiedad prop : eGrupo.getPropiedades()) {
+	        if (prop.getNombre().equals(NOMBRE)) {
+	            prop.setValor(grupo.getNombre());
+	        } else if (prop.getNombre().equals(CONTACTOS)) {
+	            prop.setValor(ContactoACodigo(grupo.getContactos()));
+	        } else if (prop.getNombre().equals(MENSAJES)) {
+	            prop.setValor(CodigoMensajes(grupo.getMensajes()));
+	        }
+	        servPersistencia.modificarPropiedad(prop);
+	    	}
 	}
 
 
