@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
-import umu.tds.apps.AppChat.Group;
 
 public class Usuario {
 
@@ -150,12 +149,6 @@ public class Usuario {
             listaContactos.add(contacto);
         }
     }
-    
-	public void addGrupo(Grupo grupo) {
-		if (!listaContactos.contains(grupo)) {
-			listaContactos.add(grupo);
-		}
-	}
 
     public boolean contieneContacto(String telf) {
         if (listaContactos == null || listaContactos.isEmpty()) {

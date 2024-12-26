@@ -1,10 +1,6 @@
 package Controlador;
 
 import DAO.UsuarioDAO;
-import umu.tds.apps.AppChat.Group;
-import umu.tds.apps.AppChat.IndividualContact;
-import umu.tds.apps.AppChat.Message;
-import umu.tds.apps.AppChat.User;
 import DAO.ContactoIndividualDAO;
 import DAO.DAOException;
 import DAO.FactoriaDAO;
@@ -131,10 +127,10 @@ public enum Controlador {
 			return null;
 		}
 
-		Grupo g = new Grupo(nombre, new LinkedList<Mensaje>(), participantes, usuarioActual);
+		Grupo g = new Grupo(nombre, new LinkedList<Mensaje>(), participantes);
 
 		// Se añade el grupo al usuario actual y al resto de participantes
-		usuarioActual.addGrupo(g);
+		usuarioActual.addContacto(g);
 		
 		participantes.stream()
 		.forEach(p -> p.addGrupo(g));

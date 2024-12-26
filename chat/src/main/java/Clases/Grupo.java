@@ -6,19 +6,16 @@ import java.util.List;
 public class Grupo extends Contacto{
 
 	private List<ContactoIndividual> lista;
-	private Usuario admin;
 
 
-	public Grupo(String nombre, List<ContactoIndividual> contactos, Usuario admin) {
+	public Grupo(String nombre, List<ContactoIndividual> contactos) {
 		super(nombre);
 		this.lista = contactos;
-		this.admin = admin;
 	}
 	
-	public Grupo(String nombre, List<Mensaje> mensajes, List<ContactoIndividual> contactos, Usuario admin) {
+	public Grupo(String nombre, List<Mensaje> mensajes, List<ContactoIndividual> contactos) {
 		super(nombre, null,mensajes);
 		this.lista = contactos;
-		this.admin = admin;
 	}
 
 	public void addContacto(ContactoIndividual contacto) {
@@ -30,15 +27,6 @@ public class Grupo extends Contacto{
 
 	public List<ContactoIndividual> getContactos() {
 		return lista;
-	}
-
-
-	public Usuario getAdmin() {
-		return admin;
-	}
-	
-	public void setAdmin(Usuario admin) {
-		this.admin = admin;
 	}
 
 	
