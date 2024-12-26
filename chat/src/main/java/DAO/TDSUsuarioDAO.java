@@ -107,28 +107,29 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 public void update(Usuario usuario) {
     Entidad eUsuario = servPersistencia.recuperarEntidad(usuario.getId());
 
-    // Remove existing properties
-    servPersistencia.eliminarPropiedadEntidad(eUsuario, NOMBRE);
-    servPersistencia.eliminarPropiedadEntidad(eUsuario, TELEFONO);
-    servPersistencia.eliminarPropiedadEntidad(eUsuario, PASSWORD);
-    servPersistencia.eliminarPropiedadEntidad(eUsuario, FOTO);
-    servPersistencia.eliminarPropiedadEntidad(eUsuario, SALUDO);
-    servPersistencia.eliminarPropiedadEntidad(eUsuario, PREMIUM);
-    servPersistencia.eliminarPropiedadEntidad(eUsuario, FECHA_NACIMIENTO);
-    servPersistencia.eliminarPropiedadEntidad(eUsuario, CONTACTOS);
-    servPersistencia.eliminarPropiedadEntidad(eUsuario, GRUPOS);
-
-    // Add updated properties
-    servPersistencia.anadirPropiedadEntidad(eUsuario, NOMBRE, usuario.getNombre());
-    servPersistencia.anadirPropiedadEntidad(eUsuario, TELEFONO, usuario.getTelefono());
-    servPersistencia.anadirPropiedadEntidad(eUsuario, PASSWORD, usuario.getContraseña());
-    servPersistencia.anadirPropiedadEntidad(eUsuario, FOTO, usuario.getLink());
-    servPersistencia.anadirPropiedadEntidad(eUsuario, SALUDO, usuario.getSaludo());
-    servPersistencia.anadirPropiedadEntidad(eUsuario, PREMIUM, usuario.getPremiumString());
-    servPersistencia.anadirPropiedadEntidad(eUsuario, FECHA_NACIMIENTO, dateFormat.format(usuario.getFechaNacimiento()));
-    servPersistencia.anadirPropiedadEntidad(eUsuario, CONTACTOS, ContactoACodigo(usuario.getListaContactos()));
-    servPersistencia.anadirPropiedadEntidad(eUsuario, GRUPOS, GruposACodigo(usuario.getListaContactos()));
-}
+    for (Propiedad prop : eUsuario.getPropiedades()) {
+        if (prop.getNombre().equals(NOMBRE)) {
+            prop.setValor(usuario.getNombre());
+        } else if (prop.getNombre().equals(TELEFONO)) {
+            prop.setValor(usuario.getTelefono());
+        } else if (prop.getNombre().equals(PASSWORD)) {
+            prop.setValor(usuario.getContraseña());
+        } else if (prop.getNombre().equals(FOTO)) {
+            prop.setValor(usuario.getLink());
+        } else if (prop.getNombre().equals(SALUDO)) {
+            prop.setValor(usuario.getSaludo());
+        } else if (prop.getNombre().equals(PREMIUM)) {
+            prop.setValor(usuario.getPremiumString());
+        } else if (prop.getNombre().equals(FECHA_NACIMIENTO)) {
+            prop.setValor(dateFormat.format(usuario.getFechaNacimiento()));
+        } else if (prop.getNombre().equals(CONTACTOS)) {
+            prop.setValor(ContactoACodigo(usuario.getListaContactos()));
+        } else if (prop.getNombre().equals(GRUPOS)) {
+            prop.setValor(GruposACodigo(usuario.getListaContactos()));
+        }
+        servPersistencia.modificarPropiedad(prop);
+    	}
+    }
 
 	public Usuario get(int id) {
 		Entidad eUsuario = servPersistencia.recuperarEntidad(id);

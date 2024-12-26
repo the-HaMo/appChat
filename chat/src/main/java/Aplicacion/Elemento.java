@@ -26,10 +26,12 @@ public class Elemento extends JPanel {
     private String telf;
     private ImageIcon fto;
     private Mensaje ultimoMensaje;
+    private Contacto contacto;
 
     public Elemento(Contacto c, Mensaje m) {
         this.nombre = c.getNombre();
         this.telf = c.getTelefono();
+        this.contacto = c;
 		this.ultimoMensaje = m;
         if (c instanceof ContactoIndividual) {
             ContactoIndividual ci = (ContactoIndividual) c;
@@ -106,4 +108,8 @@ public class Elemento extends JPanel {
     public ImageIcon getFto() {
         return fto;
     }
+
+	public Contacto getContacto() {
+		return contacto;
+	}
 }

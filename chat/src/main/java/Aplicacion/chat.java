@@ -128,7 +128,6 @@ private void initialize() {
     Image addContactoScalar = addContactoPhoto.getImage().getScaledInstance(65, 65, Image.SCALE_SMOOTH);
     addContacto.setIcon(new ImageIcon(addContactoScalar));
     buttons.add(addContacto);
-
     addContacto.addActionListener(e -> {
         AddContacto Contacto = new AddContacto(this);
         Contacto.Mostrar();
@@ -247,7 +246,7 @@ private void initialize() {
     // Lista de contactos y usuario actual
     model = new DefaultListModel<>();
     lista = new JList<>(model); // Initialize lista
-
+    
     // Añadir los contactos que se tienen en la base de datos
     actualizarListaContactos();
 
@@ -261,6 +260,7 @@ private void initialize() {
     scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
     panelWest.add(scroll);
 
+
     chat = new JPanel();
     chat.setSize(new Dimension(450, 570));
     chat.setPreferredSize(new Dimension(10, 565));
@@ -272,6 +272,18 @@ private void initialize() {
     scrollChat.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
     panelEast.add(scrollChat);
 
+    /*lista.addMouseListener(new MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            if (evt.getClickCount() == 2) {
+                int index = lista.locationToIndex(evt.getPoint());
+                if (index >= 0) {
+                    Elemento elemento = model.getElementAt(index);
+                    Contacto contacto = elemento.getContacto();
+                    cargarMensajesContacto(contacto);
+                    }
+                }
+            }
+    });*/
     BubbleText m1 = new BubbleText(chat, "hola", Color.green, "Paco " + Clases.Mensaje.onlyHourNow(LocalDateTime.now()), BubbleText.SENT);
     chat.add(m1);
     BubbleText m2 = new BubbleText(chat, "hola jefe", Color.white, "Jorge " + Clases.Mensaje.onlyHourNow(LocalDateTime.now()), BubbleText.RECEIVED);
@@ -288,7 +300,6 @@ private void initialize() {
 
 public void actualizarListaContactos() {
     model.clear();
-
     List<Contacto> contactos = Controlador.INSTANCE.getContactosUsuarioActual();
     for (Contacto c : contactos) {
         Mensaje mensaje = Controlador.INSTANCE.getUltimoMensaje(c);
@@ -298,11 +309,26 @@ public void actualizarListaContactos() {
         ElementoInterfaz contactoFactory = new ContactoElementoFactoria(c, mensaje);
         model.addElement(contactoFactory.createElemento());
     }
+    lista.repaint();
+    lista.revalidate();
+}
 
-    if (lista != null) {
-        lista.repaint();
-        lista.revalidate();
+private void cargarMensajesContacto(Contacto contacto) {
+    chat.removeAll(); // Limpiar el panel de chat actual
+    
+    BubbleText bubbleText;
+    List<Mensaje> mensajes = Controlador.INSTANCE.getMensajesDeContacto(contacto);
+    for (Mensaje mensaje : mensajes) {
+    	if(mensaje.getEmisor().equals(Controlador.INSTANCE.getUsuarioActual())){
+    		 bubbleText = new BubbleText(chat, mensaje.getTexto(), Color.green, mensaje.getEmisor().getNombre() + " " + mensaje.getHora(), BubbleText.SENT);	    
+    	}else {
+    		 bubbleText = new BubbleText(chat, mensaje.getTexto(), Color.white, mensaje.getReceptor().getNombre() + " " + mensaje.getHora(), BubbleText.RECEIVED);
+    	}
+        chat.add(bubbleText);
     }
+
+    chat.revalidate();
+    chat.repaint();
 }
 
 

@@ -99,8 +99,7 @@ public enum Controlador {
 		if (usuarioActual == null) {
 			return new LinkedList<Contacto>();
 		}
-		Usuario u = repositorioUsuarios.findUsuario(usuarioActual.getTelefono());
-		return new LinkedList<Contacto>(u.getListaContactos());
+		return usuarioActual.getListaContactos();
 	}
 	
 	 
@@ -135,19 +134,17 @@ public enum Controlador {
 		// Se añade el grupo al usuario actual y al resto de participantes
 		usuarioActual.addContacto(g);
 		
-		participantes.stream()
-		.forEach(p -> p.addGrupo(g));
 
 		// Conexion con persistencia
 		GrupoDAO adaptadorGrupo = factoria.getGrupoDAO();
 		UsuarioDAO adaptadorUsu = factoria.getUsuarioDAO();
 		adaptadorGrupo.create(g);
 		adaptadorUsu.update(usuarioActual);
-		participantes.stream()
+		/*participantes.stream()
 		.forEach(p -> {
 			Usuario usuario = p.getUsuario();
 			adaptadorUsu.update(usuario);
-		});
+		});*/
 
 		return g;
 	}
