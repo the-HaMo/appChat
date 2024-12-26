@@ -95,7 +95,7 @@ public enum Controlador {
 			return new LinkedList<Contacto>();
 		}
 		Usuario u = repositorioUsuarios.findUsuario(usuarioActual.getTelefono());
-		return u.getListaContactos();
+		return new LinkedList<Contacto>(u.getListaContactos());
 	}
 	
 	 
