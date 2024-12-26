@@ -4,7 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import Clases.Contacto;
 import Clases.Usuario;
+import Controlador.Controlador;
 
 
 public class GrupoView {
@@ -88,10 +91,18 @@ public class GrupoView {
         // Crear contactos de ejemplo
         Usuario usu = new Usuario("Moha", "625962740", "hola", null, null, "Hey! I'm using AppChat");
         Usuario usu2 = new Usuario("Ana", "123456789", "hello", null, null, "Hello there!");
+        
 
+        for (Contacto us : Controlador.INSTANCE.getContactosUsuarioActual()) {
+        	modelIzquierda.addElement(new Elemento(us));
+        }
+        
+        
+        /*
         modelIzquierda.addElement(new Elemento(usu));
         modelIzquierda.addElement(new Elemento(usu2));
-
+		*/
+		
         // Configurar renderizador para listas
         listaIzquierda.setCellRenderer(new ElementoListRenderer());
         
@@ -165,4 +176,9 @@ public class GrupoView {
             }
         });
     }
+ 
+public void Mostrar() {
+    this.ventanaGrupo.setVisible(true);
+    }    
+ 
 }
