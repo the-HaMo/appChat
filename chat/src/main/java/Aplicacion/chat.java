@@ -89,6 +89,7 @@ private void initialize() {
     usuarioActual.add(perfil);
 
     JSeparator separator = new JSeparator();
+    separator.setBackground(Color.GREEN);
     separator.setMaximumSize(new Dimension(10, 2));
     separator.setPreferredSize(new Dimension(10, 2));
     usuarioActual.add(separator);
@@ -138,6 +139,7 @@ private void initialize() {
     separator_3.setMaximumSize(new Dimension(25, 2));
 
     JSeparator separator_1 = new JSeparator();
+    separator_1.setBackground(Color.GREEN);
     separator_1.setMaximumSize(new Dimension(30, 2));
     separator_1.setPreferredSize(new Dimension(10, 2));
     buttons.add(separator_1);
@@ -153,6 +155,7 @@ private void initialize() {
     buttons.add(group);
 
     JSeparator separator_2 = new JSeparator();
+    separator_2.setBackground(Color.GREEN);
     separator_2.setMaximumSize(new Dimension(30, 2));
     buttons.add(separator_2);
 
