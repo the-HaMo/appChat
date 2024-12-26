@@ -20,6 +20,7 @@ import Controlador.Controlador;
 
 import java.awt.Color;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 
 import java.awt.Component;
 import javax.swing.Box;
@@ -60,9 +61,14 @@ public class AddContacto {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		
 	    frame = new JFrame();
 	    frame.setBounds(100, 100, 450, 300);
 	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    
+	    ImageIcon icono= new ImageIcon(getClass().getResource("/logo.png"));	//LOGO
+		frame.setIconImage(icono.getImage());	//LOGO
+		frame.setTitle("Añadir Contacto");
 	    
 	    JPanel panelNorteAlerta = new JPanel();
 	    panelNorteAlerta.setPreferredSize(new Dimension(400, 50));

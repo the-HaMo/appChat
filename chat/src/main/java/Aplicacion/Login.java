@@ -85,7 +85,7 @@ public class Login {
 		horizontalStrut.setPreferredSize(new Dimension(35, 0));
 		panel_norte.add(horizontalStrut);
 		
-		JLabel labelTitulo = new JLabel("APP CHAT");
+		JLabel labelTitulo = new JLabel("AppChat");
 		labelTitulo.setFont(new Font("Sitka Text", Font.BOLD, 40));
 		labelTitulo.setPreferredSize(new Dimension(250, 80));
 		panel_norte.add(labelTitulo);
