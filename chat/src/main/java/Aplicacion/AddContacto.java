@@ -1,6 +1,7 @@
 package Aplicacion;
 
 import java.awt.EventQueue;
+
 import java.awt.FlowLayout;
 
 import javax.swing.JFrame;
@@ -8,6 +9,8 @@ import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,6 +20,7 @@ import javax.swing.border.LineBorder;
 import Clases.Contacto;
 import Clases.ContactoIndividual;
 import Controlador.Controlador;
+import Aplicacion.*;
 
 import java.awt.Color;
 import javax.swing.BoxLayout;
@@ -33,27 +37,10 @@ public class AddContacto {
 	private JFrame frame;
 	private JTextField txtNombre;
 	private JTextField txtTelefono;
+	private chat VentanaChat;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					AddContacto window = new AddContacto();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the application.
-	 */
-	public AddContacto() {
+	public AddContacto(chat VentanaChat) {
+		this.VentanaChat = VentanaChat;
 		initialize();
 	}
 
@@ -154,11 +141,21 @@ public class AddContacto {
 	                if (c != null) {
 	                    Controlador.INSTANCE.getUsuarioActual().addContacto(c);
 	                    System.out.println("Contacto creado con exito");
+	                    VentanaChat.actualizarListaContactos();
+	                    
 	                } else {
 	                    System.err.println("Error al crear contacto");
 	                }
+	            } else {
+	            	JOptionPane.showMessageDialog(
+    	                    frame,
+    	                    "El contacto no existe.",
+    	                    "Aviso",
+    	                    JOptionPane.WARNING_MESSAGE
+    	                );
 	            }
 	            frame.dispose();
+	            frame.revalidate();
 	        }
 	    });
 	    panelBotones.add(btnAceptar);
