@@ -1,8 +1,6 @@
 
 package Aplicacion;
 
-import Clases.*;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -17,10 +15,8 @@ import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import java.awt.Component;
 import javax.swing.Box;
-import javax.swing.JOptionPane;
 import java.text.SimpleDateFormat;
 import java.awt.Font;
-import java.awt.Image;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JTextArea;
