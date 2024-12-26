@@ -112,7 +112,7 @@ public class Usuario {
 
 	public String vacio(String s) {
 		if (s.isBlank()) {
-			s=("Hola, estoy en la aplicacion");
+			s=("Hey, I'm using AppChat.");
 		}
 			return s;
 	}
