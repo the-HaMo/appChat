@@ -192,5 +192,9 @@ public class Login {
 				}
 			});
 	}
+	
+public void Mostrar() {
+    this.ventana.setVisible(true);
+    }
 
 }
