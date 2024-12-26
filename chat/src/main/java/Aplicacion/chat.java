@@ -133,7 +133,6 @@ private void initialize() {
     addContacto.addActionListener(e -> {
         AddContacto Contacto = new AddContacto(this);
         Contacto.Mostrar();
-        actualizarListaContactos();
     });
 
     JSeparator separator_3 = new JSeparator();
@@ -154,6 +153,10 @@ private void initialize() {
     Image groupScalar = grupo.getImage().getScaledInstance(65, 65, Image.SCALE_SMOOTH);
     group.setIcon(new ImageIcon(groupScalar));
     buttons.add(group);
+	group.addActionListener(e -> {
+		GrupoView grupoView = new GrupoView(this);
+		grupoView.Mostrar();
+	});
 
     JSeparator separator_2 = new JSeparator();
     separator_2.setPreferredSize(new Dimension(10, 2));
