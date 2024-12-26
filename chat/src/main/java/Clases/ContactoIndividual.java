@@ -32,4 +32,8 @@ public class ContactoIndividual extends Contacto {
 	public boolean isUsuario(Usuario u) {
 		return usu.equals(u);
 	}
+	
+	public void addGrupo(Grupo g) {
+		usu.addGrupo(g);
+	}
 }

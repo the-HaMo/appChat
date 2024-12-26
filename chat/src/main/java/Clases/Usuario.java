@@ -7,8 +7,12 @@ import java.net.URL;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+
+import umu.tds.apps.AppChat.Group;
 
 public class Usuario {
 
@@ -146,6 +150,12 @@ public class Usuario {
             listaContactos.add(contacto);
         }
     }
+    
+	public void addGrupo(Grupo grupo) {
+		if (!listaContactos.contains(grupo)) {
+			listaContactos.add(grupo);
+		}
+	}
 
     public boolean contieneContacto(String telf) {
         if (listaContactos == null || listaContactos.isEmpty()) {
@@ -158,4 +168,15 @@ public class Usuario {
         }
         return false;
     }
+    
+    public List<Grupo> getGrupos() {
+		return listaContactos.stream()
+				.filter(c -> c instanceof Grupo)
+				.map(c -> (Grupo) c)
+				.collect(Collectors.toList());
+	}
+    public boolean perteneceGrupo(String Grupo) {
+		return listaContactos.stream()
+				.anyMatch(c -> c instanceof Grupo && c.getNombre().equals(Grupo));
+	}
 }

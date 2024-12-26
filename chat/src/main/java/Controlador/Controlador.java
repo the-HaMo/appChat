@@ -1,9 +1,14 @@
 package Controlador;
 
 import DAO.UsuarioDAO;
+import umu.tds.apps.AppChat.Group;
+import umu.tds.apps.AppChat.IndividualContact;
+import umu.tds.apps.AppChat.Message;
+import umu.tds.apps.AppChat.User;
 import DAO.ContactoIndividualDAO;
 import DAO.DAOException;
 import DAO.FactoriaDAO;
+import DAO.GrupoDAO;
 import Clases.Usuario;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -14,6 +19,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import Clases.Contacto;
 import Clases.ContactoIndividual;
+import Clases.Grupo;
 import Clases.Mensaje;
 import Clases.RepositorioUsuarios;
 
@@ -118,6 +124,34 @@ public enum Controlador {
 			return null;
 		return mensajes.get(mensajes.size() - 1);
 		}
+	
+	
+	public Grupo crearGrupo(String nombre, List<ContactoIndividual> participantes) {
+		if (usuarioActual.perteneceGrupo(nombre)) {
+			return null;
+		}
+
+		Grupo g = new Grupo(nombre, new LinkedList<Mensaje>(), participantes, usuarioActual);
+
+		// Se añade el grupo al usuario actual y al resto de participantes
+		usuarioActual.addGrupo(g);
+		
+		participantes.stream()
+		.forEach(p -> p.addGrupo(g));
+
+		// Conexion con persistencia
+		GrupoDAO adaptadorGrupo = factoria.getGrupoDAO();
+		UsuarioDAO adaptadorUsu = factoria.getUsuarioDAO();
+		adaptadorGrupo.create(g);
+		adaptadorUsu.update(usuarioActual);
+		participantes.stream()
+		.forEach(p -> {
+			Usuario usuario = p.getUsuario();
+			adaptadorUsu.update(usuario);
+		});
+
+		return g;
+	}
 	}
 	
 
