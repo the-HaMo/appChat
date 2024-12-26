@@ -248,7 +248,7 @@ private void initialize() {
     model = new DefaultListModel<>();
     lista = new JList<>(model); // Initialize lista
 
-    // Añadir los contactos
+    // Añadir los contactos que se tienen en la base de datos
     actualizarListaContactos();
 
     panelWest.setLayout(new BorderLayout(0, 0));

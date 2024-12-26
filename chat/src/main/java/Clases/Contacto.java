@@ -11,13 +11,22 @@ public abstract class Contacto {
     private String nombre;
     private String telefono;
     private List<Mensaje> mensajes;
+    
+    //Grupo
+	public Contacto(String nombre) {
+		this.nombre = nombre;
+		this.mensajes = new LinkedList<>();
+	}
 
+	
+	//ContactoIndividual
     public Contacto(String nombre, String telefono) {
         this.nombre = nombre;
         this.telefono = telefono;
         this.mensajes = new LinkedList<>();
     }
 
+    //Añadir contacto con una conversacion
     public Contacto(String nombre, String telefono, List<Mensaje> mensajes) {
         this.nombre = nombre;
         this.telefono = telefono;
