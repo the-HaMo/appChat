@@ -325,7 +325,7 @@ private void initialize() {
 
     lista.addMouseListener(new MouseAdapter() {
         public void mouseClicked(MouseEvent evt) {
-            if (evt.getClickCount() >0) {
+            if (evt.getClickCount() == 2) {
                 int index = lista.locationToIndex(evt.getPoint());
                 if (index >= 0) {
                     Elemento elemento = model.getElementAt(index);
