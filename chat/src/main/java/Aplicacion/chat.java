@@ -364,9 +364,13 @@ public void actualizarListaContactos() {
 
 
 public void enviarMensaje(Contacto contacto, String texto) {
+	int selectContacto = lista.getSelectedIndex();
 	Controlador.INSTANCE.enviarMensaje(contacto, texto);
 	cargarConversacion(contacto);
 	actualizarListaContactos();
+	if (selectContacto != -1 && selectContacto < model.getSize()) {
+		lista.setSelectedIndex(selectContacto);
+	}
 }
 
 
