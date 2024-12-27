@@ -43,6 +43,7 @@ public class CrearGrupoView {
     private List<ContactoIndividual> contactosLista;
     private JList<String> contactList;
     private chat VentanaChat;
+    private String foto;
 
     /**
      * Launch the application.
@@ -199,6 +200,7 @@ public class CrearGrupoView {
                 File img = chooser.getSelectedFile();
                 if (img != null && img.getName().toLowerCase().endsWith(".png")) {
                     String filePath = img.getAbsolutePath();
+                    foto=filePath;
                     ImageIcon imageIcon = new ImageIcon(filePath);
                     imageIcon = new ImageIcon(imageIcon.getImage().getScaledInstance(imageLabel.getWidth()+15, imageLabel.getHeight()+15, java.awt.Image.SCALE_SMOOTH));
                     imageLabel.setIcon(imageIcon);
@@ -226,7 +228,7 @@ public class CrearGrupoView {
 		btnAceptar.addActionListener(e -> {
 			
 			String nombre = Nombre.getText();
-			Controlador.INSTANCE.crearGrupo(nombre, contactosLista);
+			Controlador.INSTANCE.crearGrupo(nombre, contactosLista,foto);
 			VentanaChat.actualizarListaContactos();
 			this.frame.dispose();
 		});

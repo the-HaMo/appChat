@@ -3,6 +3,7 @@ package Aplicacion;
 
 import Clases.Contacto;
 import Clases.ContactoIndividual;
+import Clases.Grupo;
 import Clases.Mensaje;
 import Clases.Usuario;
 
@@ -37,7 +38,8 @@ public class Elemento extends JPanel {
             ContactoIndividual ci = (ContactoIndividual) c;
             this.fto = ci.getUsuario().getImageIcon();
         } else {
-            this.fto = new ImageIcon(getClass().getResource("/sinFotoContc.png"));
+        	Grupo g = (Grupo) c;
+            this.fto = g.getImageIcon();
         }
         initializeComponent();
         addInfoComponent(new InfoModelo(ultimoMensaje.getTexto(),12));

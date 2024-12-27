@@ -172,4 +172,9 @@ public class Usuario {
 		return listaContactos.stream()
 				.anyMatch(c -> c instanceof Grupo && c.getNombre().equals(Grupo));
 	}
+    
+    public boolean contieneContactoInd(String nombre) {
+		return listaContactos.stream()
+				.anyMatch(c -> c instanceof ContactoIndividual && c.getNombre().equals(nombre));
+	}
 }

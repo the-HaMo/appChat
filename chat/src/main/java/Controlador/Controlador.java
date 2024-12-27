@@ -128,12 +128,12 @@ public enum Controlador {
 		}
 	
 	
-	public Grupo crearGrupo(String nombre, List<ContactoIndividual> participantes) {
+	public Grupo crearGrupo(String nombre, List<ContactoIndividual> participantes, String link) {
 		if (usuarioActual.perteneceGrupo(nombre)) {
 			return null;
 		}
 
-		Grupo g = new Grupo(nombre, new LinkedList<Mensaje>(), participantes);
+		Grupo g = new Grupo(nombre, new LinkedList<Mensaje>(), participantes, link);
 
 		// Se añade el grupo al usuario actual y al resto de participantes
 		usuarioActual.addContacto(g);
@@ -192,7 +192,6 @@ public enum Controlador {
 		}
 	}
 	}
-
 
 
 
