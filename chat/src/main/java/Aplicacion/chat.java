@@ -22,6 +22,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.border.LineBorder;
 import java.awt.Image;
 import java.awt.Rectangle;
@@ -215,11 +216,8 @@ private void initialize() {
     buttons.add(logout);
     
     logout.addActionListener(e -> {
-    	// Hay que guardar el estado del Usuario, lista de usuarios, mensajes, grupos...
-    	// guardarEstadoUsuarioActual();
-    	frame.setVisible(false);
-    	Login login = new Login();
-    	login.Mostrar();
+    	Controlador.INSTANCE.logout();
+    	frame.dispose();
     });
 
     JPanel title = new JPanel();
@@ -280,6 +278,7 @@ private void initialize() {
     Message.setPreferredSize(new Dimension(10, 50));
     writeChat.add(Message, BorderLayout.CENTER);
     Message.setColumns(10);
+    
 
     // Lista de contactos y usuario actual
     model = new DefaultListModel<>();
@@ -288,6 +287,20 @@ private void initialize() {
     // Añadir los contactos que se tienen en la base de datos
     actualizarListaContactos();
 
+    sendButton.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			String texto = Message.getText();
+			if (!texto.equals("")) {
+				Contacto c = model.getElementAt(lista.getSelectedIndex()).getContacto();
+				Controlador.INSTANCE.enviarMensaje(c, texto);
+				cargarConversacion(c);
+				actualizarListaContactos();
+				Message.setText("");
+				
+			}
+		}
+	});
+    
     panelWest.setLayout(new BorderLayout(0, 0));
     lista.setCellRenderer(new ElementoListRenderer());
 
@@ -352,22 +365,40 @@ public void actualizarListaContactos() {
     lista.revalidate();
 }
 
+
+
 private void cargarConversacion(Contacto contacto) {
-    chat.removeAll(); // Limpiar el panel de chat actual
-    
+    chat.removeAll(); // Clear the current chat panel
+
     BubbleText bubbleText;
     List<Mensaje> mensajes = Controlador.INSTANCE.getMensajesDeContacto(contacto);
     for (Mensaje mensaje : mensajes) {
-    	if(mensaje.getEmisor().equals(Controlador.INSTANCE.getUsuarioActual())){
-    		 bubbleText = new BubbleText(chat, mensaje.getTexto(), Color.green, mensaje.getEmisor().getNombre() + " " + mensaje.getHora(), BubbleText.SENT);	    
-    	}else {
-    		 bubbleText = new BubbleText(chat, mensaje.getTexto(), Color.white, mensaje.getReceptor().getNombre() + " " + mensaje.getHora(), BubbleText.RECEIVED);
-    	}
+        String displayName;
+        if (mensaje.getEmisor().equals(Controlador.INSTANCE.getUsuarioActual())) {
+            displayName = mensaje.getEmisor().getNombre();
+            bubbleText = new BubbleText(chat, mensaje.getTexto(), Color.green, displayName + " " + mensaje.getHora(), BubbleText.SENT);
+        } else {
+            if (Controlador.INSTANCE.getUsuarioActual().contieneContacto(mensaje.getEmisor().getTelefono())) {
+                displayName = mensaje.getEmisor().getNombre();
+            } else {
+                displayName = mensaje.getEmisor().getTelefono();
+                promptAddContact(mensaje.getEmisor());
+            }
+            bubbleText = new BubbleText(chat, mensaje.getTexto(), Color.white, displayName + " " + mensaje.getHora(), BubbleText.RECEIVED);
+        }
         chat.add(bubbleText);
     }
 
     chat.revalidate();
     chat.repaint();
+}
+
+private void promptAddContact(Usuario emisor) {
+    int response = JOptionPane.showConfirmDialog(frame, "Do you want to add " + emisor.getTelefono() + " as a contact?", "Add Contact", JOptionPane.YES_NO_OPTION);
+    if (response == JOptionPane.YES_OPTION) {
+        Controlador.INSTANCE.crearContacto(emisor.getNombre(), emisor.getTelefono());
+        actualizarListaContactos();
+    }
 }
 
 
