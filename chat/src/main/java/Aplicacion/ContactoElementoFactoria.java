@@ -14,7 +14,14 @@ public class ContactoElementoFactoria implements ElementoInterfaz {
 	        this.contacto = contacto;
 	        this.mensaje = mensaje;
 	    }
+	    
+	    public ContactoElementoFactoria(Contacto c) {
+	    	this.contacto=c;
+	    }
 
+	    public Elemento createElementoGrupo() {
+	    	return new Elemento(contacto);
+	    }
 	    
 	    public Elemento createElemento() {
 	        return new Elemento(contacto, mensaje);
