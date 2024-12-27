@@ -112,14 +112,7 @@ public class GrupoView {
         
         JButton grupo = new JButton("Crear grupo");
         grupoBoton.add(grupo);
-		grupo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				VentanaChat.actualizarListaContactos();
-				ventanaGrupo.dispose();
-			}
-		});
 		
-
         // Botones
         JButton FlechaIzquierda = new JButton("\u2190");
         JButton FlechaDerecha = new JButton("\u2192");
@@ -172,15 +165,15 @@ public class GrupoView {
                 }
             }
         });
-
-
-    	grupo.addActionListener(e -> {
-    		
-    		// Logica de negocio
-    		
-    		ventanaGrupo.setVisible(false);
-    	});
         
+        grupo.addActionListener(new ActionListener() {
+			
+        	// LOGICA DE GRUPO 
+        	public void actionPerformed(ActionEvent e) {
+				VentanaChat.actualizarListaContactos();
+				ventanaGrupo.dispose();
+			}
+		});
 }
     
     
