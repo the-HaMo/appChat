@@ -178,9 +178,18 @@ public class GrupoView {
                     												.filter(c -> c instanceof ContactoIndividual)
                     												.map(c -> (ContactoIndividual)c)
                     												.collect(Collectors.toList());
-    		CrearGrupoView Creargrupo = new CrearGrupoView(lista,VentanaChat);
-        	Creargrupo.show();		
-    		this.ventanaGrupo.dispose();
+    		if (modelDerecha.getSize() != 0) {
+    			CrearGrupoView Creargrupo = new CrearGrupoView(lista,VentanaChat);
+            	Creargrupo.show();		
+        		this.ventanaGrupo.dispose();
+    		} else  {
+    			 JOptionPane.showMessageDialog(
+    			            ventanaGrupo,
+    			            "La lista de contactos del grupo esta vacía.",
+    			            "Aviso",
+    			            JOptionPane.WARNING_MESSAGE
+    			        );
+    		}
     	});
 }
     public List<Elemento> getElementosDerecha(DefaultListModel<Elemento> modelDerecha) {
@@ -190,15 +199,7 @@ public class GrupoView {
         }
         return elementosDerecha;
     }
-    
-    public String[] getContactosDerecha(DefaultListModel<Elemento> modelDerecha) {
-        String[] elementosDerecha = new String[modelDerecha.getSize()];
-        for (int i = 0; i < modelDerecha.getSize(); i++) {
-            Elemento elem = modelDerecha.getElementAt(i);
-            elementosDerecha[i] = elem.getContacto().getNombre();
-        }
-        return elementosDerecha;
-    }
+  
     
     public void Mostrar() {
         this.ventanaGrupo.setVisible(true);
