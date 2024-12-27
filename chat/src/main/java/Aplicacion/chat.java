@@ -158,7 +158,7 @@ private void initialize() {
     group.setIcon(new ImageIcon(groupScalar));
     buttons.add(group);
 
-    group.addActionListener(e ->{
+    group.addActionListener( e ->{
 			GrupoView grupoView = new GrupoView(this);
 			grupoView.Mostrar();
 	});
