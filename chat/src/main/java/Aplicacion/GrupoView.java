@@ -171,24 +171,18 @@ public class GrupoView {
                 }
             }
         });
-        /*
+        
     	grupo.addActionListener(e -> {
     		List<ContactoIndividual> lista = getElementosDerecha(modelDerecha).stream()
                     												.map(Elemento::getContacto)
                     												.filter(c -> c instanceof ContactoIndividual)
                     												.map(c -> (ContactoIndividual)c)
                     												.collect(Collectors.toList());
-    				
-    		Controlador.INSTANCE.crearGrupo("LEONES", lista);
-    		VentanaChat.actualizarListaContactos();
+    		CrearGrupoView Creargrupo = new CrearGrupoView(lista,VentanaChat);
+        	Creargrupo.show();		
     		this.ventanaGrupo.dispose();
     	});
-    	*/
-        grupo.addActionListener(e -> {
-        	CrearGrupoView Creargrupo = new CrearGrupoView(getContactosDerecha(modelDerecha));
-        	Creargrupo.show();
-        });
-    }
+}
     public List<Elemento> getElementosDerecha(DefaultListModel<Elemento> modelDerecha) {
         List<Elemento> elementosDerecha = new LinkedList<Elemento>();
         for (int i = 0; i < modelDerecha.getSize(); i++) {
