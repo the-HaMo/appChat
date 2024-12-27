@@ -4,9 +4,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import Clases.Contacto;
-import Clases.Usuario;
+import Clases.ContactoIndividual;
 import Controlador.Controlador;
 
 
@@ -79,19 +82,16 @@ public class GrupoView {
         panelGrupo.add(scrollDerecha, BorderLayout.CENTER);
 
         // Crear contactos de ejemplo
-        Usuario usu = new Usuario("Moha", "625962740", "hola", null, null, "Hey! I'm using AppChat");
-        Usuario usu2 = new Usuario("Ana", "123456789", "hello", null, null, "Hello there!");
+
         
 
-        for (Contacto us : Controlador.INSTANCE.getContactosUsuarioActual()) {
-        	modelIzquierda.addElement(new Elemento(us));
+        for (Contacto c : Controlador.INSTANCE.getContactosUsuarioActual()) {
+        	if(c instanceof ContactoIndividual) {
+        		 ElementoInterfaz contactoFactory = new ContactoElementoFactoria(c);
+        		 modelIzquierda.addElement(contactoFactory.createElementoGrupo());
+        	}
+        	
         }
-        
-        
-        /*
-        modelIzquierda.addElement(new Elemento(usu));
-        modelIzquierda.addElement(new Elemento(usu2));
-		*/
 		
         // Configurar renderizador para listas
         listaIzquierda.setCellRenderer(new ElementoListRenderer());
@@ -102,6 +102,12 @@ public class GrupoView {
         zonaButton.setMaximumSize(new Dimension(50, 50));
         zonaButton.setMinimumSize(new Dimension(50, 50));
         listaContactos.add(zonaButton, BorderLayout.SOUTH);
+        
+        JButton botonCancelar = new JButton("Cancelar");
+        zonaButton.add(botonCancelar);
+        botonCancelar.addActionListener(e -> {
+        	this.ventanaGrupo.dispose();
+        });
         
         listaDerecha.setCellRenderer(new ElementoListRenderer());
         
@@ -166,16 +172,25 @@ public class GrupoView {
             }
         });
         
-        grupo.addActionListener(new ActionListener() {
-			
-        	// LOGICA DE GRUPO 
-        	public void actionPerformed(ActionEvent e) {
-				VentanaChat.actualizarListaContactos();
-				ventanaGrupo.dispose();
-			}
-		});
-}
-    
+    	grupo.addActionListener(e -> {
+    		List<ContactoIndividual> lista = getElementosDerecha(modelDerecha).stream()
+                    												.map(Elemento::getContacto)
+                    												.filter(c -> c instanceof ContactoIndividual)
+                    												.map(c -> (ContactoIndividual)c)
+                    												.collect(Collectors.toList());
+    				
+    		Controlador.INSTANCE.crearGrupo("LEONES", lista);
+    		VentanaChat.actualizarListaContactos();
+    		this.ventanaGrupo.dispose();
+    	});
+    }
+    public List<Elemento> getElementosDerecha(DefaultListModel<Elemento> modelDerecha) {
+        List<Elemento> elementosDerecha = new LinkedList<Elemento>();
+        for (int i = 0; i < modelDerecha.getSize(); i++) {
+            elementosDerecha.add(modelDerecha.getElementAt(i));
+        }
+        return elementosDerecha;
+    }
     
     public void Mostrar() {
         this.ventanaGrupo.setVisible(true);

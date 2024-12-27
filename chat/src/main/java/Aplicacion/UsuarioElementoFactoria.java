@@ -12,4 +12,10 @@ public class UsuarioElementoFactoria implements ElementoInterfaz {
     public Elemento createElemento() {
         return new Elemento(usuario);
     }
+
+	@Override
+	public Elemento createElementoGrupo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
