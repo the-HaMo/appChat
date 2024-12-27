@@ -65,7 +65,7 @@ public class Login {
 		
 		ventana = new JFrame();
 		ventana.setResizable(false);
-		ventana.setTitle("APP CHAT");
+		ventana.setTitle("AppChat");
 		ventana.setPreferredSize(new Dimension(500, 420));
 
 		ventana.setBounds(100, 100, 500, 420);
