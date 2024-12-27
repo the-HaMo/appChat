@@ -14,6 +14,8 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.JTextField;
 import javax.swing.BoxLayout;
@@ -36,28 +38,14 @@ public class CrearGrupoView {
     private JFrame frame;
     private JTextField Nombre;
     private JList<String> contactList;
-
-    /**
-     * Launch the application.
-     */
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    CrearGrupoView window = new CrearGrupoView();
-                    window.frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
+    private String[] listasContactos;
 
     /**
      * Create the application.
      */
-    public CrearGrupoView() {
-        initialize();
+    public CrearGrupoView(String[] listaContactos) {
+        this.listasContactos = listaContactos;
+    	initialize();
     }
 
     /**
@@ -78,7 +66,7 @@ public class CrearGrupoView {
         frame.getContentPane().add(Titulo, BorderLayout.NORTH);
         Titulo.setLayout(new BorderLayout(0, 0));
 
-        JLabel lblNewLabel = new JLabel("Información del Grupo", SwingConstants.CENTER);
+        JLabel lblNewLabel = new JLabel("Resumen del Grupo", SwingConstants.CENTER);
         lblNewLabel.setFont(new Font("Arial", Font.BOLD, 18));
         lblNewLabel.setMinimumSize(new Dimension(43, 50));
         lblNewLabel.setPreferredSize(new Dimension(50, 50));
@@ -119,12 +107,11 @@ public class CrearGrupoView {
         contactosPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         Campos.add(contactosPanel, BorderLayout.CENTER);
 
-        JLabel lblContactos = new JLabel("Contactos:");
+        JLabel lblContactos = new JLabel("Integrantes:");
         lblContactos.setFont(new Font("Arial", Font.PLAIN, 14));
         contactosPanel.add(lblContactos, BorderLayout.NORTH);
 
-        String[] contactos = { "Contacto 1", "Contacto 2", "Contacto 3", "Contacto 4" };
-        contactList = new JList<>(contactos);
+        contactList = new JList<>(listasContactos);
 
         // Custom renderer para centrar y reducir el tamaño del texto
         DefaultListCellRenderer renderer = new DefaultListCellRenderer();
