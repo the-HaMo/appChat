@@ -116,7 +116,7 @@ public class GrupoView {
         grupoBoton.setPreferredSize(new Dimension(40, 40));
         panelGrupo.add(grupoBoton, BorderLayout.SOUTH);
         
-        JButton grupo = new JButton("Crear grupo");
+        JButton grupo = new JButton("Confirmar grupo");
         grupoBoton.add(grupo);
 		
         // Botones
@@ -171,7 +171,7 @@ public class GrupoView {
                 }
             }
         });
-        
+        /*
     	grupo.addActionListener(e -> {
     		List<ContactoIndividual> lista = getElementosDerecha(modelDerecha).stream()
                     												.map(Elemento::getContacto)
@@ -183,6 +183,11 @@ public class GrupoView {
     		VentanaChat.actualizarListaContactos();
     		this.ventanaGrupo.dispose();
     	});
+    	*/
+        grupo.addActionListener(e -> {
+        	CrearGrupoView Creargrupo = new CrearGrupoView();
+        	Creargrupo.show();
+        });
     }
     public List<Elemento> getElementosDerecha(DefaultListModel<Elemento> modelDerecha) {
         List<Elemento> elementosDerecha = new LinkedList<Elemento>();
