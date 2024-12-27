@@ -182,12 +182,20 @@ public class GrupoView {
         	Creargrupo.show();		
     		this.ventanaGrupo.dispose();
     	});
-    	
-    }
+}
     public List<Elemento> getElementosDerecha(DefaultListModel<Elemento> modelDerecha) {
         List<Elemento> elementosDerecha = new LinkedList<Elemento>();
         for (int i = 0; i < modelDerecha.getSize(); i++) {
             elementosDerecha.add(modelDerecha.getElementAt(i));
+        }
+        return elementosDerecha;
+    }
+    
+    public String[] getContactosDerecha(DefaultListModel<Elemento> modelDerecha) {
+        String[] elementosDerecha = new String[modelDerecha.getSize()];
+        for (int i = 0; i < modelDerecha.getSize(); i++) {
+            Elemento elem = modelDerecha.getElementAt(i);
+            elementosDerecha[i] = elem.getContacto().getNombre();
         }
         return elementosDerecha;
     }
