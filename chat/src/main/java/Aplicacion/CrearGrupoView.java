@@ -33,6 +33,7 @@ public class CrearGrupoView {
     private JFrame frame;
     private JTextField Nombre;
     private JList<String> contactList;
+    private JTextField urlText;
 
     /**
      * Launch the application.
@@ -139,7 +140,7 @@ public class CrearGrupoView {
         fotoPanel.setLayout(new BorderLayout(0, 0));
         
         JPanel fotoUbi = new JPanel();
-        fotoUbi.setPreferredSize(new Dimension(10, 100));
+        fotoUbi.setPreferredSize(new Dimension(10, 90));
         fotoPanel.add(fotoUbi, BorderLayout.NORTH);
         fotoUbi.setLayout(new BorderLayout(0, 0));
         
@@ -149,12 +150,22 @@ public class CrearGrupoView {
         
         JPanel boton = new JPanel();
         fotoPanel.add(boton, BorderLayout.CENTER);
-        boton.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 0)); // Espaciado horizontal de 10 píxeles
+        boton.setLayout(new FlowLayout(FlowLayout.LEFT, 75, 0)); // Espaciado horizontal de 10 píxeles
 
-        JButton btnNewButton = new JButton("Cargar");
-        boton.add(btnNewButton, BorderLayout.WEST);
-      
-
+        JButton CargarBoton = new JButton("Cargar");
+        boton.add(CargarBoton, BorderLayout.WEST);
+        
+        JPanel urlPanel = new JPanel();
+        boton.add(urlPanel);
+        
+        JLabel lblUrl = new JLabel("URL:");
+        lblUrl.setFont(new Font("Arial", Font.PLAIN, 14));
+        urlPanel.add(lblUrl);
+        
+        urlText = new JTextField();
+        urlText.setColumns(10);
+        urlPanel.add(urlText);
+        
         
         Component horizontalStrut_1 = Box.createHorizontalStrut(20);
         horizontalStrut_1.setPreferredSize(new Dimension(70, 0));
