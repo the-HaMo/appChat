@@ -16,6 +16,7 @@ public class TDSGrupoDAO implements GrupoDAO{
 	private static final String NOMBRE = "nombre";
 	private static final String CONTACTOS = "contactos";
 	private static final String MENSAJES = "mensajes";
+	private static final String FOTO = "foto";
 	private static final String GRUPO = "grupo";
 
 	private static ServicioPersistencia servPersistencia;
@@ -36,7 +37,8 @@ public class TDSGrupoDAO implements GrupoDAO{
 		String nombre = servPersistencia.recuperarPropiedadEntidad(eGrupo, NOMBRE);
 		List<Mensaje> mensajes = MensajesDesdeID(servPersistencia.recuperarPropiedadEntidad(eGrupo, MENSAJES));
 		List<ContactoIndividual> contactos = codigosAContactos(servPersistencia.recuperarPropiedadEntidad(eGrupo, CONTACTOS));
-		return new Grupo(nombre,mensajes, contactos);
+		String foto = servPersistencia.recuperarPropiedadEntidad(eGrupo, FOTO);
+		return new Grupo(nombre,mensajes, contactos,foto);
 	}
 
 	private Entidad grupoToEntidad(Grupo grupo) {
@@ -47,6 +49,7 @@ public class TDSGrupoDAO implements GrupoDAO{
 				Arrays.asList(
 						new Propiedad(NOMBRE, grupo.getNombre()),
 						new Propiedad(MENSAJES, CodigoMensajes(grupo.getMensajes())),
+						new Propiedad(FOTO, grupo.getLink()),
 						new Propiedad(CONTACTOS, ContactoACodigo(grupo.getContactos())))));
 		return eGrupo;
 	}
@@ -77,7 +80,9 @@ public class TDSGrupoDAO implements GrupoDAO{
 	            prop.setValor(ContactoACodigo(grupo.getContactos()));
 	        } else if (prop.getNombre().equals(MENSAJES)) {
 	            prop.setValor(CodigoMensajes(grupo.getMensajes()));
-	        }
+			} else if (prop.getNombre().equals(FOTO)) {
+				prop.setValor(grupo.getLink());
+			}
 	        servPersistencia.modificarPropiedad(prop);
 	    	}
 	}

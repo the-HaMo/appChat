@@ -157,7 +157,7 @@ public class Registro {
         btnRegCancelar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ventanaReg.setVisible(false);
+                ventanaReg.dispose();
             }
         });
 

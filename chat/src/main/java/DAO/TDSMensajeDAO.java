@@ -1,6 +1,7 @@
 package DAO;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -22,6 +23,7 @@ public final class TDSMensajeDAO implements MensajeDAO {
     private static final String TEXTO = "texto";
     private static final String EMOTICONO = "emoticono";
     private static final String HORA = "hora";
+    private static final String MENSAJE = "mensaje";
 
     private ServicioPersistencia servPersistencia;
     private static TDSMensajeDAO unicaInstancia = null;
@@ -50,12 +52,12 @@ public final class TDSMensajeDAO implements MensajeDAO {
         Mensaje mensaje=new Mensaje(hora,emoticono,texto);
         
         TDSUsuarioDAO uDAO = TDSUsuarioDAO.getInstancia();
-		int idUsuario = Integer.parseInt(servPersistencia.recuperarPropiedadEntidad(eMensaje, "emisor"));
+		int idUsuario = Integer.parseInt(servPersistencia.recuperarPropiedadEntidad(eMensaje, EMISOR));
 		emisor = uDAO.get(idUsuario);
 		mensaje.setEmisor(emisor);
 
 		// Contacto o grupo receptor
-		int codigoContacto = Integer.parseInt(servPersistencia.recuperarPropiedadEntidad(eMensaje, "receptor"));
+		int codigoContacto = Integer.parseInt(servPersistencia.recuperarPropiedadEntidad(eMensaje, RECEPTOR));
 		TDSContactoIndividualDAO contactoDAO = TDSContactoIndividualDAO.getInstancia();
 		receptor = contactoDAO.get(codigoContacto);
 		mensaje.setReceptor(receptor);
@@ -66,7 +68,7 @@ public final class TDSMensajeDAO implements MensajeDAO {
 
     private Entidad mensajeToEntidad(Mensaje mensaje) {
         Entidad eMensaje = new Entidad();
-        eMensaje.setNombre("mensaje");
+        eMensaje.setNombre(MENSAJE);
         eMensaje.setPropiedades(new ArrayList<Propiedad>(Arrays.asList(
                 new Propiedad(TEXTO, mensaje.getTexto()),
                 new Propiedad(HORA, mensaje.getHora().toString()),
@@ -92,8 +94,8 @@ public final class TDSMensajeDAO implements MensajeDAO {
 
 
 	@Override
-	public List<Mensaje> recuperarMensajes() {
-		List<Entidad> entidades = servPersistencia.recuperarEntidades("mensaje");
+	public List<Mensaje> getAll() {
+		List<Entidad> entidades = servPersistencia.recuperarEntidades(MENSAJE);
         List<Mensaje> mensajes = new LinkedList<>();
         for (Entidad eMensaje : entidades) {
             mensajes.add(get(eMensaje.getId()));
