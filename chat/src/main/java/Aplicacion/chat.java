@@ -290,13 +290,10 @@ private void initialize() {
     sendButton.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			String texto = Message.getText();
+			Contacto c = model.getElementAt(lista.getSelectedIndex()).getContacto();
 			if (!texto.equals("")) {
-				Contacto c = model.getElementAt(lista.getSelectedIndex()).getContacto();
-				Controlador.INSTANCE.enviarMensaje(c, texto);
-				cargarConversacion(c);
-				actualizarListaContactos();
+				enviarMensaje(c,texto);
 				Message.setText("");
-				
 			}
 		}
 	});
@@ -365,6 +362,12 @@ public void actualizarListaContactos() {
     lista.revalidate();
 }
 
+
+public void enviarMensaje(Contacto contacto, String texto) {
+	Controlador.INSTANCE.enviarMensaje(contacto, texto);
+	cargarConversacion(contacto);
+	actualizarListaContactos();
+}
 
 
 private void cargarConversacion(Contacto contacto) {
