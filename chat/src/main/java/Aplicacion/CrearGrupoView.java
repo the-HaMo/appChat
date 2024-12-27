@@ -14,6 +14,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.List;
 
 import javax.swing.JTextField;
 import javax.swing.BoxLayout;
@@ -26,6 +27,10 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.ListCellRenderer;
 import javax.swing.border.EmptyBorder;
+
+import Clases.ContactoIndividual;
+import Controlador.Controlador;
+
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
 
@@ -35,28 +40,22 @@ public class CrearGrupoView {
 
     private JFrame frame;
     private JTextField Nombre;
+    private List<ContactoIndividual> contactosLista;
     private JList<String> contactList;
+    private chat VentanaChat;
 
     /**
      * Launch the application.
      */
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    CrearGrupoView window = new CrearGrupoView();
-                    window.frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
+
 
     /**
      * Create the application.
      */
-    public CrearGrupoView() {
+    public CrearGrupoView(List<ContactoIndividual> contactos,chat VentanaChat) {
+    	contactosLista = contactos;
+    	contactList = new JList<>(contactos.stream().map(ContactoIndividual::getNombre).toArray(String[]::new));
+    	this.VentanaChat = VentanaChat;
         initialize();
     }
 
@@ -123,8 +122,6 @@ public class CrearGrupoView {
         lblContactos.setFont(new Font("Arial", Font.PLAIN, 14));
         contactosPanel.add(lblContactos, BorderLayout.NORTH);
 
-        String[] contactos = { "Contacto 1", "Contacto 2", "Contacto 3", "Contacto 4" };
-        contactList = new JList<>(contactos);
 
         // Custom renderer para centrar y reducir el tamaño del texto
         DefaultListCellRenderer renderer = new DefaultListCellRenderer();
@@ -226,6 +223,13 @@ public class CrearGrupoView {
         botonesPanel.add(Box.createHorizontalGlue()); // Espaciado flexible hacia la derecha
         botonesPanel.add(btnAceptar);
         botonesPanel.add(Box.createRigidArea(new Dimension(10, 0))); // Espaciado entre botones
+		btnAceptar.addActionListener(e -> {
+			
+			String nombre = Nombre.getText();
+			Controlador.INSTANCE.crearGrupo(nombre, contactosLista);
+			VentanaChat.actualizarListaContactos();
+			this.frame.dispose();
+		});
 
         JButton btnCancelar = new JButton("Cancelar");
         btnCancelar.setFont(new Font("Arial", Font.PLAIN, 14));

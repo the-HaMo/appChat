@@ -40,7 +40,7 @@ public class Elemento extends JPanel {
             this.fto = new ImageIcon(getClass().getResource("/sinFotoContc.png"));
         }
         initializeComponent();
-        addInfoComponent(new InfoModelo(ultimoMensaje.getTexto()));
+        addInfoComponent(new InfoModelo(ultimoMensaje.getTexto(),12));
     }
     
     public Elemento(Contacto c) {
@@ -73,8 +73,8 @@ public class Elemento extends JPanel {
         lblimagen.setIcon(new ImageIcon(imagenCircular(Imagen)));
         fixSize(lblimagen, 75, 84);
 
-        InfoModelo nomb = new InfoModelo(nombre);
-        InfoModelo tlf = new InfoModelo(telf);
+        InfoModelo nomb = new InfoModelo(nombre,15);
+        InfoModelo tlf = new InfoModelo(telf,15);
 
         JPanel info = new JPanel();
         info.setLayout(new BoxLayout(info, BoxLayout.Y_AXIS));

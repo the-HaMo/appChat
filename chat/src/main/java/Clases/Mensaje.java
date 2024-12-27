@@ -43,6 +43,10 @@ public class Mensaje {
 	public String getTexto() {
 		return texto;
 	}
+
+	public int getEmoji() {
+        return emoticono;
+    }
 	public void setTexto(String texto) {
 		this.texto = texto;
 	}
