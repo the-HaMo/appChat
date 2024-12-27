@@ -48,11 +48,10 @@ public class CrearGrupoView {
     /**
      * Launch the application.
      */
-
-
     /**
      * Create the application.
      */
+
     public CrearGrupoView(List<ContactoIndividual> contactos,chat VentanaChat) {
     	contactosLista = contactos;
     	contactList = new JList<>(contactos.stream().map(ContactoIndividual::getNombre).toArray(String[]::new));
@@ -78,7 +77,7 @@ public class CrearGrupoView {
         frame.getContentPane().add(Titulo, BorderLayout.NORTH);
         Titulo.setLayout(new BorderLayout(0, 0));
 
-        JLabel lblNewLabel = new JLabel("Información del Grupo", SwingConstants.CENTER);
+        JLabel lblNewLabel = new JLabel("Resumen del Grupo", SwingConstants.CENTER);
         lblNewLabel.setFont(new Font("Arial", Font.BOLD, 18));
         lblNewLabel.setMinimumSize(new Dimension(43, 50));
         lblNewLabel.setPreferredSize(new Dimension(50, 50));
@@ -119,7 +118,7 @@ public class CrearGrupoView {
         contactosPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         Campos.add(contactosPanel, BorderLayout.CENTER);
 
-        JLabel lblContactos = new JLabel("Contactos:");
+        JLabel lblContactos = new JLabel("Integrantes:");
         lblContactos.setFont(new Font("Arial", Font.PLAIN, 14));
         contactosPanel.add(lblContactos, BorderLayout.NORTH);
 
