@@ -38,6 +38,7 @@ public enum Controlador {
 			e.printStackTrace();
 		}
 	}
+		
 
 	public Usuario getUsuarioActual() {
 		return usuarioActual;

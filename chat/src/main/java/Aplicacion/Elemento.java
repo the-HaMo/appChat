@@ -55,8 +55,8 @@ public class Elemento extends JPanel {
             this.fto = new ImageIcon(getClass().getResource("/sinFotoContc.png"));
         }
         initializeComponent();
-        
-    }
+        }
+    
 
     public Elemento(Usuario usuario) {
         this.nombre = usuario.getNombre();
