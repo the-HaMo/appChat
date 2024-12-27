@@ -5,14 +5,18 @@ import DAO.ContactoIndividualDAO;
 import DAO.DAOException;
 import DAO.FactoriaDAO;
 import DAO.GrupoDAO;
+import DAO.MensajeDAO;
 import Clases.Usuario;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import Aplicacion.Login;
 import Clases.Contacto;
 import Clases.ContactoIndividual;
 import Clases.Grupo;
@@ -138,14 +142,72 @@ public enum Controlador {
 		UsuarioDAO adaptadorUsu = factoria.getUsuarioDAO();
 		adaptadorGrupo.create(g);
 		adaptadorUsu.update(usuarioActual);
-		/*participantes.stream()
-		.forEach(p -> {
-			Usuario usuario = p.getUsuario();
-			adaptadorUsu.update(usuario);
-		});*/
 
 		return g;
 	}
-	}
+
+	public void logout() {
+		usuarioActual = null;
+		Login login = new Login();
+    	login.Mostrar();
+		}
 	
+	public void enviarMensaje(Contacto contacto, String texto) {
+		
+		MensajeDAO adaptadorMensaje = factoria.getMensajeDAO();
+		ContactoIndividualDAO adaptadorContactoIndividual = factoria.getContactoDAO();
+		GrupoDAO adaptadorGrupo = factoria.getGrupoDAO();
+		
+
+		if (contacto instanceof ContactoIndividual) {
+			Mensaje mensaje = new Mensaje(texto,LocalDateTime.now(), usuarioActual, contacto);
+			contacto.addMensaje(mensaje);
+			adaptadorMensaje.create(mensaje);
+			adaptadorContactoIndividual.update((ContactoIndividual) contacto);
+		} else {
+			Grupo grupo = (Grupo) contacto;
+			for (ContactoIndividual c : grupo.getContactos()) {
+				Mensaje m = new Mensaje(texto, LocalDateTime.now(), usuarioActual, c);
+	            c.addMensaje(m);
+	            adaptadorMensaje.create(m);
+	            adaptadorContactoIndividual.update(c);
+			}
+			adaptadorGrupo.update((Grupo) contacto);
+		}
+	}
+
+	public void enviarMensaje(Contacto contacto, int emoji) {
+		Mensaje mensaje = new Mensaje(LocalDateTime.now(),emoji, usuarioActual, contacto);
+		contacto.addMensaje(mensaje);
+        MensajeDAO adaptadorMensaje = factoria.getMensajeDAO();
+		ContactoIndividualDAO adaptadorContactoIndividual = factoria.getContactoDAO();
+		GrupoDAO adaptadorGrupo = factoria.getGrupoDAO();
+		adaptadorMensaje.create(mensaje);
+		if (contacto instanceof ContactoIndividual) {
+			adaptadorContactoIndividual.update((ContactoIndividual) contacto);
+		} else {
+			
+			adaptadorGrupo.update((Grupo) contacto);
+			adaptadorContactoIndividual.update((ContactoIndividual) contacto);
+		}
+	}
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
