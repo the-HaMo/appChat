@@ -20,7 +20,7 @@ public class Grupo extends Contacto{
 		super(nombre);
 		this.lista = contactos;
 		if ((link == "") || (link == null)) {
-			this.link = getClass().getResource("/sinFotoContc.png").toString();
+			this.link = getClass().getResource("/grupo.png").toString();
 		} else {
 			this.link = link;
 		}
@@ -30,7 +30,7 @@ public class Grupo extends Contacto{
 		super(nombre, null,mensajes);
 		this.lista = contactos;
 		if ((link == "") || (link == null)) {
-			this.link = getClass().getResource("/sinFotoContc.png").toString();
+			this.link = getClass().getResource("/grupo.png").toString();
 		} else {
 			this.link = link;
 		}
