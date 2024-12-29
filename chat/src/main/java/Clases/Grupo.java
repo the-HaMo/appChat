@@ -77,6 +77,10 @@ public class Grupo extends Contacto{
 		}
         
     }
+	
+	public void clearContactos() {
+	lista.clear();	
+	}
 
 	@Override
 	public List<Mensaje> getMensajesRecibidos(Optional<Usuario> usuario) {

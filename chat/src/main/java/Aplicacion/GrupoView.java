@@ -1,6 +1,9 @@
 package Aplicacion;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -102,6 +105,27 @@ public class GrupoView {
         // Configurar renderizador para listas
         listaIzquierda.setCellRenderer(new ElementoListRenderer());
         
+        listaIzquierda.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				if (e.getValueIsAdjusting()) {
+					Elemento selected = listaIzquierda.getSelectedValue();
+					if (selected != null && selected.getContacto() instanceof Grupo) {
+						modelDerecha.clear();
+						Grupo grupo = (Grupo) selected.getContacto();
+						for (ContactoIndividual c : grupo.getContactos()) {
+							if (c instanceof ContactoIndividual) {
+								ElementoInterfaz contactoFactory = new ContactoElementoFactoria(c);
+				        		 modelDerecha.addElement(contactoFactory.createElementoGrupo());
+							}
+							
+						}
+					}
+				}
+				
+			}
+		});
+        
+        
         JPanel zonaButton = new JPanel();
         zonaButton.setBackground(Color.GREEN);
         zonaButton.setPreferredSize(new Dimension(50, 40));
@@ -154,6 +178,7 @@ public class GrupoView {
         	        Elemento selected = listaIzquierda.getSelectedValue();
         	        if (selected != null) {
         	            // Verificar si el contacto ya está en el grupo
+        	        	if (selected.getContacto() instanceof ContactoIndividual) {
         	            if (!modelDerecha.contains(selected)) {
         	                modelDerecha.addElement(selected);
         	            } else {
@@ -164,8 +189,16 @@ public class GrupoView {
         	                    JOptionPane.WARNING_MESSAGE
         	                );
         	            }
+        	        } else {
+        	        	JOptionPane.showMessageDialog(
+        	                    ventanaGrupo,
+        	                    "No puedes añadir un grupo a la lista.",
+        	                    "Aviso",
+        	                    JOptionPane.WARNING_MESSAGE
+        	                );
         	        }
         	    }
+        	 }
         });
 
         FlechaIzquierda.addActionListener(new ActionListener() {

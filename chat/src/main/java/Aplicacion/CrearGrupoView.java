@@ -41,6 +41,8 @@ public class CrearGrupoView {
     private JList<String> contactList;
     private chat VentanaChat;
     private String foto="";
+    private boolean Edit;
+    private String nameOrginal;
 
     /**
      * Launch the application.
@@ -53,6 +55,17 @@ public class CrearGrupoView {
     	contactosLista = contactos;
     	contactList = new JList<>(contactos.stream().map(ContactoIndividual::getNombre).toArray(String[]::new));
     	this.VentanaChat = VentanaChat;
+    	this.Edit = false;
+        initialize();
+    }
+    
+    public CrearGrupoView(List<ContactoIndividual> contactos, chat VentanaChat, String nombreGrupo, List<ContactoIndividual> contactosDelGrupo, String fotoGrupo) {
+        this.contactosLista = contactos;
+        this.contactList = new JList<>(contactos.stream().map(ContactoIndividual::getNombre).toArray(String[]::new));
+        this.VentanaChat = VentanaChat;
+        this.Edit = true;  // Modo edición de grupo
+        this.nameOrginal = nombreGrupo;
+        this.foto = fotoGrupo;
         initialize();
     }
 
@@ -222,11 +235,16 @@ public class CrearGrupoView {
         botonesPanel.add(btnAceptar);
         botonesPanel.add(Box.createRigidArea(new Dimension(10, 0))); // Espaciado entre botones
 		btnAceptar.addActionListener(e -> {
-			
 			String nombre = Nombre.getText();
-			Controlador.INSTANCE.crearGrupo(nombre, contactosLista,foto);
+			if (Edit) { 
+				Controlador.INSTANCE.editarGrupo(nombre, contactosLista, foto);
+			} 
+			else {
+				Controlador.INSTANCE.crearGrupo(nombre, contactosLista,foto);
+			}
 			VentanaChat.actualizarListaContactos();
 			this.frame.dispose();
+			
 		});
 
         JButton btnCancelar = new JButton("Cancelar");
