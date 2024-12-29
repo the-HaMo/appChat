@@ -348,7 +348,7 @@ private void initialize() {
     frame.revalidate();
 }
 
-
+/*
 public void actualizarListaContactos() {
     // Inicializar el Map con los elementos actuales
     Map<String, Elemento> elementosMap = new HashMap<>();
@@ -399,7 +399,7 @@ public void actualizarListaContactos() {
 
     lista.repaint();
     lista.revalidate();
-}
+}*/
 
 
 public void enviarMensaje(Contacto contacto, String texto) {
@@ -423,7 +423,7 @@ private void cargarConversacion(Contacto contacto) {
         if (mensaje.getEmisor().equals(Controlador.INSTANCE.getUsuarioActual())) {
             displayName = mensaje.getEmisor().getNombre();
             bubbleText = new BubbleText(chat, mensaje.getTexto(), Color.green, displayName + " " + mensaje.getHora(), BubbleText.SENT);
-        } else {//Siempre se cunplira ahora el if
+        } else {
             if (Controlador.INSTANCE.getUsuarioActual().contieneContacto(mensaje.getEmisor().getTelefono())) {
                 displayName = mensaje.getEmisor().getNombre();
             } else {
@@ -446,7 +446,7 @@ private void promptAddContact(Usuario emisor) {
     }
 }
 
-/*
+
  public void actualizarListaContactos() {
     model.clear();
     List<Contacto> contactos = Controlador.INSTANCE.getContactosUsuarioActual();
@@ -461,7 +461,6 @@ private void promptAddContact(Usuario emisor) {
     lista.repaint();
     lista.revalidate();
 }
- */
 
 public List<Elemento> getElementos() {
 	List<Elemento> elementos = new LinkedList<>();

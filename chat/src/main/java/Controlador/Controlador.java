@@ -14,7 +14,9 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import Aplicacion.Login;
 import Clases.Contacto;
@@ -118,10 +120,9 @@ public enum Controlador {
 					.sorted(Comparator.comparing(Mensaje::getHora))
 					.collect(Collectors.toList());
 		}
-		return contacto.getMensajes().stream()	//Filtra los mensajes del contacto donde el emisor o receptor son o bien el usuario actual o el contacto
-				.filter(m -> (m.getEmisor().equals(usuarioActual) || m.getReceptor().getTelefono().equals(usuarioActual.getTelefono()))
-						&&(m.getEmisor().getTelefono().equals(contacto.getTelefono()) || m.getReceptor().equals(contacto)))
-				.sorted(Comparator.comparing(Mensaje::getHora))
+		return Stream.concat(contacto.getMensajes().stream(),
+				contacto.getMensajesRecibidos(Optional.of(usuarioActual)).stream())
+				.sorted()
 				.collect(Collectors.toList());
 		// Ordenar los mensajes por fecha y hora
 		
