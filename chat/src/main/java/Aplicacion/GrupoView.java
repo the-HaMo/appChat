@@ -85,8 +85,6 @@ public class GrupoView {
         scrollDerecha.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         panelGrupo.add(scrollDerecha, BorderLayout.CENTER);
 
-        // Crear contactos de ejemplo
-
         
 
         for (Contacto c : Controlador.INSTANCE.getContactosUsuarioActual()) {
@@ -218,9 +216,17 @@ public class GrupoView {
                     												.map(c -> (ContactoIndividual)c)
                     												.collect(Collectors.toList());
     		if (modelDerecha.getSize() != 0) {
-    			CrearGrupoView Creargrupo = new CrearGrupoView(lista,VentanaChat);
-            	Creargrupo.show();		
-        		this.ventanaGrupo.dispose();
+    			Elemento seleccionado = listaIzquierda.getSelectedValue();
+    			if (seleccionado != null && seleccionado.getContacto() instanceof Grupo) {
+    				Grupo gp = (Grupo) seleccionado.getContacto();
+    				CrearGrupoView editGrupo = new CrearGrupoView(lista, VentanaChat, gp.getNombre(), lista, gp.getLink());
+    				editGrupo.show();
+        			this.ventanaGrupo.dispose();
+    			} else {
+    				CrearGrupoView nuevoGrupo = new CrearGrupoView(lista, VentanaChat);
+    	            nuevoGrupo.show();
+    	        	this.ventanaGrupo.dispose();
+    			}
     		} else  {
     			 JOptionPane.showMessageDialog(
     			            ventanaGrupo,
