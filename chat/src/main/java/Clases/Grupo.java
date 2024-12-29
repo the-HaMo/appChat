@@ -4,6 +4,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -80,7 +82,18 @@ public class Grupo extends Contacto{
 	lista.clear();	
 	}
 
+	@Override
+	public List<Mensaje> getMensajesRecibidos(Optional<Usuario> usuario) {
+		return this.lista.stream()
+				.flatMap(c -> c.getUsuario().getListaContactos().stream())
+				.filter(c -> c instanceof Grupo)
+				.map(c -> (Grupo) c)
+				.filter(g -> this.equals(g))
+				.flatMap(g -> g.getMensajes().stream())
+				.collect(Collectors.toList());
+		}
+	}
 
 
 
-}
+
