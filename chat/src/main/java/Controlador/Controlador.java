@@ -231,6 +231,27 @@ public enum Controlador {
 	}	
 	
 	
+	public void editarGrupo(String nombreGrupo, List<ContactoIndividual> contactos, String foto) {
+	    // Buscar el grupo por su nombre
+	    Grupo grupo = usuarioActual.getListaContactos().stream()
+	            .filter(c -> c instanceof Grupo && c.getNombre().equals(nombreGrupo))
+	            .map(c -> (Grupo) c)
+	            .findFirst()
+	            .orElse(null);
+	    
+	    if (grupo != null) {
+	        grupo.clearContactos();
+	        grupo.setNombre(nombreGrupo);
+	        // grupo.setPhoto
+	        for (ContactoIndividual contacto : contactos) {
+	        	grupo.addContacto(contacto);
+	        }
+	        GrupoDAO grupoDao = factoria.getGrupoDAO();
+	        grupoDao.update(grupo);
+	    }
+	}
+
+	
 }
 
 
