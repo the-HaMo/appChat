@@ -8,9 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
-
 import Clases.*;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -31,8 +29,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JSeparator;
@@ -352,7 +348,7 @@ private void initialize() {
     frame.revalidate();
 }
 
-
+/*
 public void actualizarListaContactos() {
     // Inicializar el Map con los elementos actuales
     Map<String, Elemento> elementosMap = new HashMap<>();
@@ -403,7 +399,7 @@ public void actualizarListaContactos() {
 
     lista.repaint();
     lista.revalidate();
-}
+}*/
 
 
 public void enviarMensaje(Contacto contacto, String texto) {
@@ -427,7 +423,7 @@ private void cargarConversacion(Contacto contacto) {
         if (mensaje.getEmisor().equals(Controlador.INSTANCE.getUsuarioActual())) {
             displayName = mensaje.getEmisor().getNombre();
             bubbleText = new BubbleText(chat, mensaje.getTexto(), Color.green, displayName + " " + mensaje.getHora(), BubbleText.SENT);
-        } else {//Siempre se cunplira ahora el if
+        } else {
             if (Controlador.INSTANCE.getUsuarioActual().contieneContacto(mensaje.getEmisor().getTelefono())) {
                 displayName = mensaje.getEmisor().getNombre();
             } else {
@@ -450,7 +446,7 @@ private void promptAddContact(Usuario emisor) {
     }
 }
 
-/*
+
  public void actualizarListaContactos() {
     model.clear();
     List<Contacto> contactos = Controlador.INSTANCE.getContactosUsuarioActual();
@@ -465,7 +461,6 @@ private void promptAddContact(Usuario emisor) {
     lista.repaint();
     lista.revalidate();
 }
- */
 
 public List<Elemento> getElementos() {
 	List<Elemento> elementos = new LinkedList<>();
