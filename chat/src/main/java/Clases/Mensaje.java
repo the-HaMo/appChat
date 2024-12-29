@@ -3,7 +3,7 @@ package Clases;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class Mensaje {
+public class Mensaje implements Comparable<Mensaje> {
 
 	private int id;
 	private String texto;
@@ -81,6 +81,10 @@ public class Mensaje {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+	@Override
+	public int compareTo(Mensaje o) {
+			return this.hora.compareTo(o.hora);
 	}
 	
 	
