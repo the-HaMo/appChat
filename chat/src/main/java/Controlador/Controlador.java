@@ -209,8 +209,16 @@ public enum Controlador {
 				.collect(Collectors.toList());
 
 	}
-	
-	
+	public List<Grupo> getGruposUsuarioActual() {
+	    if (usuarioActual == null) {
+	        return new LinkedList<>(); 
+	    }
+
+	    return usuarioActual.getListaContactos().stream()
+	            .filter(contacto -> contacto instanceof Grupo)
+	            .map(contacto -> (Grupo) contacto)
+	            .collect(Collectors.toList());
+	}
 	public List<Mensaje> getMensajesUsuario() {
 		MensajeDAO adaptadorMensaje = factoria.getMensajeDAO();
 		List<Mensaje> mensajes = adaptadorMensaje.getAll();
@@ -219,16 +227,10 @@ public enum Controlador {
 				.sorted(Comparator.comparing(Mensaje::getHora))
 				.collect(Collectors.toList());
 
-	}
+	}	
 	
 	
-	
-	
-	
-	
-	
-	
-	}
+}
 
 
 

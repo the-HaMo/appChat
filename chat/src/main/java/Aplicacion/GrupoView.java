@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 import Clases.Contacto;
 import Clases.ContactoIndividual;
+import Clases.Grupo;
 import Controlador.Controlador;
 
 
@@ -92,7 +93,12 @@ public class GrupoView {
         	}
         	
         }
-		
+        
+        for (Grupo g : Controlador.INSTANCE.getGruposUsuarioActual()) {
+        	ElementoInterfaz grupoFactory = new GrupoElementoFactoria(g);
+        	modelIzquierda.addElement(grupoFactory.createElemento());
+        }
+        
         // Configurar renderizador para listas
         listaIzquierda.setCellRenderer(new ElementoListRenderer());
         
