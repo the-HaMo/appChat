@@ -75,6 +75,10 @@ public class Grupo extends Contacto{
 		}
         
     }
+	
+	public void clearContactos() {
+	lista.clear();	
+	}
 
 
 
