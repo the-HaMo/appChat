@@ -6,6 +6,7 @@ import java.util.List;
 public class ContactoIndividual extends Contacto {
 
 	private Usuario usu;	//Usuario que es el contacto
+
 	public ContactoIndividual(String nombre, String telefono,Usuario usu) {
 		super(nombre, telefono);
 		this.usu = usu;

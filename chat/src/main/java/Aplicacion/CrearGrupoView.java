@@ -1,7 +1,5 @@
 package Aplicacion;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -25,7 +23,6 @@ import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
-import javax.swing.ListCellRenderer;
 import javax.swing.border.EmptyBorder;
 
 import Clases.ContactoIndividual;
@@ -43,7 +40,7 @@ public class CrearGrupoView {
     private List<ContactoIndividual> contactosLista;
     private JList<String> contactList;
     private chat VentanaChat;
-    private String foto;
+    private String foto="";
 
     /**
      * Launch the application.

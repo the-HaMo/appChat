@@ -395,7 +395,6 @@ private void cargarConversacion(Contacto contacto) {
         }
         chat.add(bubbleText);
     }
-
     chat.revalidate();
     chat.repaint();
 }

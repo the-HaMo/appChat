@@ -59,15 +59,21 @@ public class Grupo extends Contacto{
 	}
 	
 	public ImageIcon getImageIcon() {
-        BufferedImage image = null;
-       try {
-		image = ImageIO.read(new File(link));
-	} catch (IOException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
+		BufferedImage image;
+		try {
+			image = ImageIO.read(new File(link));
+			return new ImageIcon(image);
+		} catch (IOException e) {
+			BufferedImage defaultImage;
+			try {
+				defaultImage = ImageIO.read(getClass().getResource("/grupo.png"));
+				return new ImageIcon(defaultImage);
+			} catch (IOException e1) {
+				return null;
+			}
+            
+		}
         
-        return new ImageIcon(image);
     }
 
 
