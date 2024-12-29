@@ -53,7 +53,7 @@ public class Elemento extends JPanel {
         if (c instanceof ContactoIndividual) {
             ContactoIndividual ci = (ContactoIndividual) c;
             this.fto = ci.getUsuario().getImageIcon();
-        } else {
+        } else if (c instanceof Grupo) {
             Grupo g = (Grupo) c;
             this.fto = g.getImageIcon();
         }
