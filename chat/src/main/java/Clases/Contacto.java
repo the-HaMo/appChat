@@ -3,6 +3,7 @@ package Clases;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 public abstract class Contacto {
 
@@ -36,6 +37,8 @@ public abstract class Contacto {
         return nombre;
     }
 
+    public abstract List<Mensaje> getMensajesRecibidos(Optional<Usuario> usuario);
+    
     public String getTelefono() {
         return telefono;
     }
@@ -51,6 +54,7 @@ public abstract class Contacto {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+    
 
     public int getId() {
         return id;
