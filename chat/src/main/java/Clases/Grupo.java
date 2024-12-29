@@ -60,11 +60,13 @@ public class Grupo extends Contacto{
 	
 	public ImageIcon getImageIcon() {
         BufferedImage image = null;
-        try {
-            image = ImageIO.read(new File(link));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+       try {
+		image = ImageIO.read(new File(link));
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+        
         return new ImageIcon(image);
     }
 

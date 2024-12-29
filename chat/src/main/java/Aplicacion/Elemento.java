@@ -21,6 +21,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
+
 public class Elemento extends JPanel {
     private static final long serialVersionUID = 1L;
     private String nombre;
@@ -33,30 +34,31 @@ public class Elemento extends JPanel {
         this.nombre = c.getNombre();
         this.telf = c.getTelefono();
         this.contacto = c;
-		this.ultimoMensaje = m;
+        this.ultimoMensaje = m;
         if (c instanceof ContactoIndividual) {
             ContactoIndividual ci = (ContactoIndividual) c;
             this.fto = ci.getUsuario().getImageIcon();
         } else {
-        	Grupo g = (Grupo) c;
+            Grupo g = (Grupo) c;
             this.fto = g.getImageIcon();
         }
         initializeComponent();
-        addInfoComponent(new InfoModelo(ultimoMensaje.getTexto(),12));
+        addInfoComponent(new InfoModelo(ultimoMensaje.getTexto(), 12));
     }
-    
+
     public Elemento(Contacto c) {
-    	this.nombre = c.getNombre();
+        this.nombre = c.getNombre();
         this.telf = c.getTelefono();
-        this.contacto = c;if (c instanceof ContactoIndividual) {
+        this.contacto = c;
+        if (c instanceof ContactoIndividual) {
             ContactoIndividual ci = (ContactoIndividual) c;
             this.fto = ci.getUsuario().getImageIcon();
         } else {
-            this.fto = new ImageIcon(getClass().getResource("/sinFotoContc.png"));
+            Grupo g = (Grupo) c;
+            this.fto = g.getImageIcon();
         }
         initializeComponent();
-        }
-    
+    }
 
     public Elemento(Usuario usuario) {
         this.nombre = usuario.getNombre();
@@ -75,8 +77,8 @@ public class Elemento extends JPanel {
         lblimagen.setIcon(new ImageIcon(imagenCircular(Imagen)));
         fixSize(lblimagen, 75, 84);
 
-        InfoModelo nomb = new InfoModelo(nombre,15);
-        InfoModelo tlf = new InfoModelo(telf,15);
+        InfoModelo nomb = new InfoModelo(nombre, 15);
+        InfoModelo tlf = new InfoModelo(telf, 15);
 
         JPanel info = new JPanel();
         info.setLayout(new BoxLayout(info, BoxLayout.Y_AXIS));
@@ -124,7 +126,7 @@ public class Elemento extends JPanel {
         return fto;
     }
 
-	public Contacto getContacto() {
-		return contacto;
-	}
+    public Contacto getContacto() {
+        return contacto;
+    }
 }
