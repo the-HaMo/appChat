@@ -11,6 +11,7 @@ public class Mensaje implements Comparable<Mensaje> {
 	private int emoticono;
 	private Usuario emisor;
 	private Contacto receptor;
+	private LocalDateTime fecha;
 	
 	public static String onlyHourNow(LocalDateTime hora) {
 		DateTimeFormatter soloHora = DateTimeFormatter.ofPattern("HH:mm");
@@ -18,25 +19,28 @@ public class Mensaje implements Comparable<Mensaje> {
 		
 	}
 //Mensaje de texto
-	public Mensaje(String texto, LocalDateTime hora, Usuario emisor, Contacto receptor) {
+	public Mensaje(String texto, LocalDateTime fecha, Usuario emisor, Contacto receptor) {
 
 		this.texto = texto;
-		this.hora = onlyHourNow(hora);
+		this.fecha = fecha;
+		this.hora = onlyHourNow(fecha);
 		this.emisor = emisor;
 		this.receptor = receptor;
 	}
 //Mensaje Emoji
-	public Mensaje(LocalDateTime hora, int emoticono, Usuario emisor, Contacto receptor) {
+	public Mensaje(LocalDateTime fecha, int emoticono, Usuario emisor, Contacto receptor) {
 
-		this.hora = onlyHourNow(hora);
+		this.fecha = fecha;
+		this.hora = onlyHourNow(fecha);
 		this.emoticono = emoticono;
 		this.emisor = emisor;
 		this.receptor = receptor;
 	}
 	//perssitencia sacar los emisores y receoptores
-	public Mensaje(LocalDateTime hora, int emoticono, String texto) {
+	public Mensaje(LocalDateTime fecha, int emoticono, String texto) {
 
-		this.hora = onlyHourNow(hora);
+		this.fecha = fecha;
+		this.hora = onlyHourNow(fecha);
 		this.emoticono = emoticono;
 		this.texto = texto;
 	}
@@ -84,7 +88,7 @@ public class Mensaje implements Comparable<Mensaje> {
 	}
 	@Override
 	public int compareTo(Mensaje o) {
-			return this.hora.compareTo(o.hora);
+			return this.fecha.compareTo(o.fecha);
 	}
 	
 	

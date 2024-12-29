@@ -418,13 +418,13 @@ private void cargarConversacion(Contacto contacto) {
     List<Mensaje> mensajes = Controlador.INSTANCE.getMensajesDeContacto(contacto);
     for (Mensaje mensaje : mensajes) {
         String displayName;
-        if (mensaje.getEmisor().equals(Controlador.INSTANCE.getUsuarioActual())) {
+        if (mensaje.getEmisor().equals(Controlador.INSTANCE.getUsuarioActual())) {//Si soy el emisor...
             displayName = mensaje.getEmisor().getNombre();
             bubbleText = new BubbleText(chat, mensaje.getTexto(), Color.green, displayName + " " + mensaje.getHora(), BubbleText.SENT);
-        } else {
-            if (Controlador.INSTANCE.getUsuarioActual().contieneContacto(mensaje.getEmisor().getTelefono())) {
-                displayName = mensaje.getEmisor().getNombre();
-            } else {
+        } else {//Si no lo soy
+            if (Controlador.INSTANCE.getUsuarioActual().contieneContacto(mensaje.getEmisor().getTelefono())) {//Si tengo el contacto
+                displayName = contacto.getNombre();
+            } else {//Si no esta agregado
                 displayName = mensaje.getEmisor().getTelefono();
                 promptAddContact(mensaje.getEmisor());
             }
