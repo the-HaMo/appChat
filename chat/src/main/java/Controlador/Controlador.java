@@ -112,13 +112,19 @@ public enum Controlador {
 		if (usuarioActual == null) {
 			return new LinkedList<>();
 		}
-		List<Mensaje> mensajes = contacto.getMensajes().stream()	//Filtra los mensajes del contacto donde el emisor o receptor son o bien el usuario actual o el contacto
-				.filter(m -> (m.getEmisor().equals(usuarioActual) || m.getReceptor().equals(usuarioActual))
-						&&(m.getEmisor().equals(contacto) || m.getReceptor().equals(contacto)))
+		if (contacto instanceof Grupo) {
+			return contacto.getMensajes().stream()
+					.filter(m -> m.getEmisor().equals(usuarioActual))
+					.sorted(Comparator.comparing(Mensaje::getHora))
+					.collect(Collectors.toList());
+		}
+		return contacto.getMensajes().stream()	//Filtra los mensajes del contacto donde el emisor o receptor son o bien el usuario actual o el contacto
+				.filter(m -> (m.getEmisor().equals(usuarioActual) || m.getReceptor().getTelefono().equals(usuarioActual.getTelefono()))
+						&&(m.getEmisor().getTelefono().equals(contacto.getTelefono()) || m.getReceptor().equals(contacto)))
 				.sorted(Comparator.comparing(Mensaje::getHora))
 				.collect(Collectors.toList());
 		// Ordenar los mensajes por fecha y hora
-		return mensajes;
+		
 	}
 	
 	public Mensaje getUltimoMensaje(Contacto c) {
@@ -173,7 +179,8 @@ public enum Controlador {
 	            adaptadorMensaje.create(m);
 	            adaptadorContactoIndividual.update(c);
 			}
-			adaptadorGrupo.update((Grupo) contacto);
+			contacto.addMensaje(new Mensaje(texto, LocalDateTime.now(), usuarioActual, grupo));
+			adaptadorGrupo.update(grupo);
 		}
 	}
 
@@ -187,11 +194,32 @@ public enum Controlador {
 		if (contacto instanceof ContactoIndividual) {
 			adaptadorContactoIndividual.update((ContactoIndividual) contacto);
 		} else {
-			
 			adaptadorGrupo.update((Grupo) contacto);
 			adaptadorContactoIndividual.update((ContactoIndividual) contacto);
 		}
 	}
+	
+	
+	public List<Mensaje> getMensajesReceptorUsuarioActual() {
+		MensajeDAO adaptadorMensaje = factoria.getMensajeDAO();
+		List<Mensaje> mensajes = adaptadorMensaje.getAll();
+		return mensajes.stream()
+				.filter(m -> m.getReceptor().getTelefono().equals(usuarioActual.getTelefono()))
+				.sorted(Comparator.comparing(Mensaje::getHora))
+				.collect(Collectors.toList());
+
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	}
 
 
