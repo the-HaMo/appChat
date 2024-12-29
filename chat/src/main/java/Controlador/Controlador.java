@@ -211,7 +211,15 @@ public enum Controlador {
 	}
 	
 	
-	
+	public List<Mensaje> getMensajesUsuario() {
+		MensajeDAO adaptadorMensaje = factoria.getMensajeDAO();
+		List<Mensaje> mensajes = adaptadorMensaje.getAll();
+		return mensajes.stream()
+				.filter(m -> (m.getReceptor().getTelefono().equals(usuarioActual.getTelefono())||(m.getEmisor().equals(usuarioActual))))
+				.sorted(Comparator.comparing(Mensaje::getHora))
+				.collect(Collectors.toList());
+
+	}
 	
 	
 	
