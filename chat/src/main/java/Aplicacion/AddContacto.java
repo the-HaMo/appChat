@@ -1,6 +1,5 @@
 package Aplicacion;
 
-import java.awt.EventQueue;
 
 import java.awt.FlowLayout;
 
@@ -15,14 +14,10 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.border.LineBorder;
-
-import Clases.Contacto;
 import Clases.ContactoIndividual;
 import Controlador.Controlador;
 import Aplicacion.*;
 
-import java.awt.Color;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 
@@ -30,7 +25,6 @@ import java.awt.Component;
 import javax.swing.Box;
 import javax.swing.JTextField;
 import javax.swing.JButton;
-import javax.swing.SwingConstants;
 
 public class AddContacto {
 
