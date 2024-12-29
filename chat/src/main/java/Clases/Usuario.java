@@ -162,6 +162,19 @@ public class Usuario {
         return false;
     }
     
+    public List<String> getContactosTelf() {
+    	return listaContactos.stream()
+    						.map(Contacto::getTelefono)
+    						.collect(Collectors.toList());
+    }
+    
+    public Contacto getContacto(String telefono) {
+    	        return listaContactos.stream()
+						.filter(c -> c.getTelefono().equals(telefono))
+						.findAny()
+						.orElse(null);
+    }
+    
     public List<Grupo> getGrupos() {
 		return listaContactos.stream()
 				.filter(c -> c instanceof Grupo)

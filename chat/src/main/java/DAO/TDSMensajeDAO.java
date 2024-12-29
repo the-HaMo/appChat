@@ -1,7 +1,6 @@
 package DAO;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -40,8 +39,7 @@ public final class TDSMensajeDAO implements MensajeDAO {
 
     private Mensaje entidadToMensaje(Entidad eMensaje) {
         String texto = servPersistencia.recuperarPropiedadEntidad(eMensaje, TEXTO);
-        String horaStr = servPersistencia.recuperarPropiedadEntidad(eMensaje, HORA);
-        LocalDateTime hora = LocalDateTime.parse(horaStr);
+        LocalDateTime hora = LocalDateTime.parse(servPersistencia.recuperarPropiedadEntidad(eMensaje, HORA));
         int emoticono = Integer.parseInt(servPersistencia.recuperarPropiedadEntidad(eMensaje, EMOTICONO));
         int emisorId = Integer.parseInt(servPersistencia.recuperarPropiedadEntidad(eMensaje, EMISOR));
         int receptorId = Integer.parseInt(servPersistencia.recuperarPropiedadEntidad(eMensaje, RECEPTOR));

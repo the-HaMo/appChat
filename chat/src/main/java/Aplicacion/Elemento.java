@@ -64,7 +64,16 @@ public class Elemento extends JPanel {
         this.nombre = usuario.getNombre();
         this.fto = usuario.getImageIcon();
         initializeComponent();
+        
     }
+    
+	public Elemento(Usuario u, Mensaje m) {
+		this.nombre = u.getTelefono();
+		this.fto = u.getImageIcon();
+		this.ultimoMensaje = m;
+		initializeComponent();
+		addInfoComponent(new InfoModelo(ultimoMensaje.getTexto(), 12));
+	}
 
     private void initializeComponent() {
         this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
