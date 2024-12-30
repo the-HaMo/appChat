@@ -162,12 +162,18 @@ public class Usuario {
         }
     }
 
-    public boolean contieneContacto(String telf) {
-        if (listaContactos == null || listaContactos.isEmpty()) {
-            return false;
+    public boolean contieneTelf(String telf) {
+        for (Contacto c : listaContactos) {
+            if (c.getTelefono().equals(telf)) {
+                return true;
+            }
         }
-        for (Contacto contact : listaContactos) {
-            if (contact.getTelefono().equals(telf)) {
+        return false;
+    }
+    
+    public boolean contieneContacto(Contacto contacto) {
+        for (Contacto c : listaContactos) {
+            if (c.getTelefono() != null && c.getTelefono().equals(contacto.getTelefono())) {
                 return true;
             }
         }
