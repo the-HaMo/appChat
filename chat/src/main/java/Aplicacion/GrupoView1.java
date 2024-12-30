@@ -219,8 +219,8 @@ public class GrupoView1 {
     			Elemento seleccionado = listaIzquierda.getSelectedValue();
     			if (seleccionado != null && seleccionado.getContacto() instanceof Grupo) {
     				Grupo gp = (Grupo) seleccionado.getContacto();
-    				CrearGrupoView editGrupo = new CrearGrupoView(lista, VentanaChat, gp.getNombre(), lista, gp.getLink());
-    				editGrupo.show();
+    				// CrearGrupoView editGrupo = new CrearGrupoView(lista, VentanaChat, gp.getNombre(), lista, gp.getLink());
+    				// editGrupo.show();
         			this.ventanaGrupo.dispose();
     			} else {
     				CrearGrupoView nuevoGrupo = new CrearGrupoView(lista, VentanaChat);
