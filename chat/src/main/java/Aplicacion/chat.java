@@ -280,6 +280,13 @@ private void initialize() {
     Image scalar = lupa.getImage().getScaledInstance(35, 35, Image.SCALE_SMOOTH);
     sendEmoji.setIcon(new ImageIcon(scalar));
     Emoji.add(sendEmoji);
+    sendEmoji.addActionListener(new ActionListener() {
+		
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+	});
 
     JPanel Send = new JPanel(new BorderLayout());
     Send.setPreferredSize(new Dimension(45, 45));
@@ -311,7 +318,7 @@ private void initialize() {
 			String texto = Message.getText();
 			Contacto c = model.getElementAt(lista.getSelectedIndex()).getContacto();
 			if (!texto.equals("")) {
-				enviarMensaje(c,texto);
+				enviarMensajeTexto(c,texto);
 				Message.setText("");
 			}
 		}
@@ -368,7 +375,7 @@ private void initialize() {
 
 
 
-public void enviarMensaje(Contacto contacto, String texto) {
+public void enviarMensajeTexto(Contacto contacto, String texto) {
 	int selectContacto = lista.getSelectedIndex();
 	Controlador.INSTANCE.enviarMensaje(contacto, texto);
 	cargarConversacion(contacto);

@@ -1,8 +1,8 @@
+
 package Aplicacion;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -17,116 +17,109 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import Controlador.Controlador;
+
 public class premiumView {
-	
-	private JFrame ventanaDescuento;
+
+    private JFrame ventanaDescuento;
     private JComboBox<String> comboDescuentos;
     private JLabel etiquetaPrecio;
-    private double precioBase = 100.0;
-	private JFrame Descuentos;
+    private double precioBase = Controlador.INSTANCE.getUsuarioActual().getPrecioPremium();
+    private static final String DESCUENTOMENSAJES = "Descuento Contando Mensajes";
+    private static final String DESCUENTOREGISTRO = "Descuento Registro";
+    private static final String SINDESCUENTO = "Sin Descuento";
 
-	public premiumView() {
-		initialize();
-	}
+    public premiumView() {
+        initialize();
+    }
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
+    private void initialize() {
+        ventanaDescuento = new JFrame();
+        ventanaDescuento.setTitle("Seleccionar Descuento Premium");
+        ventanaDescuento.setSize(400, 200);
+        ventanaDescuento.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        ventanaDescuento.getContentPane().setLayout(new BorderLayout());
+        ventanaDescuento.setResizable(false);
 
-	private void initialize() {
-	        ventanaDescuento = new JFrame();
-	        ventanaDescuento.setTitle("Seleccionar Descuento Premium");
-	        ventanaDescuento.setSize(400, 200);
-	        ventanaDescuento.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-	        ventanaDescuento.getContentPane().setLayout(new BorderLayout());
-	        ventanaDescuento.setResizable(false);
+        JPanel panelTitulo = new JPanel();
+        panelTitulo.setBackground(new Color(0, 255, 0));
+        ventanaDescuento.getContentPane().add(panelTitulo, BorderLayout.NORTH);
 
-	        // Panel para el título
-	        JPanel panelTitulo = new JPanel();
-	        panelTitulo.setBackground(Color.WHITE);
-	        ventanaDescuento.getContentPane().add(panelTitulo, BorderLayout.NORTH);
+        JLabel titulo = new JLabel("Usuario Premium");
+        titulo.setFont(new Font("Arial", Font.BOLD, 14));
+        panelTitulo.add(titulo);
 
-	        JLabel titulo = new JLabel("Usuario Premium");
-	        titulo.setFont(new Font("Arial", Font.BOLD, 14));
-	        panelTitulo.add(titulo);
+        JPanel panelCentral = new JPanel();
+        panelCentral.setBackground(new Color(0, 255, 0));
+        panelCentral.setLayout(new GridLayout(2, 2, 10, 10));
+        panelCentral.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        ventanaDescuento.getContentPane().add(panelCentral, BorderLayout.CENTER);
 
-	        // Panel central con los controles
-	        JPanel panelCentral = new JPanel();
-	        panelCentral.setLayout(new GridLayout(2, 2, 10, 10));
-	        panelCentral.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-	        ventanaDescuento.getContentPane().add(panelCentral, BorderLayout.CENTER);
+        JLabel etiquetaDescuento = new JLabel("Selecciona un descuento:");
+        comboDescuentos = new JComboBox<>(new String[] {
+            SINDESCUENTO, DESCUENTOMENSAJES, DESCUENTOREGISTRO
+        });
 
-	        // Etiqueta y ComboBox para seleccionar el descuento
-	        JLabel etiquetaDescuento = new JLabel("Selecciona un descuento:");
-	        comboDescuentos = new JComboBox<>(new String[] {
-	            "Sin Descuento", "Descuento Mayores", "Descuento Estudiantes", "Descuento Especial"
-	        });
+        panelCentral.add(etiquetaDescuento);
+        panelCentral.add(comboDescuentos);
 
-	        panelCentral.add(etiquetaDescuento);
-	        panelCentral.add(comboDescuentos);
+        JLabel etiquetaCantidad = new JLabel("Cantidad a pagar:");
+        etiquetaPrecio = new JLabel(String.format("%.2f€", precioBase));
 
-	        // Etiqueta para mostrar la cantidad a pagar
-	        JLabel etiquetaCantidad = new JLabel("Cantidad a pagar:");
-	        etiquetaPrecio = new JLabel(String.format("%.2f€", precioBase)); // Mostrar precio inicial
+        panelCentral.add(etiquetaCantidad);
+        panelCentral.add(etiquetaPrecio);
 
-	        panelCentral.add(etiquetaCantidad);
-	        panelCentral.add(etiquetaPrecio);
+        JPanel panelInferior = new JPanel();
+        panelInferior.setBackground(new Color(0, 255, 0));
+        panelInferior.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        ventanaDescuento.getContentPane().add(panelInferior, BorderLayout.SOUTH);
 
-	        // Panel inferior con botones
-	        JPanel panelInferior = new JPanel();
-	        panelInferior.setLayout(new FlowLayout(FlowLayout.RIGHT));
-	        ventanaDescuento.getContentPane().add(panelInferior, BorderLayout.SOUTH);
+        JButton botonAceptar = new JButton("Aceptar");
+        JButton botonCancelar = new JButton("Cancelar");
 
-	        JButton botonAceptar = new JButton("Aceptar");
-	        JButton botonCancelar = new JButton("Cancelar");
+        panelInferior.add(botonAceptar);
+        panelInferior.add(botonCancelar);
 
-	        panelInferior.add(botonAceptar);
-	        panelInferior.add(botonCancelar);
+        comboDescuentos.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                actualizarPrecio();
+            }
+        });
 
-	        // Lógica de cálculo al seleccionar un descuento
-	        comboDescuentos.addActionListener(new ActionListener() {
-	            @Override
-	            public void actionPerformed(ActionEvent e) {
-	                actualizarPrecio();
-	            }
-	        });
+        botonAceptar.addActionListener(e -> {
+            JOptionPane.showMessageDialog(ventanaDescuento, "Descuento aplicado correctamente.", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
+            ventanaDescuento.dispose();
+        });
 
-	        // Acción para el botón Aceptar
-	        botonAceptar.addActionListener(e -> {
-	            JOptionPane.showMessageDialog(ventanaDescuento, "Descuento aplicado correctamente.", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
-	            ventanaDescuento.dispose();
-	        });
+        botonCancelar.addActionListener(e -> ventanaDescuento.dispose());
+    }
 
-	        // Acción para el botón Cancelar
-	        botonCancelar.addActionListener(e -> ventanaDescuento.dispose());
-	    }
+    private void actualizarPrecio() {
+        String descuentoSeleccionado = (String) comboDescuentos.getSelectedItem();
+        double precioFinal = precioBase;
+        Descuento descuento = null;
 
-	    private void actualizarPrecio() {
-	        String descuentoSeleccionado = (String) comboDescuentos.getSelectedItem();
-	        double precioFinal = precioBase;
+        switch (descuentoSeleccionado) {
+            case DESCUENTOMENSAJES:
+                descuento = new DescuentoNumMensajes();
+                break;
+            case DESCUENTOREGISTRO:
+                descuento = new DescuentoFecha();
+                break;
+            case SINDESCUENTO:
+                descuento = null;
+                break;
+        }
 
-	        switch (descuentoSeleccionado) {
-	        // Aqui seria Controlador.INSTANCE.setDescuento(precioBase)... 
-	            case "Sin Descuento":
-	                precioFinal = precioBase;
-	                break;
-	            case "Descuento Mayores":
-	                precioFinal = precioBase;
-	                break;
-	            case "Descuento Estudiantes":
-	                precioFinal = precioBase;
-	                break;
-	            case "Descuento Especial":
-	                precioFinal = precioBase;
-	                break;
-	        }
+        if (descuento != null) {
+            precioFinal = descuento.getDescuento(precioBase);
+        }
 
-	        etiquetaPrecio.setText(String.format("%.2f€", precioFinal));
-	    }
+        etiquetaPrecio.setText(String.format("%.2f€", precioFinal));
+    }
 
-	    public void show() {
-	        ventanaDescuento.setVisible(true);
-	    }
-	    
+    public void show() {
+        ventanaDescuento.setVisible(true);
+    }
 }
-
