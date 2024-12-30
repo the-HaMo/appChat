@@ -43,11 +43,14 @@ public final class TDSMensajeDAO implements MensajeDAO {
         int emoticono = Integer.parseInt(servPersistencia.recuperarPropiedadEntidad(eMensaje, EMOTICONO));
         int emisorId = Integer.parseInt(servPersistencia.recuperarPropiedadEntidad(eMensaje, EMISOR));
         int receptorId = Integer.parseInt(servPersistencia.recuperarPropiedadEntidad(eMensaje, RECEPTOR));
-
+        Mensaje mensaje=new Mensaje(hora,emoticono,texto);
+        mensaje.setId(eMensaje.getId());
+        PoolDAO.getInstancia().addObjeto(mensaje.getId(), mensaje);
+        
         Usuario emisor = TDSUsuarioDAO.getInstancia().get(emisorId);
         Contacto receptor = TDSContactoIndividualDAO.getInstancia().get(receptorId);
 
-        Mensaje mensaje=new Mensaje(hora,emoticono,texto);
+        
         
         TDSUsuarioDAO uDAO = TDSUsuarioDAO.getInstancia();
 		int idUsuario = Integer.parseInt(servPersistencia.recuperarPropiedadEntidad(eMensaje, EMISOR));
@@ -60,7 +63,7 @@ public final class TDSMensajeDAO implements MensajeDAO {
 		receptor = contactoDAO.get(codigoContacto);
 		mensaje.setReceptor(receptor);
         
-        mensaje.setId(eMensaje.getId());
+        
         return mensaje;
     }
 
@@ -78,8 +81,13 @@ public final class TDSMensajeDAO implements MensajeDAO {
     }
 
     public Mensaje get(int codigo) {
-        Entidad eMensaje = servPersistencia.recuperarEntidad(codigo);
-        return entidadToMensaje(eMensaje);
+    	if(!PoolDAO.getInstancia().contiene(codigo)) {
+    		Entidad eMensaje = servPersistencia.recuperarEntidad(codigo);
+            return entidadToMensaje(eMensaje);
+    	}else {
+    		return (Mensaje) PoolDAO.getInstancia().getObjeto(codigo);
+    	}
+        
     }
 
 

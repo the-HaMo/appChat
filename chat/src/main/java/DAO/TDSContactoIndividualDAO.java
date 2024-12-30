@@ -58,11 +58,17 @@ public final class TDSContactoIndividualDAO implements ContactoIndividualDAO {
     private ContactoIndividual entidadToContacto(Entidad eContacto) {
         String nombre = servPersistencia.recuperarPropiedadEntidad(eContacto, NOMBRE);
         String telefono = servPersistencia.recuperarPropiedadEntidad(eContacto, TELEFONO);
+        ContactoIndividual contacto = new ContactoIndividual(nombre, telefono, null, new LinkedList<Mensaje>());
+        contacto.setId(eContacto.getId());
+        PoolDAO.getInstancia().addObjeto(contacto.getId(), contacto);
+        
         int usuarioId = Integer.parseInt(servPersistencia.recuperarPropiedadEntidad(eContacto, USUARIO));
         Usuario usuario = TDSUsuarioDAO.getInstancia().get(usuarioId);
+        contacto.setUsuario(usuario);
         List<Mensaje> mensajes = mensajesDesdeID(servPersistencia.recuperarPropiedadEntidad(eContacto, MENSAJES));
-        ContactoIndividual contacto = new ContactoIndividual(nombre, telefono, usuario, mensajes);
-        contacto.setId(eContacto.getId());
+		for (Mensaje mensaje : mensajes) {
+			contacto.addMensaje(mensaje);
+		}
         return contacto;
     }
 
@@ -100,9 +106,13 @@ public final class TDSContactoIndividualDAO implements ContactoIndividualDAO {
 
     @Override
     public ContactoIndividual get(int id) {
-
-    	Entidad eContacto = servPersistencia.recuperarEntidad(id);
-        return entidadToContacto(eContacto);
+    	
+    	if(!PoolDAO.getInstancia().contiene(id)) {
+    		Entidad eContacto = servPersistencia.recuperarEntidad(id);
+            return entidadToContacto(eContacto);
+		} else {
+			return (ContactoIndividual) PoolDAO.getInstancia().getObjeto(id);
+		}
     }
     
     
