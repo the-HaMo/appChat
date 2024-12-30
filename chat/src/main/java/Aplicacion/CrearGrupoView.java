@@ -115,6 +115,11 @@ public class CrearGrupoView {
         nombrePanel.add(Nombre);
         Nombre.setColumns(10);
         
+        if (Edit) {
+        	Nombre.setText(nameOrginal);
+        	Nombre.setEditable(false);
+        }
+        
         Component horizontalStrut_4 = Box.createHorizontalStrut(20);
         horizontalStrut_4.setPreferredSize(new Dimension(70, 0));
         nombrePanel.add(horizontalStrut_4);
@@ -176,6 +181,13 @@ public class CrearGrupoView {
         imageLabel.setBorder(BorderFactory.createLineBorder(Color.BLACK)); // Borde negro alrededor del área de la foto
         photo.add(imageLabel, BorderLayout.CENTER);
         
+        if (Edit && foto != null && !foto.isEmpty()) {
+        	ImageIcon img = new ImageIcon(foto);
+        	img= new ImageIcon(img.getImage().getScaledInstance(imageLabel.getWidth() + 15, imageLabel.getHeight() + 15, java.awt.Image.SCALE_SMOOTH));
+            imageLabel.setIcon(img);
+        	
+        }
+        
         Component horizontalStrut_2 = Box.createHorizontalStrut(20);
         horizontalStrut_2.setMinimumSize(new Dimension(150, 0));
         horizontalStrut_2.setMaximumSize(new Dimension(150, 32767));
@@ -200,6 +212,10 @@ public class CrearGrupoView {
         JButton Cargar = new JButton("cargar");
         Cargar.setBackground(Color.WHITE);
         boton.add(Cargar);
+        
+        if(Edit) {
+        	Cargar.setEnabled(false);
+        }
         
         Cargar.addActionListener(new ActionListener() {
             @Override
