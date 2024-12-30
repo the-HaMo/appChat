@@ -400,8 +400,6 @@ private void cargarConversacion(Contacto contacto) {
     chat.repaint();
 }
 
-
-
  public void actualizarListaContactos() {
     model.clear();
     List<Contacto> contactos = Controlador.INSTANCE.getContactosUsuarioActual();

@@ -16,7 +16,6 @@ public class Mensaje implements Comparable<Mensaje> {
 	public static String onlyHourNow(LocalDateTime hora) {
 		DateTimeFormatter soloHora = DateTimeFormatter.ofPattern("HH:mm");
 		return hora.format(soloHora);
-		
 	}
 //Mensaje de texto
 	public Mensaje(String texto, LocalDateTime fecha, Usuario emisor, Contacto receptor) {
