@@ -161,6 +161,7 @@ public class Usuario {
         }
         return false;
     }
+
     
     public List<String> getContactosTelf() {
     	return listaContactos.stream()
