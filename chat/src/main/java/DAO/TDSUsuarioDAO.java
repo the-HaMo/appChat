@@ -2,6 +2,7 @@ package DAO;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -31,6 +32,7 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 	private static final String FECHA_NACIMIENTO = "fechaNacimiento";
 	private static final String CONTACTOS = "contactos";
 	private static final String GRUPOS = "grupos";
+	private static final String REGISTRO = "fechaRegistro";
 
 	private ServicioPersistencia servPersistencia;
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -53,6 +55,8 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
         String foto = servPersistencia.recuperarPropiedadEntidad(eUsuario, FOTO);
         String saludo = servPersistencia.recuperarPropiedadEntidad(eUsuario, SALUDO);
         Boolean premium = Boolean.valueOf(servPersistencia.recuperarPropiedadEntidad(eUsuario, PREMIUM));
+        String registroStr = servPersistencia.recuperarPropiedadEntidad(eUsuario, REGISTRO);
+        LocalDate registro=LocalDate.parse(registroStr);
         String fechaStr = servPersistencia.recuperarPropiedadEntidad(eUsuario, FECHA_NACIMIENTO);
         Date fecha=null;
 		try {
@@ -60,7 +64,7 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		Usuario usuario = new Usuario(nombre, telefono, password, foto, fecha, saludo, premium);
+		Usuario usuario = new Usuario(nombre, telefono, password, foto, fecha, saludo, premium, registro);
         usuario.setId(eUsuario.getId());
         
         List<ContactoIndividual> contactos = codigosAContactos(servPersistencia.recuperarPropiedadEntidad(eUsuario, CONTACTOS));
@@ -87,7 +91,9 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
                         new Propiedad(FECHA_NACIMIENTO, dateFormat.format(usuario.getFechaNacimiento())),
                         new Propiedad(SALUDO, usuario.getSaludo()),
                         new Propiedad(GRUPOS, GruposACodigo(usuario.getListaContactos())),
-        				new Propiedad(CONTACTOS, ContactoACodigo(usuario.getListaContactos())))));
+        				new Propiedad(CONTACTOS, ContactoACodigo(usuario.getListaContactos())),
+        				new Propiedad(REGISTRO, usuario.getFechaRegistro().toString())
+        		)));
         return eUsuario;
     }
 
@@ -126,26 +132,25 @@ public void update(Usuario usuario) {
             prop.setValor(ContactoACodigo(usuario.getListaContactos()));
         } else if (prop.getNombre().equals(GRUPOS)) {
             prop.setValor(GruposACodigo(usuario.getListaContactos()));
-        }
+		} else if (prop.getNombre().equals(REGISTRO)) {
+			prop.setValor(usuario.getFechaRegistro().toString());
+		}
         servPersistencia.modificarPropiedad(prop);
     	}
     }
 
 	public Usuario get(int id) {
 		Entidad eUsuario = servPersistencia.recuperarEntidad(id);
-
 		return entidadToUsuario(eUsuario);
 	}
 
 	public List<Usuario> getAll() {
-		List<Entidad> entidades = servPersistencia.recuperarEntidades(USUARIO);
-
-		List<Usuario> usuarios = new LinkedList<Usuario>();
-		for (Entidad eUsuario : entidades) {
-			usuarios.add(get(eUsuario.getId()));
-		}
-
-		return usuarios;
+	    List<Entidad> entidades = servPersistencia.recuperarEntidades(USUARIO);
+	    List<Usuario> usuarios = new LinkedList<>();
+	    for (Entidad eUsuario : entidades) {
+	        usuarios.add(get(eUsuario.getId()));
+	    }
+	    return usuarios;
 	}
 	
 	private List<ContactoIndividual> codigosAContactos(String ids) {

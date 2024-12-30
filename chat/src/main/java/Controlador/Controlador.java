@@ -110,7 +110,7 @@ public enum Controlador {
 	}
 	
 	 
-	public List<Mensaje> getMensajesDeContacto(Contacto contacto) {
+	public List<Mensaje> getMensajesDeContacto(Contacto contacto) {//todos los mensajes con un contacto
 		if (usuarioActual == null) {
 			return new LinkedList<>();
 		}
@@ -206,6 +206,7 @@ public enum Controlador {
 		List<Mensaje> mensajes = adaptadorMensaje.getAll();
 		return mensajes.stream()
 				.filter(m -> m.getReceptor().getTelefono().equals(usuarioActual.getTelefono()))
+				.filter(m -> !(usuarioActual.contieneContacto(m.getEmisor().getTelefono())))
 				.sorted(Comparator.comparing(Mensaje::getHora))
 				.collect(Collectors.toList());
 
@@ -214,7 +215,6 @@ public enum Controlador {
 	    if (usuarioActual == null) {
 	        return new LinkedList<>(); 
 	    }
-
 	    return usuarioActual.getListaContactos().stream()
 	            .filter(contacto -> contacto instanceof Grupo)
 	            .map(contacto -> (Grupo) contacto)
@@ -227,7 +227,6 @@ public enum Controlador {
 				.filter(m -> (m.getReceptor().getTelefono().equals(usuarioActual.getTelefono())||(m.getEmisor().equals(usuarioActual))))
 				.sorted(Comparator.comparing(Mensaje::getHora))
 				.collect(Collectors.toList());
-
 	}	
 	
 	
@@ -252,6 +251,16 @@ public enum Controlador {
 	        adaptadorUsu.update(usuarioActual);
 	    }
 	}
+	
+	public long getNumMensajesEnviados() {
+		MensajeDAO adaptadorMensaje = factoria.getMensajeDAO();
+		long contar= adaptadorMensaje.getAll().stream()
+				.filter(m -> m.getEmisor().equals(usuarioActual))
+				.count();
+		return contar;
+	}
+	
+	
 
 	
 }

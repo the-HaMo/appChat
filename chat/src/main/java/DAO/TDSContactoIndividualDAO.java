@@ -42,33 +42,28 @@ public final class TDSContactoIndividualDAO implements ContactoIndividualDAO {
     }
 
 
-	private Entidad contactoToEntidad(ContactoIndividual contacto) {
-		Entidad eContacto = new Entidad();
-
-		eContacto.setNombre(CONTACTO);
-		eContacto.setPropiedades(new ArrayList<Propiedad>(
-				Arrays.asList(
-						new Propiedad(NOMBRE, contacto.getNombre()),
-						new Propiedad(TELEFONO, contacto.getTelefono()),
-						new Propiedad(MENSAJES, CodigoMensajes(contacto.getMensajes())), // Assuming mensajes is a List<Mensaje>
-						new Propiedad(USUARIO, String.valueOf(contacto.getUsuario().getId())))));
-		return eContacto;
-	}
-
+    private Entidad contactoToEntidad(ContactoIndividual contacto) {
+        Entidad eContacto = new Entidad();
+        eContacto.setNombre(CONTACTO);
+        eContacto.setPropiedades(new ArrayList<Propiedad>(
+                Arrays.asList(
+                        new Propiedad(NOMBRE, contacto.getNombre()),
+                        new Propiedad(TELEFONO, contacto.getTelefono()),
+                        new Propiedad(USUARIO, String.valueOf(contacto.getUsuario().getId())),
+                        new Propiedad(MENSAJES, mensajesACodigo(contacto.getMensajes()))
+                )));
+        return eContacto;
+    }
     
-	private ContactoIndividual entidadToContacto(Entidad eContacto) {
-		String nombre = servPersistencia.recuperarPropiedadEntidad(eContacto, NOMBRE);
-		String telefono = servPersistencia.recuperarPropiedadEntidad(eContacto, TELEFONO);
-		ContactoIndividual contacto = new ContactoIndividual(nombre,telefono , null);		
-		// Mensajes que el contacto tiene
-		List<Mensaje> mensajes = MensajesDesdeID(servPersistencia.recuperarPropiedadEntidad(eContacto, MENSAJES));
-		for (Mensaje m : mensajes)
-			contacto.addMensaje(m);
-
-		// Obtener usuario del contacto
-		contacto.setUsuario(getUsuario(servPersistencia.recuperarPropiedadEntidad(eContacto, USUARIO)));
-		contacto.setId(eContacto.getId());
-		return contacto;
+    private ContactoIndividual entidadToContacto(Entidad eContacto) {
+        String nombre = servPersistencia.recuperarPropiedadEntidad(eContacto, NOMBRE);
+        String telefono = servPersistencia.recuperarPropiedadEntidad(eContacto, TELEFONO);
+        int usuarioId = Integer.parseInt(servPersistencia.recuperarPropiedadEntidad(eContacto, USUARIO));
+        Usuario usuario = TDSUsuarioDAO.getInstancia().get(usuarioId);
+        List<Mensaje> mensajes = mensajesDesdeID(servPersistencia.recuperarPropiedadEntidad(eContacto, MENSAJES));
+        ContactoIndividual contacto = new ContactoIndividual(nombre, telefono, usuario, mensajes);
+        contacto.setId(eContacto.getId());
+        return contacto;
     }
 
     @Override
@@ -95,7 +90,7 @@ public final class TDSContactoIndividualDAO implements ContactoIndividualDAO {
 	        } else if (prop.getNombre().equals(TELEFONO)) {
 	            prop.setValor( String.valueOf(contacto.getTelefono()));
 	        } else if (prop.getNombre().equals(MENSAJES)) {
-	            prop.setValor(CodigoMensajes(contacto.getMensajes()));
+	            prop.setValor(mensajesACodigo(contacto.getMensajes()));
 	        }else if (prop.getNombre().equals(USUARIO)) {
                 prop.setValor(String.valueOf(contacto.getUsuario().getId()));
             }
@@ -124,11 +119,7 @@ public final class TDSContactoIndividualDAO implements ContactoIndividualDAO {
 
         return contactos;
     }
-    
-    private Usuario getUsuario(String id) {
-		TDSUsuarioDAO usuariosDAO = TDSUsuarioDAO.getInstancia();
-		return usuariosDAO.get(Integer.valueOf(id));
-	}
+
 
 
 	@Override
@@ -140,21 +131,21 @@ public final class TDSContactoIndividualDAO implements ContactoIndividualDAO {
 	}
 	
 	
-	private String CodigoMensajes(List<Mensaje> mensajes) {
-		return mensajes.stream()
-				.map(m -> String.valueOf(m.getId()))
-				.reduce("", (x, y) -> x + y + " ")
-				.trim();
-	}
+	private String mensajesACodigo(List<Mensaje> mensajes) {
+        return mensajes.stream()
+                .map(m -> String.valueOf(m.getId()))
+                .reduce("", (x, y) -> x + y + " ")
+                .trim();
+    }
  
-	private List<Mensaje> MensajesDesdeID(String idMensajes) {
-		List<Mensaje> mensajes = new LinkedList<>();
-		StringTokenizer token = new StringTokenizer(idMensajes, " ");
-		TDSMensajeDAO mensajeDAO = TDSMensajeDAO.getInstancia();
-		while (token.hasMoreTokens()) {
-			String id = (String) token.nextElement();
-			mensajes.add(mensajeDAO.get(Integer.valueOf(id)));
-		}
-		return mensajes;
+	private List<Mensaje> mensajesDesdeID(String idMensajes) {
+	    List<Mensaje> mensajes = new LinkedList<>();
+	    StringTokenizer token = new StringTokenizer(idMensajes, " ");
+	    TDSMensajeDAO mensajeDAO = TDSMensajeDAO.getInstancia();
+	    while (token.hasMoreTokens()) {
+	        String id = token.nextToken();
+	        mensajes.add(mensajeDAO.get(Integer.valueOf(id)));
+	    }
+	    return mensajes;
 	}
 }

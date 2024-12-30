@@ -69,7 +69,7 @@ public final class TDSMensajeDAO implements MensajeDAO {
         eMensaje.setNombre(MENSAJE);
         eMensaje.setPropiedades(new ArrayList<Propiedad>(Arrays.asList(
                 new Propiedad(TEXTO, mensaje.getTexto()),
-                new Propiedad(HORA, mensaje.getHora().toString()),
+                new Propiedad(HORA, mensaje.getFechaStr()),
                 new Propiedad(EMOTICONO, String.valueOf(mensaje.getEmoticono())),
                 new Propiedad(EMISOR, String.valueOf(mensaje.getEmisor().getId())),
                 new Propiedad(RECEPTOR, String.valueOf(mensaje.getReceptor().getId()))

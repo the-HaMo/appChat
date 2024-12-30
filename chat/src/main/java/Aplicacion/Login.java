@@ -4,8 +4,6 @@ import Controlador.*;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 
 
 import javax.swing.JFrame;
@@ -14,16 +12,12 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import javax.swing.JLabel;
 import java.awt.Font;
-import java.awt.event.FocusEvent;
 import java.awt.Color;
 import java.awt.Component;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
-import javax.swing.JTextArea;
-import javax.swing.JPasswordField;
 import javax.swing.border.TitledBorder;
-import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;

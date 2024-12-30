@@ -346,58 +346,6 @@ private void initialize() {
     frame.revalidate();
 }
 
-/*
-public void actualizarListaContactos() {
-    // Inicializar el Map con los elementos actuales
-    Map<String, Elemento> elementosMap = new HashMap<>();
-    for (Elemento el : getElementos()) {
-        elementosMap.put(el.getContacto() != null ? el.getContacto().getTelefono() : el.getNombre(), el);
-    }
-    Usuario usuarioActual = Controlador.INSTANCE.getUsuarioActual();
-    List<Mensaje> mensajes = Controlador.INSTANCE.getMensajesUsuario();
-    List<String> contactosT = usuarioActual.getContactosTelf();
-    
-    // Procesar los mensajes
-    for (Mensaje m : mensajes) {
-        String clave = m.getEmisor().getTelefono();
-        Elemento nuevoElemento;
-        if (contactosT.contains(clave)) {
-            // Contacto conocido
-            Contacto contacto = usuarioActual.getContacto(clave);
-            contacto.addMensaje(m);
-            ElementoInterfaz contactoFactory = new ContactoElementoFactoria(contacto, m);
-            nuevoElemento = contactoFactory.createElemento();
-        } else {
-            // Contacto desconocido
-            ElementoInterfaz descFactoria = new DesconocidoElementoFactoria(m.getEmisor(), m);
-            nuevoElemento = descFactoria.createElemento();
-        }
-        // Actualizar el Map
-        elementosMap.put(clave, nuevoElemento);
-    }
-    // Procesar los contactos que no tienen mensajes
-    List<Contacto> contactos = Controlador.INSTANCE.getContactosUsuarioActual();
-    for (Contacto c : contactos) {
-        String clave = c.getTelefono();
-        if (!elementosMap.containsKey(clave)) {
-            Mensaje mensaje = Controlador.INSTANCE.getUltimoMensaje(c);
-            if (mensaje == null) {
-                mensaje = new Mensaje(LocalDateTime.now(), 0, ""); // Crear mensaje vacío
-            }
-            ElementoInterfaz contactoFactory = new ContactoElementoFactoria(c, mensaje);
-            elementosMap.put(clave, contactoFactory.createElemento());
-        }
-    }
-
-    // Actualizar el modelo gráfico
-    model.clear();
-    for (Elemento elemento : elementosMap.values()) {
-        model.addElement(elemento);
-    }
-
-    lista.repaint();
-    lista.revalidate();
-}*/
 
 
 public void enviarMensaje(Contacto contacto, String texto) {
@@ -411,6 +359,7 @@ public void enviarMensaje(Contacto contacto, String texto) {
 }
 
 //aqui se supone que se carga la conversacion con un contacto ya añadido, si se intena con uno no AÑADIDO se petara
+
 private void cargarConversacion(Contacto contacto) {
     chat.removeAll(); // Clear the current chat panel
 
@@ -418,16 +367,11 @@ private void cargarConversacion(Contacto contacto) {
     List<Mensaje> mensajes = Controlador.INSTANCE.getMensajesDeContacto(contacto);
     for (Mensaje mensaje : mensajes) {
         String displayName;
-        if (mensaje.getEmisor().equals(Controlador.INSTANCE.getUsuarioActual())) {//Si soy el emisor...
+        if (mensaje.getEmisor().equals(Controlador.INSTANCE.getUsuarioActual())) { // Si soy el emisor...
             displayName = mensaje.getEmisor().getNombre();
             bubbleText = new BubbleText(chat, mensaje.getTexto(), Color.green, displayName + " " + mensaje.getHora(), BubbleText.SENT);
-        } else {//Si no lo soy
-            if (Controlador.INSTANCE.getUsuarioActual().contieneContacto(mensaje.getEmisor().getTelefono())) {//Si tengo el contacto
-                displayName = contacto.getNombre();
-            } else {//Si no esta agregado
-                displayName = mensaje.getEmisor().getTelefono();
-                promptAddContact(mensaje.getEmisor());
-            }
+        } else { // Si no lo soy
+            displayName = contacto.getNombre();
             bubbleText = new BubbleText(chat, mensaje.getTexto(), Color.white, displayName + " " + mensaje.getHora(), BubbleText.RECEIVED);
         }
         chat.add(bubbleText);
@@ -436,13 +380,6 @@ private void cargarConversacion(Contacto contacto) {
     chat.repaint();
 }
 
-private void promptAddContact(Usuario emisor) {
-    int response = JOptionPane.showConfirmDialog(frame, "Do you want to add " + emisor.getTelefono() + " as a contact?", "Add Contact", JOptionPane.YES_NO_OPTION);
-    if (response == JOptionPane.YES_OPTION) {
-        Controlador.INSTANCE.crearContacto(emisor.getNombre(), emisor.getTelefono());
-        actualizarListaContactos();
-    }
-}
 
 
  public void actualizarListaContactos() {
@@ -455,6 +392,12 @@ private void promptAddContact(Usuario emisor) {
         }
         ElementoInterfaz contactoFactory = new ContactoElementoFactoria(c, mensaje);
         model.addElement(contactoFactory.createElemento());
+    }
+    List<Mensaje> mensajesRecibidos = Controlador.INSTANCE.getMensajesReceptorUsuarioActual();	//mensajes de usuarios no añadidos
+    for(Mensaje m: mensajesRecibidos) {
+    	ContactoIndividual contacto = Controlador.INSTANCE.crearContacto(m.getEmisor().getTelefono(),m.getEmisor().getTelefono());
+		ElementoInterfaz contactoFactory = new ContactoElementoFactoria(contacto, m);
+		model.addElement(contactoFactory.createElemento());
     }
     lista.repaint();
     lista.revalidate();
