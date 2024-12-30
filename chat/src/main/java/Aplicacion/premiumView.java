@@ -75,7 +75,21 @@ public class premiumView {
         ventanaDescuento.getContentPane().add(panelInferior, BorderLayout.SOUTH);
 
         JButton botonAceptar = new JButton("Aceptar");
+        botonAceptar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Controlador.INSTANCE.hacerPremium();
+				ventanaDescuento.dispose();
+			}
+		});
+        
         JButton botonCancelar = new JButton("Cancelar");
+        botonCancelar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ventanaDescuento.dispose();
+			}
+		});
 
         panelInferior.add(botonAceptar);
         panelInferior.add(botonCancelar);
