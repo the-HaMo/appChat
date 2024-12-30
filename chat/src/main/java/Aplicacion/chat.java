@@ -22,7 +22,6 @@ import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.border.LineBorder;
 import java.awt.Image;
 import java.awt.Rectangle;
