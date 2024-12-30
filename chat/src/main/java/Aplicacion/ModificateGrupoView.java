@@ -5,11 +5,6 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import Clases.Contacto;
 import Clases.ContactoIndividual;
@@ -203,9 +198,7 @@ public class ModificateGrupoView {
                     } else if (contactoEnGrupo) {
                         JOptionPane.showMessageDialog(ventanaGrupo, "Este contacto ya está en el grupo.", "Aviso", JOptionPane.WARNING_MESSAGE);
                     } else {
-                        // Agregar el contacto al grupo
                         grupo.addContacto(contacto);
-                        // Actualizar la lista de integrantes del grupo (gestión actual)
                         modeloSeleccionados.addElement(seleccionado);
                     }
                 } else {
@@ -237,7 +230,8 @@ public class ModificateGrupoView {
         
         // Mejor CrearGrupoView
         botonConfirmar.addActionListener(e -> {
-            JOptionPane.showMessageDialog(ventanaGrupo, "Grupo confirmado!", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(ventanaGrupo, "Grupo Modificado!", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
+            this.ventanaGrupo.dispose();
         });
     }
 
