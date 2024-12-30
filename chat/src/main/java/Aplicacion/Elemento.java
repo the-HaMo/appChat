@@ -1,11 +1,6 @@
 
 package Aplicacion;
 
-import Clases.Contacto;
-import Clases.ContactoIndividual;
-import Clases.Grupo;
-import Clases.Mensaje;
-import Clases.Usuario;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -14,13 +9,14 @@ import java.awt.Image;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 
+import Clases.*;
+
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
-
 
 public class Elemento extends JPanel {
     private static final long serialVersionUID = 1L;
@@ -43,7 +39,7 @@ public class Elemento extends JPanel {
             this.fto = g.getImageIcon();
         }
         initializeComponent();
-        addInfoComponent(new InfoModelo(ultimoMensaje.getTexto(), 12));
+        addInfoComponent(new InfoModelo(ultimoMensaje.getTexto(), 12, Color.BLACK));
     }
 
     public Elemento(Contacto c) {
@@ -63,19 +59,27 @@ public class Elemento extends JPanel {
     public Elemento(Usuario usuario) {
         this.nombre = usuario.getNombre();
         this.fto = usuario.getImageIcon();
-        initializeComponent();
+        Color color= Color.BLACK;
+        if(usuario.isPremium()) {
+        	color= Color.YELLOW;
+        }
         
+        initializeComponent(color);
     }
-    
-	public Elemento(Usuario u, Mensaje m) {
-		this.nombre = u.getTelefono();
-		this.fto = u.getImageIcon();
-		this.ultimoMensaje = m;
-		initializeComponent();
-		addInfoComponent(new InfoModelo(ultimoMensaje.getTexto(), 12));
-	}
+
+    public Elemento(Usuario u, Mensaje m) {
+        this.nombre = u.getTelefono();
+        this.fto = u.getImageIcon();
+        this.ultimoMensaje = m;
+        initializeComponent();
+        addInfoComponent(new InfoModelo(ultimoMensaje.getTexto(), 12, Color.BLACK));
+    }
 
     private void initializeComponent() {
+        initializeComponent(Color.BLACK);
+    }
+
+    private void initializeComponent(Color color) {
         this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         fixSize(this, 300, 100);
         this.setBackground(Color.LIGHT_GRAY);
@@ -86,8 +90,8 @@ public class Elemento extends JPanel {
         lblimagen.setIcon(new ImageIcon(imagenCircular(Imagen)));
         fixSize(lblimagen, 75, 84);
 
-        InfoModelo nomb = new InfoModelo(nombre, 15);
-        InfoModelo tlf = new InfoModelo(telf, 15);
+        InfoModelo nomb = new InfoModelo(nombre, 15, color);
+        InfoModelo tlf = new InfoModelo(telf, 15, Color.BLACK);
 
         JPanel info = new JPanel();
         info.setLayout(new BoxLayout(info, BoxLayout.Y_AXIS));

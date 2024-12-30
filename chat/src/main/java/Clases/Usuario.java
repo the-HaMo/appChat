@@ -190,4 +190,6 @@ public class Usuario {
 		return listaContactos.stream()
 				.anyMatch(c -> c instanceof ContactoIndividual && c.getNombre().equals(nombre));
 	}
+    
+    
 }

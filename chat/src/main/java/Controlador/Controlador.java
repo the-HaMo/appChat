@@ -247,7 +247,9 @@ public enum Controlador {
 	        	grupo.addContacto(contacto);
 	        }
 	        GrupoDAO grupoDao = factoria.getGrupoDAO();
+	        UsuarioDAO adaptadorUsu = factoria.getUsuarioDAO();
 	        grupoDao.update(grupo);
+	        adaptadorUsu.update(usuarioActual);
 	    }
 	}
 
