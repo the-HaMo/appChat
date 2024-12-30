@@ -41,8 +41,7 @@ public class CrearGrupoView {
     private JList<String> contactList;
     private chat VentanaChat;
     private String foto="";
-    private boolean Edit;
-    private String nameOrginal;
+   
 
     /**
      * Launch the application.
@@ -55,20 +54,9 @@ public class CrearGrupoView {
     	contactosLista = contactos;
     	contactList = new JList<>(contactos.stream().map(ContactoIndividual::getNombre).toArray(String[]::new));
     	this.VentanaChat = VentanaChat;
-    	this.Edit = false;
         initialize();
     }
     
-    public CrearGrupoView(List<ContactoIndividual> contactos, chat VentanaChat, String nombreGrupo, List<ContactoIndividual> contactosDelGrupo, String fotoGrupo) {
-        this.contactosLista = contactos;
-        this.contactList = new JList<>(contactos.stream().map(ContactoIndividual::getNombre).toArray(String[]::new));
-        this.VentanaChat = VentanaChat;
-        this.Edit = true;  // Modo edición de grupo
-        this.nameOrginal = nombreGrupo;
-        this.foto = fotoGrupo;
-        initialize();
-    }
-
     /**
      * Initialize the contents of the frame.
      */
@@ -114,12 +102,7 @@ public class CrearGrupoView {
         nombrePanel.add(Box.createRigidArea(new Dimension(10, 0))); // Espaciado entre etiqueta y campo
         nombrePanel.add(Nombre);
         Nombre.setColumns(10);
-        
-        if (Edit) {
-        	Nombre.setText(nameOrginal);
-        	Nombre.setEditable(false);
-        }
-        
+     
         Component horizontalStrut_4 = Box.createHorizontalStrut(20);
         horizontalStrut_4.setPreferredSize(new Dimension(70, 0));
         nombrePanel.add(horizontalStrut_4);
@@ -181,13 +164,6 @@ public class CrearGrupoView {
         imageLabel.setBorder(BorderFactory.createLineBorder(Color.BLACK)); // Borde negro alrededor del área de la foto
         photo.add(imageLabel, BorderLayout.CENTER);
         
-        if (Edit && foto != null && !foto.isEmpty()) {
-        	ImageIcon img = new ImageIcon(foto);
-        	img= new ImageIcon(img.getImage().getScaledInstance(imageLabel.getWidth() + 15, imageLabel.getHeight() + 15, java.awt.Image.SCALE_SMOOTH));
-            imageLabel.setIcon(img);
-        	
-        }
-        
         Component horizontalStrut_2 = Box.createHorizontalStrut(20);
         horizontalStrut_2.setMinimumSize(new Dimension(150, 0));
         horizontalStrut_2.setMaximumSize(new Dimension(150, 32767));
@@ -212,10 +188,6 @@ public class CrearGrupoView {
         JButton Cargar = new JButton("cargar");
         Cargar.setBackground(Color.WHITE);
         boton.add(Cargar);
-        
-        if(Edit) {
-        	Cargar.setEnabled(false);
-        }
         
         Cargar.addActionListener(new ActionListener() {
             @Override
@@ -252,12 +224,7 @@ public class CrearGrupoView {
         botonesPanel.add(Box.createRigidArea(new Dimension(10, 0))); // Espaciado entre botones
 		btnAceptar.addActionListener(e -> {
 			String nombre = Nombre.getText();
-			if (Edit) { 
-				Controlador.INSTANCE.editarGrupo(nombre, contactosLista, foto);
-			} 
-			else {
-				Controlador.INSTANCE.crearGrupo(nombre, contactosLista,foto);
-			}
+			Controlador.INSTANCE.crearGrupo(nombre, contactosLista,foto);
 			VentanaChat.actualizarListaContactos();
 			this.frame.dispose();
 			
