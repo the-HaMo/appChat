@@ -49,6 +49,7 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
     }
 
 	private Usuario entidadToUsuario(Entidad eUsuario) {
+		
         String nombre = servPersistencia.recuperarPropiedadEntidad(eUsuario, NOMBRE);
         String telefono = servPersistencia.recuperarPropiedadEntidad(eUsuario, TELEFONO);
         String password = servPersistencia.recuperarPropiedadEntidad(eUsuario, PASSWORD);
@@ -66,6 +67,7 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 		}
 		Usuario usuario = new Usuario(nombre, telefono, password, foto, fecha, saludo, premium, registro);
         usuario.setId(eUsuario.getId());
+        PoolDAO.getInstancia().addObjeto(usuario.getId(), usuario);
         
         List<ContactoIndividual> contactos = codigosAContactos(servPersistencia.recuperarPropiedadEntidad(eUsuario, CONTACTOS));
         List<Grupo> grupos = codigosAGrupos(servPersistencia.recuperarPropiedadEntidad(eUsuario, GRUPOS));
@@ -74,6 +76,7 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 		for (Grupo g : grupos)
 			usuario.addContacto(g);
 
+		
         return usuario;
     }
 
@@ -140,8 +143,14 @@ public void update(Usuario usuario) {
     }
 
 	public Usuario get(int id) {
-		Entidad eUsuario = servPersistencia.recuperarEntidad(id);
-		return entidadToUsuario(eUsuario);
+		if(!PoolDAO.getInstancia().contiene(id)) {
+			Entidad eUsuario = servPersistencia.recuperarEntidad(id);
+			return entidadToUsuario(eUsuario);
+		}else {
+			return (Usuario) PoolDAO.getInstancia().getObjeto(id);
+		}
+            
+		
 	}
 
 	public List<Usuario> getAll() {

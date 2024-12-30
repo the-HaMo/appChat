@@ -35,10 +35,20 @@ public class TDSGrupoDAO implements GrupoDAO{
 
 	private Grupo entidadToGrupo(Entidad eGrupo) {
 		String nombre = servPersistencia.recuperarPropiedadEntidad(eGrupo, NOMBRE);
-		List<Mensaje> mensajes = MensajesDesdeID(servPersistencia.recuperarPropiedadEntidad(eGrupo, MENSAJES));
-		List<ContactoIndividual> contactos = codigosAContactos(servPersistencia.recuperarPropiedadEntidad(eGrupo, CONTACTOS));
 		String foto = servPersistencia.recuperarPropiedadEntidad(eGrupo, FOTO);
-		return new Grupo(nombre,mensajes, contactos,foto);
+		Grupo grupo= new Grupo(nombre,new LinkedList<Mensaje>(), new LinkedList<ContactoIndividual>(),foto);
+		grupo.setId(eGrupo.getId());
+		PoolDAO.getInstancia().addObjeto(grupo.getId(), grupo);
+		
+		List<Mensaje> mensajes = MensajesDesdeID(servPersistencia.recuperarPropiedadEntidad(eGrupo, MENSAJES));
+		for (Mensaje m : mensajes) {
+			grupo.addMensaje(m);
+		}
+		List<ContactoIndividual> contactos = codigosAContactos(servPersistencia.recuperarPropiedadEntidad(eGrupo, CONTACTOS));
+		for (ContactoIndividual c : contactos) {
+			grupo.addContacto(c);
+		}
+		return grupo;
 	}
 
 	private Entidad grupoToEntidad(Grupo grupo) {
@@ -90,8 +100,13 @@ public class TDSGrupoDAO implements GrupoDAO{
 
 	@Override
 	public Grupo get(int id) {
-		Entidad eGrupo = servPersistencia.recuperarEntidad(id);
-		return entidadToGrupo(eGrupo);
+		if(!PoolDAO.getInstancia().contiene(id)) {
+            Entidad eGrupo = servPersistencia.recuperarEntidad(id);
+            return entidadToGrupo(eGrupo);
+         }else {
+              return (Grupo) PoolDAO.getInstancia().getObjeto(id);
+        }
+		
 	}
 
 	@Override
