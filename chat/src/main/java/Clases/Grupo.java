@@ -44,6 +44,10 @@ public class Grupo extends Contacto{
 		}
 
 	}
+	
+	public void removeContacto(ContactoIndividual contacto) {
+		lista.remove(contacto);
+	}
 
 	public List<ContactoIndividual> getContactos() {
 		return lista;
