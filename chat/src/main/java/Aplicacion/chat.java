@@ -213,6 +213,11 @@ private void initialize() {
     premium.setIcon(new ImageIcon(premiumScalar));
     buttons.add(premium);
     
+    premium.addActionListener(e -> {
+    	premiumView premiumView = new premiumView();
+    	premiumView.show();
+    });
+    
     JSeparator separator_5 = new JSeparator();
     separator_5.setPreferredSize(new Dimension(10, 2));
     separator_5.setMaximumSize(new Dimension(10, 2));
