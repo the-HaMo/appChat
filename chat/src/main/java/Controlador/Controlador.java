@@ -83,7 +83,8 @@ public enum Controlador {
     }
 
 	public ContactoIndividual crearContacto(String nombre, String telefono) {
-	    if (usuarioActual.contieneContacto(telefono)){
+		ContactoIndividual contacto = new ContactoIndividual(nombre, telefono, repositorioUsuarios.findUsuario(telefono));
+	    if (usuarioActual.contieneContacto(contacto)){
 	        return null;
 	    }
 	    if (repositorioUsuarios.findUsuario(telefono) == null) {//No existe Usuario
@@ -92,7 +93,6 @@ public enum Controlador {
 		if (usuarioActual.getTelefono().equals(telefono)) {
 			return null;
 		}
-	    ContactoIndividual contacto = new ContactoIndividual(nombre, telefono, repositorioUsuarios.findUsuario(telefono));
 	    usuarioActual.addContacto(contacto);
 	    ContactoIndividualDAO contactoDAO = factoria.getContactoDAO(); // Adaptador DAO para almacenar el nuevo Contacto en la BD
 	    contactoDAO.create(contacto);
@@ -206,7 +206,7 @@ public enum Controlador {
 		List<Mensaje> mensajes = adaptadorMensaje.getAll();
 		return mensajes.stream()
 				.filter(m -> m.getReceptor().getTelefono().equals(usuarioActual.getTelefono()))
-				.filter(m -> !(usuarioActual.contieneContacto(m.getEmisor().getTelefono())))
+				.filter(m -> !(usuarioActual.contieneTelf(m.getEmisor().getTelefono())))
 				.sorted(Comparator.comparing(Mensaje::getHora))
 				.collect(Collectors.toList());
 

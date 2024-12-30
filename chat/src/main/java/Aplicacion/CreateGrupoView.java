@@ -183,6 +183,7 @@ public class CreateGrupoView {
     			Elemento seleccionado = listaIzquierda.getSelectedValue();
     			if (seleccionado != null ) {
     				CrearGrupoView nuevoGrupo = new CrearGrupoView(lista, VentanaChat);
+    				VentanaChat.actualizarListaContactos();
     	            nuevoGrupo.show();
     	        	this.ventanaGrupo.dispose();
     		} else  {
