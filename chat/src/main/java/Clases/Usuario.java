@@ -16,6 +16,8 @@ import javax.swing.ImageIcon;
 
 public class Usuario {
 
+	private static final double PRECIO_PREMIUM = 50.0;
+	
     private String nombre;
     private String telefono;
     private String contraseña;
@@ -200,5 +202,11 @@ public class Usuario {
     public boolean contieneContactoInd(String nombre) {
 		return listaContactos.stream()
 				.anyMatch(c -> c instanceof ContactoIndividual && c.getNombre().equals(nombre));
+	}
+    
+    
+    
+	public double getPrecioPremium() {
+		return PRECIO_PREMIUM;
 	}
 }

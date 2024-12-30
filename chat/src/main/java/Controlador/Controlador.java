@@ -261,6 +261,16 @@ public enum Controlador {
 	}
 	
 	
+	public double getPrecio() {
+		return usuarioActual.getPrecioPremium();
+	}
+	
+	public void hacerPremium() {
+		usuarioActual.setPremium(true);
+		UsuarioDAO adaptadorUsu = factoria.getUsuarioDAO();
+		adaptadorUsu.update(usuarioActual);
+	}
+	
 
 	
 }
