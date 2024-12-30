@@ -57,6 +57,11 @@ public class Mensaje implements Comparable<Mensaje> {
 	public String getHora() {
 		return hora;
 	}
+
+	public String getFechaStr() {
+		return fecha.toString();
+	}
+	
 	public void setHora(String hora) {
 		this.hora = hora;
 	}

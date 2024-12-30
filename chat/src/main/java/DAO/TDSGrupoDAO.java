@@ -106,14 +106,14 @@ public class TDSGrupoDAO implements GrupoDAO{
 	}
 
 	private List<Mensaje> MensajesDesdeID(String idMensajes) {
-		List<Mensaje> mensajes = new LinkedList<>();
-		StringTokenizer token = new StringTokenizer(idMensajes, " ");
-		TDSMensajeDAO mensajeDAO = TDSMensajeDAO.getInstancia();
-		while (token.hasMoreTokens()) {
-			String id = (String) token.nextElement();
-			mensajes.add(mensajeDAO.get(Integer.valueOf(id)));
-		}
-		return mensajes;
+	    List<Mensaje> mensajes = new LinkedList<>();
+	    StringTokenizer token = new StringTokenizer(idMensajes, " ");
+	    TDSMensajeDAO mensajeDAO = TDSMensajeDAO.getInstancia();
+	    while (token.hasMoreTokens()) {
+	        String id = token.nextToken();
+	        mensajes.add(mensajeDAO.get(Integer.valueOf(id)));
+	    }
+	    return mensajes;
 	}
 
 	private String CodigoMensajes(List<Mensaje> mensajes) {

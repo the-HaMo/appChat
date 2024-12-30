@@ -16,7 +16,6 @@ import java.awt.event.ActionListener;
 
 import Clases.ContactoIndividual;
 import Controlador.Controlador;
-import Aplicacion.*;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;

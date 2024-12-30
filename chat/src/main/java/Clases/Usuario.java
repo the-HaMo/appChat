@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -24,6 +25,7 @@ public class Usuario {
     private Date fechaNacimiento;
     private int id = 0;
     private List<Contacto> listaContactos= new LinkedList<Contacto>();
+    private LocalDate fechaRegistro;
 
     public Usuario(String nombre, String telefono, String contraseña, String url, Date fechaNacimiento, String saludo) {
         this.nombre = nombre;
@@ -31,6 +33,7 @@ public class Usuario {
         this.contraseña = contraseña;
         this.fechaNacimiento = fechaNacimiento;
         this.saludo = vacio(saludo);
+        this.fechaRegistro =LocalDate.now() ;
         this.premium = false;
         if ((url=="")||(url==null)) {
             this.link = getClass().getResource("/sinFotoContc.png").toString();
@@ -38,13 +41,16 @@ public class Usuario {
             this.link = url;
         }
     }
-
-    public Usuario(String nombre, String telefono, String contraseña, String url, Date fechaNacimiento, String saludo, boolean premium) {
+    
+    
+//Persistencia
+    public Usuario(String nombre, String telefono, String contraseña, String url, Date fechaNacimiento, String saludo, boolean premium, LocalDate fecha) {
         this.nombre = nombre;
         this.telefono = telefono;
         this.contraseña = contraseña;
         this.fechaNacimiento = fechaNacimiento;
         this.saludo = vacio(saludo);
+        this.fechaRegistro =fecha;
         if ((url=="")||(url==null)){
             this.link = getClass().getResource("/sinFotoContc.png").toString();
         } else {
@@ -67,6 +73,10 @@ public class Usuario {
 
     public String getLink() {
         return link;
+    }
+    
+    public LocalDate getFechaRegistro() {
+    	        return fechaRegistro;
     }
 
     public boolean isPremium() {
