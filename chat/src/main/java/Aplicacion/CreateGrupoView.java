@@ -17,13 +17,13 @@ import Clases.Grupo;
 import Controlador.Controlador;
 
 
-public class GrupoView {
+public class CreateGrupoView {
 
     private JFrame ventanaGrupo;
     private chat VentanaChat;
 
 
-    public GrupoView(chat VentanaChat) {
+    public CreateGrupoView(chat VentanaChat) {
     	this.VentanaChat = VentanaChat;
         initialize();
     }
@@ -95,34 +95,8 @@ public class GrupoView {
         	
         }
         
-        for (Grupo g : Controlador.INSTANCE.getGruposUsuarioActual()) {
-        	ElementoInterfaz grupoFactory = new GrupoElementoFactoria(g);
-        	modelIzquierda.addElement(grupoFactory.createElemento());
-        }
-        
         // Configurar renderizador para listas
         listaIzquierda.setCellRenderer(new ElementoListRenderer());
-        
-        listaIzquierda.addListSelectionListener(new ListSelectionListener() {
-			public void valueChanged(ListSelectionEvent e) {
-				if (e.getValueIsAdjusting()) {
-					Elemento selected = listaIzquierda.getSelectedValue();
-					if (selected != null && selected.getContacto() instanceof Grupo) {
-						modelDerecha.clear();
-						Grupo grupo = (Grupo) selected.getContacto();
-						for (ContactoIndividual c : grupo.getContactos()) {
-							if (c instanceof ContactoIndividual) {
-								ElementoInterfaz contactoFactory = new ContactoElementoFactoria(c);
-				        		 modelDerecha.addElement(contactoFactory.createElementoGrupo());
-							}
-							
-						}
-					}
-				}
-				
-			}
-		});
-        
         
         JPanel zonaButton = new JPanel();
         zonaButton.setBackground(Color.GREEN);
@@ -174,9 +148,7 @@ public class GrupoView {
         FlechaDerecha.addActionListener(new ActionListener() {
         	 public void actionPerformed(ActionEvent e) {
         	        Elemento selected = listaIzquierda.getSelectedValue();
-        	        if (selected != null) {
-        	            // Verificar si el contacto ya está en el grupo
-        	        	if (selected.getContacto() instanceof ContactoIndividual) {
+        	        	if (selected != null && selected.getContacto() instanceof ContactoIndividual) {
         	            if (!modelDerecha.contains(selected)) {
         	                modelDerecha.addElement(selected);
         	            } else {
@@ -187,15 +159,7 @@ public class GrupoView {
         	                    JOptionPane.WARNING_MESSAGE
         	                );
         	            }
-        	        } else {
-        	        	JOptionPane.showMessageDialog(
-        	                    ventanaGrupo,
-        	                    "No puedes añadir un grupo a la lista.",
-        	                    "Aviso",
-        	                    JOptionPane.WARNING_MESSAGE
-        	                );
-        	        }
-        	    }
+        	       }
         	 }
         });
 
@@ -217,16 +181,10 @@ public class GrupoView {
                     												.collect(Collectors.toList());
     		if (modelDerecha.getSize() != 0) {
     			Elemento seleccionado = listaIzquierda.getSelectedValue();
-    			if (seleccionado != null && seleccionado.getContacto() instanceof Grupo) {
-    				Grupo gp = (Grupo) seleccionado.getContacto();
-    				CrearGrupoView editGrupo = new CrearGrupoView(lista, VentanaChat, gp.getNombre(), lista, gp.getLink());
-    				editGrupo.show();
-        			this.ventanaGrupo.dispose();
-    			} else {
+    			if (seleccionado != null ) {
     				CrearGrupoView nuevoGrupo = new CrearGrupoView(lista, VentanaChat);
     	            nuevoGrupo.show();
     	        	this.ventanaGrupo.dispose();
-    			}
     		} else  {
     			 JOptionPane.showMessageDialog(
     			            ventanaGrupo,
@@ -234,8 +192,9 @@ public class GrupoView {
     			            "Aviso",
     			            JOptionPane.WARNING_MESSAGE
     			        );
-    		}
-    	});
+    				}
+    			}
+    		});
 }
     public List<Elemento> getElementosDerecha(DefaultListModel<Elemento> modelDerecha) {
         List<Elemento> elementosDerecha = new LinkedList<Elemento>();
