@@ -6,6 +6,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import Clases.*;
@@ -20,6 +21,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.border.LineBorder;
 import java.awt.Image;
@@ -157,12 +159,26 @@ private void initialize() {
     Image groupScalar = grupo.getImage().getScaledInstance(65, 65, Image.SCALE_SMOOTH);
     group.setIcon(new ImageIcon(groupScalar));
     buttons.add(group);
+    JPopupMenu popupMenu = new JPopupMenu();
+    JMenuItem crearGrupo = new JMenuItem("Crear Grupo");
+    JMenuItem modificarGrupo = new JMenuItem("Modificar Grupo");
+    popupMenu.add(crearGrupo);
+    popupMenu.add(modificarGrupo);
 
     group.addActionListener( e ->{
-			GrupoView grupoView = new GrupoView(this);
-			grupoView.Mostrar();
+			popupMenu.show(group, group.getWidth()/2, group.getHeight());
 	});
 
+    crearGrupo.addActionListener(e -> {
+    	CreateGrupoView grupoView = new CreateGrupoView(this);
+		grupoView.Mostrar();
+    });
+    
+    modificarGrupo.addActionListener(e -> {
+    	ModificateGrupoView grupoView = new ModificateGrupoView(this);
+    	grupoView.Mostrar();
+    });
+    
     JSeparator separator_2 = new JSeparator();
     separator_2.setPreferredSize(new Dimension(10, 2));
     separator_2.setBackground(Color.GREEN);

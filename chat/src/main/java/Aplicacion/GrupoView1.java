@@ -17,13 +17,13 @@ import Clases.Grupo;
 import Controlador.Controlador;
 
 
-public class GrupoView {
+public class GrupoView1 {
 
     private JFrame ventanaGrupo;
     private chat VentanaChat;
 
 
-    public GrupoView(chat VentanaChat) {
+    public GrupoView1(chat VentanaChat) {
     	this.VentanaChat = VentanaChat;
         initialize();
     }
@@ -219,8 +219,8 @@ public class GrupoView {
     			Elemento seleccionado = listaIzquierda.getSelectedValue();
     			if (seleccionado != null && seleccionado.getContacto() instanceof Grupo) {
     				Grupo gp = (Grupo) seleccionado.getContacto();
-    				CrearGrupoView editGrupo = new CrearGrupoView(lista, VentanaChat, gp.getNombre(), lista, gp.getLink());
-    				editGrupo.show();
+    				// CrearGrupoView editGrupo = new CrearGrupoView(lista, VentanaChat, gp.getNombre(), lista, gp.getLink());
+    				// editGrupo.show();
         			this.ventanaGrupo.dispose();
     			} else {
     				CrearGrupoView nuevoGrupo = new CrearGrupoView(lista, VentanaChat);
