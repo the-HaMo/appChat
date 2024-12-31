@@ -33,6 +33,8 @@ import javax.swing.JButton;
 import javax.swing.JSeparator;
 import javax.swing.border.CompoundBorder;
 import java.awt.Font;
+import java.awt.GridLayout;
+
 import javax.swing.border.EtchedBorder;
 
 public class chat {
@@ -42,7 +44,7 @@ public class chat {
     private JTextField Message;
     private JList<Elemento> lista;
     private DefaultListModel<Elemento> model;
-
+    
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -267,7 +269,7 @@ private void initialize() {
     writeChat.setPreferredSize(new Dimension(10, 35));
     panelEast.add(writeChat, BorderLayout.SOUTH);
     writeChat.setLayout(new BorderLayout(0, 0));
-
+    
     JPanel Emoji = new JPanel(new BorderLayout());
     Emoji.setBackground(Color.WHITE);
     Emoji.setPreferredSize(new Dimension(45, 45));
@@ -280,13 +282,14 @@ private void initialize() {
     Image scalar = lupa.getImage().getScaledInstance(35, 35, Image.SCALE_SMOOTH);
     sendEmoji.setIcon(new ImageIcon(scalar));
     Emoji.add(sendEmoji);
-    sendEmoji.addActionListener(new ActionListener() {
-		
-		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-	});
+    emoji emojiWindow = new emoji();
+    sendEmoji.addActionListener(e -> {
+    	if (emojiWindow.getFrame().isVisible()) {
+    		emojiWindow.hide();
+    	} else {
+    		emojiWindow.show();
+    	}
+    });
 
     JPanel Send = new JPanel(new BorderLayout());
     Send.setPreferredSize(new Dimension(45, 45));
