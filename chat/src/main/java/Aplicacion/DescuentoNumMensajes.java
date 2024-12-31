@@ -7,7 +7,7 @@ public class DescuentoNumMensajes implements Descuento{
 	@Override
 	public double getDescuento(double precio) {
 		// TODO Auto-generated method stub
-		if (Controlador.INSTANCE.getNumMensajesEnviados() >= 30) {
+		if (Controlador.INSTANCE.getNumMensajesEnviados() >= 1) {
 			return precio * 0.8;
 		}
 		return precio;

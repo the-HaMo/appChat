@@ -25,6 +25,7 @@ public class Elemento extends JPanel {
     private ImageIcon fto;
     private Mensaje ultimoMensaje;
     private Contacto contacto;
+    private String saludo;
 
     public Elemento(Contacto c, Mensaje m) {
         this.nombre = c.getNombre();
