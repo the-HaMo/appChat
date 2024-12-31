@@ -33,14 +33,13 @@ import javax.swing.JButton;
 import javax.swing.JSeparator;
 import javax.swing.border.CompoundBorder;
 import java.awt.Font;
-import java.awt.GridLayout;
 
 import javax.swing.border.EtchedBorder;
 
 public class chat {
 
     private JFrame frame;
-    private JPanel usuarioActual;
+    private JPanel usuarioActualPanel;
     private JPanel chat;
     private JTextField Message;
     private JList<Elemento> lista;
@@ -84,29 +83,29 @@ private void initialize() {
     frame.getContentPane().add(panelNorte, BorderLayout.NORTH);
     panelNorte.setLayout(new BorderLayout(0, 0));
 
-    JPanel usuarioActual = new JPanel();
-    usuarioActual.setBackground(Color.GREEN);
-    usuarioActual.setPreferredSize(new Dimension(220, 10));
-    panelNorte.add(usuarioActual, BorderLayout.WEST);
-    usuarioActual.setLayout(new BoxLayout(usuarioActual, BoxLayout.X_AXIS));
+    JPanel usuarioActualPanel = new JPanel();
+    usuarioActualPanel.setBackground(Color.GREEN);
+    usuarioActualPanel.setPreferredSize(new Dimension(220, 10));
+    panelNorte.add(usuarioActualPanel, BorderLayout.WEST);
+    usuarioActualPanel.setLayout(new BoxLayout(usuarioActualPanel, BoxLayout.X_AXIS));
 
     // Profile picture
     ImageIcon img = actual.getImageIcon();
     ElementoInterfaz usuarioFactory = new UsuarioElementoFactoria(actual);
     Image imgcir = usuarioFactory.createElemento().imagenCircular(img.getImage());
     JLabel perfil = new JLabel(new ImageIcon(imgcir));
-    usuarioActual.add(perfil);
+    usuarioActualPanel.add(perfil);
 
     JSeparator separator = new JSeparator();
     separator.setBackground(Color.GREEN);
     separator.setMaximumSize(new Dimension(10, 2));
     separator.setPreferredSize(new Dimension(10, 2));
-    usuarioActual.add(separator);
+    usuarioActualPanel.add(separator);
 
     JPanel panel = new JPanel();
     panel.setBackground(Color.GREEN);
     panel.setBorder(new CompoundBorder());
-    usuarioActual.add(panel);
+    usuarioActualPanel.add(panel);
     panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
     // Username
@@ -425,7 +424,7 @@ private void cargarConversacion(Contacto contacto) {
     }
     List<Mensaje> mensajesRecibidos = Controlador.INSTANCE.getMensajesReceptorUsuarioActual();	//mensajes de usuarios no añadidos
     for(Mensaje m: mensajesRecibidos) {
-    	ContactoIndividual contacto = Controlador.INSTANCE.crearContacto(m.getEmisor().getTelefono(),m.getEmisor().getTelefono());
+    	ContactoIndividual contacto = Controlador.INSTANCE.crearContacto("",m.getEmisor().getTelefono());
 		ElementoInterfaz contactoFactory = new ContactoElementoFactoria(contacto, m);
 		model.addElement(contactoFactory.createElemento());
     }
@@ -447,8 +446,6 @@ private void actualizarColorNombre(Usuario usuario, JLabel nombre) {
     } else {
         nombre.setForeground(Color.BLACK);
     }
-    usuarioActual.repaint();
-    usuarioActual.revalidate();
 }
 
 public void Mostrar() {
