@@ -79,6 +79,7 @@ public class premiumView {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Controlador.INSTANCE.hacerPremium();
+
 				ventanaDescuento.dispose();
 			}
 		});
@@ -131,6 +132,8 @@ public class premiumView {
         }
 
         etiquetaPrecio.setText(String.format("%.2f€", precioFinal));
+        ventanaDescuento.repaint();
+        ventanaDescuento.revalidate();
     }
 
     public void show() {

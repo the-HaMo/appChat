@@ -40,6 +40,7 @@ import javax.swing.border.EtchedBorder;
 public class chat {
 
     private JFrame frame;
+    private JPanel usuarioActual;
     private JPanel chat;
     private JTextField Message;
     private JList<Elemento> lista;
@@ -110,6 +111,7 @@ private void initialize() {
 
     // Username
     JLabel nombre = new JLabel(actual.getNombre());
+    actualizarColorNombre(actual,nombre);
     panel.add(nombre);
 
     // Greeting
@@ -437,6 +439,16 @@ public List<Elemento> getElementos() {
 		elementos.add(model.getElementAt(i));
 	}
 	return elementos;
+}
+
+private void actualizarColorNombre(Usuario usuario, JLabel nombre) {
+    if (usuario.isPremium()) {
+        nombre.setForeground(Color.YELLOW);
+    } else {
+        nombre.setForeground(Color.BLACK);
+    }
+    usuarioActual.repaint();
+    usuarioActual.revalidate();
 }
 
 public void Mostrar() {
