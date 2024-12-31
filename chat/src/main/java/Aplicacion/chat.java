@@ -83,7 +83,7 @@ private void initialize() {
     frame.getContentPane().add(panelNorte, BorderLayout.NORTH);
     panelNorte.setLayout(new BorderLayout(0, 0));
 
-    JPanel usuarioActualPanel = new JPanel();
+    usuarioActualPanel = new JPanel();
     usuarioActualPanel.setBackground(Color.GREEN);
     usuarioActualPanel.setPreferredSize(new Dimension(220, 10));
     panelNorte.add(usuarioActualPanel, BorderLayout.WEST);
@@ -446,6 +446,7 @@ private void actualizarColorNombre(Usuario usuario, JLabel nombre) {
     } else {
         nombre.setForeground(Color.BLACK);
     }
+    
 }
 
 public void Mostrar() {

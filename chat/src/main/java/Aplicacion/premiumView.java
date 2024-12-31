@@ -21,6 +21,7 @@ import Controlador.Controlador;
 
 public class premiumView {
 
+
     private JFrame ventanaDescuento;
     private JComboBox<String> comboDescuentos;
     private JLabel etiquetaPrecio;
@@ -79,7 +80,7 @@ public class premiumView {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Controlador.INSTANCE.hacerPremium();
-
+				
 				ventanaDescuento.dispose();
 			}
 		});
