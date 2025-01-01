@@ -24,6 +24,7 @@ import javax.swing.JList;
 import javax.swing.JMenuItem;
 import javax.swing.border.LineBorder;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
@@ -283,13 +284,18 @@ private void initialize() {
     Image scalar = lupa.getImage().getScaledInstance(35, 35, Image.SCALE_SMOOTH);
     sendEmoji.setIcon(new ImageIcon(scalar));
     Emoji.add(sendEmoji);
-    emoji emojiWindow = new emoji();
     sendEmoji.addActionListener(e -> {
-    	if (emojiWindow.getFrame().isVisible()) {
-    		emojiWindow.hide();
-    	} else {
-    		emojiWindow.show();
-    	}
+    	 emoji emojiWindow = new emoji();
+    	 if (emojiWindow.getFrame().isVisible()) {
+    	        emojiWindow.hide();
+    	    } else {
+    	        Point locationOnScreen = Message.getLocationOnScreen(); 
+    	        int emojiPanelHeight = emojiWindow.getFrame().getHeight(); 
+    	        int x = (int) locationOnScreen.getX() - emojiPanelHeight/2 + 5; 
+    	        int y = (int) locationOnScreen.getY() - emojiPanelHeight; 
+    	        emojiWindow.getFrame().setLocation(x, y);
+    	        emojiWindow.show();
+    	    }
     });
 
     JPanel Send = new JPanel(new BorderLayout());
