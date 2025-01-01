@@ -14,6 +14,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+
 import Controlador.Controlador;
 import tds.BubbleText;
 import java.awt.Dimension;
@@ -22,6 +24,7 @@ import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.border.LineBorder;
 import java.awt.Image;
 import java.awt.Rectangle;
@@ -30,6 +33,7 @@ import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JSeparator;
 import javax.swing.border.CompoundBorder;
 import java.awt.Font;
@@ -215,11 +219,58 @@ private void initialize() {
     Image premiumScalar = premiumPhoto.getImage().getScaledInstance(65, 65, Image.SCALE_SMOOTH);
     premium.setIcon(new ImageIcon(premiumScalar));
     buttons.add(premium);
+    JPopupMenu popupPremium = new JPopupMenu();
+    JMenuItem serPremium = new JMenuItem("Hacerse Premium");
+    JMenuItem PDF = new JMenuItem("Exportar Mensajes a PDF");
+    JMenuItem noserPremium = new JMenuItem("Dejar de ser  Premium");
+    popupPremium.add(serPremium);
+    popupPremium.add(PDF);
+    popupPremium.add(noserPremium);
     
     premium.addActionListener(e -> {
-    	premiumView premiumView = new premiumView(usuarioActualPanel, nombre);
-    	premiumView.show();
+    	popupPremium.show(premium, premium.getWidth()/2, premium.getHeight());
+    	
     });
+    
+	serPremium.addActionListener(e -> {
+		premiumView premiumView = new premiumView(usuarioActualPanel, nombre);
+    	premiumView.show();
+	});
+	
+	noserPremium.addActionListener(e -> {
+		if (actual.isPremium()) {
+			Controlador.INSTANCE.deshacerPremium();
+			actualizarColorNombre(actual, nombre);
+			usuarioActualPanel.repaint();
+			JOptionPane.showMessageDialog(null, "Ya no eres PREMIUM");
+		}else {
+			JOptionPane.showMessageDialog(null, "No eres PREMIUM");
+		}
+	});
+	
+	PDF.addActionListener(e -> {
+		if(actual.isPremium()) {
+			JFileChooser fileChooser = new JFileChooser();
+			fileChooser.setDialogTitle("Guardar PDF");
+			fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+			int userSelection = fileChooser.showSaveDialog(frame);
+
+			if (userSelection == JFileChooser.APPROVE_OPTION) {
+				File fileToSave = fileChooser.getSelectedFile();
+				String filePath = fileToSave.getAbsolutePath();
+				if (!filePath.endsWith(".pdf")) {
+					filePath += ".pdf";
+				}
+				if(Controlador.INSTANCE.generarPDF(filePath)) {
+					JOptionPane.showMessageDialog(null, "PDF generado correctamente");
+				}else {
+					JOptionPane.showMessageDialog(null, "Error al generar PDF");
+				}
+			}
+		}else{
+			JOptionPane.showMessageDialog(null, "No eres PREMIUM");
+		}
+	});
     
     JSeparator separator_5 = new JSeparator();
     separator_5.setPreferredSize(new Dimension(10, 2));
@@ -376,6 +427,7 @@ private void initialize() {
     frame.repaint();
     frame.revalidate();
 }
+
 
 
 

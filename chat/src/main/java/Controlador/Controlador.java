@@ -1,12 +1,16 @@
 package Controlador;
 
 import DAO.UsuarioDAO;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
 import DAO.ContactoIndividualDAO;
 import DAO.DAOException;
 import DAO.FactoriaDAO;
 import DAO.GrupoDAO;
 import DAO.MensajeDAO;
 import Clases.Usuario;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -271,6 +275,28 @@ public enum Controlador {
 		adaptadorUsu.update(usuarioActual);
 	}
 	
+	public void deshacerPremium() {
+		usuarioActual.setPremium(false);
+		UsuarioDAO adaptadorUsu = factoria.getUsuarioDAO();
+		adaptadorUsu.update(usuarioActual);
+	}
+	
+	public boolean generarPDF(String filePath) {
+	    // Lógica para generar el PDF en la ruta especificada
+	    // Puedes usar una biblioteca como iText para crear el PDF
+	    try {
+	        Document document = new Document();
+	        PdfWriter.getInstance(document, new FileOutputStream(filePath));
+	        document.open();
+	        document.add(new Paragraph("Contenido del PDF"));
+	        document.close();
+	        return true;
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return false;
+	    }
+	}
+
 
 	
 }
