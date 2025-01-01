@@ -99,7 +99,7 @@ public class Grupo extends Contacto{
 	
 	
 		public String toString() {
-			return ("Grupo: " + getNombre() + "\n" + "Miembros: " + lista.toString() + "\n");
+			return ("Grupo: " + getNombre() + "\n" + "Miembros: " + lista.toString());
 		}
 	}
 

@@ -137,6 +137,7 @@ public final class TDSContactoIndividualDAO implements ContactoIndividualDAO {
 		Entidad eContacto = contactoToEntidad(contacto);
 		eContacto = servPersistencia.registrarEntidad(eContacto);
         contacto.setId(eContacto.getId());
+        PoolDAO.getInstancia().addObjeto(contacto.getId(), contacto);
 		
 	}
 	

@@ -71,6 +71,7 @@ public class TDSGrupoDAO implements GrupoDAO{
 		Entidad eGrupo = this.grupoToEntidad(grupo);
 		eGrupo = servPersistencia.registrarEntidad(eGrupo);
 		grupo.setId(eGrupo.getId());
+		PoolDAO.getInstancia().addObjeto(grupo.getId(), grupo);
 	}
 
 	@Override

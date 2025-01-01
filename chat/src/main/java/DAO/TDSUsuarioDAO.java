@@ -104,6 +104,7 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 		Entidad eUsuario = this.usuarioToEntidad(usuario);
 		eUsuario = servPersistencia.registrarEntidad(eUsuario);
 		usuario.setId(eUsuario.getId());
+		PoolDAO.getInstancia().addObjeto(usuario.getId(), usuario);
 	}
 
 	public boolean delete(Usuario usuario) {

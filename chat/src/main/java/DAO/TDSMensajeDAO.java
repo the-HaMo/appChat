@@ -96,6 +96,7 @@ public final class TDSMensajeDAO implements MensajeDAO {
 		Entidad eMensaje = this.mensajeToEntidad(mensaje);
         eMensaje = servPersistencia.registrarEntidad(eMensaje);
         mensaje.setId(eMensaje.getId());
+        PoolDAO.getInstancia().addObjeto(mensaje.getId(), mensaje);
 	}
 
 
