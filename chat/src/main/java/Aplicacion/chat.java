@@ -217,7 +217,7 @@ private void initialize() {
     buttons.add(premium);
     
     premium.addActionListener(e -> {
-    	premiumView premiumView = new premiumView();
+    	premiumView premiumView = new premiumView(usuarioActualPanel, nombre);
     	premiumView.show();
     });
     

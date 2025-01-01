@@ -116,8 +116,8 @@ public enum Controlador {
 		}
 		if (contacto instanceof Grupo) {
 			return contacto.getMensajes().stream()
-					.filter(m -> m.getEmisor().equals(usuarioActual))
-					.sorted(Comparator.comparing(Mensaje::getHora))
+					.filter(c -> c.getEmisor().equals(usuarioActual))
+					.sorted()
 					.collect(Collectors.toList());
 		}
 		return Stream.concat(contacto.getMensajes().stream(),
@@ -165,10 +165,10 @@ public enum Controlador {
 		MensajeDAO adaptadorMensaje = factoria.getMensajeDAO();
 		ContactoIndividualDAO adaptadorContactoIndividual = factoria.getContactoDAO();
 		GrupoDAO adaptadorGrupo = factoria.getGrupoDAO();
+		Mensaje mensaje = new Mensaje(texto,LocalDateTime.now(), usuarioActual, contacto);
 		
 
 		if (contacto instanceof ContactoIndividual) {
-			Mensaje mensaje = new Mensaje(texto,LocalDateTime.now(), usuarioActual, contacto);
 			contacto.addMensaje(mensaje);
 			adaptadorMensaje.create(mensaje);
 			adaptadorContactoIndividual.update((ContactoIndividual) contacto);
@@ -180,7 +180,7 @@ public enum Controlador {
 	            adaptadorMensaje.create(m);
 	            adaptadorContactoIndividual.update(c);
 			}
-			contacto.addMensaje(new Mensaje(texto, LocalDateTime.now(), usuarioActual, grupo));
+			contacto.addMensaje(mensaje);
 			adaptadorGrupo.update(grupo);
 		}
 	}

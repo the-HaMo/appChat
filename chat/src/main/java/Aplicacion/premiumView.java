@@ -1,26 +1,14 @@
 
+// premiumView.java
 package Aplicacion;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 
 import Controlador.Controlador;
 
 public class premiumView {
-
 
     private JFrame ventanaDescuento;
     private JComboBox<String> comboDescuentos;
@@ -29,8 +17,12 @@ public class premiumView {
     private static final String DESCUENTOMENSAJES = "Descuento Contando Mensajes";
     private static final String DESCUENTOREGISTRO = "Descuento Registro";
     private static final String SINDESCUENTO = "Sin Descuento";
+    private JPanel usuarioActualPanel;
+    private JLabel nombreUsuarioLabel;
 
-    public premiumView() {
+    public premiumView(JPanel usuarioActualPanel, JLabel nombreUsuarioLabel) {
+        this.usuarioActualPanel = usuarioActualPanel;
+        this.nombreUsuarioLabel = nombreUsuarioLabel;
         initialize();
     }
 
@@ -77,21 +69,22 @@ public class premiumView {
 
         JButton botonAceptar = new JButton("Aceptar");
         botonAceptar.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Controlador.INSTANCE.hacerPremium();
-				
-				ventanaDescuento.dispose();
-			}
-		});
-        
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Controlador.INSTANCE.hacerPremium();
+                nombreUsuarioLabel.setForeground(Color.YELLOW);
+                usuarioActualPanel.repaint();
+                ventanaDescuento.dispose();
+            }
+        });
+
         JButton botonCancelar = new JButton("Cancelar");
         botonCancelar.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				ventanaDescuento.dispose();
-			}
-		});
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ventanaDescuento.dispose();
+            }
+        });
 
         panelInferior.add(botonAceptar);
         panelInferior.add(botonCancelar);
