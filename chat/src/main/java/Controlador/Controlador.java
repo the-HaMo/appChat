@@ -165,12 +165,12 @@ public enum Controlador {
 		}
 	
 	public void enviarMensaje(Contacto contacto, String texto) {
-		
+
 		MensajeDAO adaptadorMensaje = factoria.getMensajeDAO();
 		ContactoIndividualDAO adaptadorContactoIndividual = factoria.getContactoDAO();
 		GrupoDAO adaptadorGrupo = factoria.getGrupoDAO();
 		Mensaje mensaje = new Mensaje(texto,LocalDateTime.now(), usuarioActual, contacto);
-		
+
 
 		if (contacto instanceof ContactoIndividual) {
 			contacto.addMensaje(mensaje);
@@ -178,34 +178,38 @@ public enum Controlador {
 			adaptadorContactoIndividual.update((ContactoIndividual) contacto);
 		} else {
 			Grupo grupo = (Grupo) contacto;
-			grupo.addMensaje(mensaje);
 			for (ContactoIndividual c : grupo.getContactos()) {
 				Mensaje m = new Mensaje(texto, LocalDateTime.now(), usuarioActual, c);
+	            c.addMensaje(m);
 	            adaptadorMensaje.create(m);
 	            adaptadorContactoIndividual.update(c);
 			}
+			contacto.addMensaje(mensaje);
 			adaptadorGrupo.update(grupo);
 		}
 	}
-
+	
 	public void enviarMensaje(Contacto contacto, int emoji) {
-		Mensaje mensaje = new Mensaje(emoji,LocalDateTime.now(), usuarioActual, contacto);
-		contacto.addMensaje(mensaje);
-		
-        MensajeDAO adaptadorMensaje = factoria.getMensajeDAO();
+
+		MensajeDAO adaptadorMensaje = factoria.getMensajeDAO();
 		ContactoIndividualDAO adaptadorContactoIndividual = factoria.getContactoDAO();
 		GrupoDAO adaptadorGrupo = factoria.getGrupoDAO();
-		adaptadorMensaje.create(mensaje);
-		
+		Mensaje mensaje = new Mensaje(emoji,LocalDateTime.now(), usuarioActual, contacto);
+
+
 		if (contacto instanceof ContactoIndividual) {
+			contacto.addMensaje(mensaje);
+			adaptadorMensaje.create(mensaje);
 			adaptadorContactoIndividual.update((ContactoIndividual) contacto);
 		} else {
 			Grupo grupo = (Grupo) contacto;
 			for (ContactoIndividual c : grupo.getContactos()) {
 				Mensaje m = new Mensaje(emoji, LocalDateTime.now(), usuarioActual, c);
+	            c.addMensaje(m);
 	            adaptadorMensaje.create(m);
 	            adaptadorContactoIndividual.update(c);
 			}
+			contacto.addMensaje(mensaje);
 			adaptadorGrupo.update(grupo);
 		}
 	}
