@@ -1,14 +1,6 @@
 package Controlador;
 
-import DAO.UsuarioDAO;
-
-import java.io.FileOutputStream;
-import java.io.IOException;
-import DAO.ContactoIndividualDAO;
-import DAO.DAOException;
-import DAO.FactoriaDAO;
-import DAO.GrupoDAO;
-import DAO.MensajeDAO;
+import DAO.*;
 import Clases.Usuario;
 
 import java.text.ParseException;
@@ -184,7 +176,7 @@ public enum Controlador {
 	            adaptadorMensaje.create(m);
 	            adaptadorContactoIndividual.update(c);
 			}
-			contacto.addMensaje(mensaje);
+			grupo.addMensaje(mensaje);
 			adaptadorGrupo.update(grupo);
 		}
 	}
