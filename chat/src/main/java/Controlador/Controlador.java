@@ -165,23 +165,26 @@ public enum Controlador {
 		}
 	
 	public void enviarMensaje(Contacto contacto, String texto) {
-		Mensaje mensaje = new Mensaje(texto,LocalDateTime.now(), usuarioActual, contacto);
-		contacto.addMensaje(mensaje);
 		
-        MensajeDAO adaptadorMensaje = factoria.getMensajeDAO();
+		MensajeDAO adaptadorMensaje = factoria.getMensajeDAO();
 		ContactoIndividualDAO adaptadorContactoIndividual = factoria.getContactoDAO();
 		GrupoDAO adaptadorGrupo = factoria.getGrupoDAO();
-		adaptadorMensaje.create(mensaje);
+		Mensaje mensaje = new Mensaje(texto,LocalDateTime.now(), usuarioActual, contacto);
 		
+
 		if (contacto instanceof ContactoIndividual) {
+			contacto.addMensaje(mensaje);
+			adaptadorMensaje.create(mensaje);
 			adaptadorContactoIndividual.update((ContactoIndividual) contacto);
 		} else {
 			Grupo grupo = (Grupo) contacto;
 			for (ContactoIndividual c : grupo.getContactos()) {
 				Mensaje m = new Mensaje(texto, LocalDateTime.now(), usuarioActual, c);
+	            c.addMensaje(m);
 	            adaptadorMensaje.create(m);
 	            adaptadorContactoIndividual.update(c);
 			}
+			grupo.addMensaje(mensaje);
 			adaptadorGrupo.update(grupo);
 		}
 	}
