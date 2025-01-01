@@ -27,7 +27,7 @@ public class Mensaje implements Comparable<Mensaje> {
 		this.receptor = receptor;
 	}
 //Mensaje Emoji
-	public Mensaje(LocalDateTime fecha, int emoticono, Usuario emisor, Contacto receptor) {
+	public Mensaje(int emoticono, LocalDateTime fecha, Usuario emisor, Contacto receptor) {
 
 		this.fecha = fecha;
 		this.hora = onlyHourNow(fecha);
@@ -47,9 +47,7 @@ public class Mensaje implements Comparable<Mensaje> {
 		return texto;
 	}
 
-	public int getEmoji() {
-        return emoticono;
-    }
+
 	public void setTexto(String texto) {
 		this.texto = texto;
 	}
@@ -64,6 +62,7 @@ public class Mensaje implements Comparable<Mensaje> {
 	public void setHora(String hora) {
 		this.hora = hora;
 	}
+
 	public int getEmoticono() {
 		return emoticono;
 	}

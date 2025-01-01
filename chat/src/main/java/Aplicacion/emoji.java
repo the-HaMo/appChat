@@ -7,6 +7,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import Controlador.Controlador;
 import tds.BubbleText;
 
 import java.awt.GridLayout;
@@ -47,8 +48,12 @@ public class emoji {
         JPanel norte = new JPanel();
         norte.setLayout(new GridLayout(1, 5));  // 1 fila con 5 botones
         for (int i = 0; i < 5; i++) {
-            JButton button = new JButton(BubbleText.getEmoji((i + 1)));
+        	int emojiID = i + 1;
+            JButton button = new JButton(BubbleText.getEmoji((emojiID)));
             button.setBackground(Color.WHITE);
+            button.addActionListener(e -> {
+            	System.out.println(emojiID);
+            });
             norte.add(button);
         }
         frame.getContentPane().add(norte);  // Agregar el panel norte
@@ -57,8 +62,12 @@ public class emoji {
         JPanel sur = new JPanel();
         sur.setLayout(new GridLayout(1, 5));  // 1 fila con 5 botones
         for (int i = 0; i < 5; i++) {
-            JButton button = new JButton(BubbleText.getEmoji((i + 6)));
+        	int emojiID = i + 6;
+            JButton button = new JButton(BubbleText.getEmoji((emojiID)));
             button.setBackground(Color.WHITE);
+            button.addActionListener(e -> {
+            	System.out.println(emojiID);
+            });
             sur.add(button);
         }
         frame.getContentPane().add(sur);  // Agregar el panel sur
