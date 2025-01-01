@@ -58,11 +58,11 @@ public class Grupo extends Contacto{
 	}
 
 	
-	public void addMensaje(Mensaje mensaje) {
+	/*public void addMensaje(Mensaje mensaje) {
 		for (ContactoIndividual contacto : lista) {
 			contacto.addMensaje(mensaje);
 		}
-	}
+	}*/
 	
 	public ImageIcon getImageIcon() {
 		BufferedImage image;
