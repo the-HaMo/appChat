@@ -9,7 +9,7 @@
 
   <name>chat</name>
   <!-- FIXME change it to the project's website -->
-  <url>http://www.example.com</url>
+  <url>https://github.com/the-HaMo/appChat</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -57,6 +57,13 @@
     	<artifactId>chatWindowLib</artifactId>
     	<version>1.1</version>
     </dependency>
+    
+    <dependency>
+   		<groupId>com.itextpdf</groupId>
+   		<artifactId>itextpdf</artifactId>
+   		<version>5.5.13.2</version>
+	</dependency>
+
   </dependencies>
 
   <build>
