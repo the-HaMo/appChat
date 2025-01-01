@@ -45,6 +45,12 @@ public enum RepositorioUsuarios {
         usuariosPorID.put(usuario.getId(), usuario);
         usuariosPorTelf.put(usuario.getTelefono(), usuario);
     }
+    
+	public List<Usuario> getAllUsuarios() {
+		List<Usuario> lista = new LinkedList<>(usuariosPorTelf.values());
+		lista.sort((o1,o2) -> o1.getNombre().compareTo(o2.getNombre()));
+		return lista;
+	}
     /*
 	public void removeUsuario(Usuario usuario) {
 		usuariosPorID.remove(usuario.getId());

@@ -96,6 +96,11 @@ public class Grupo extends Contacto{
 				.flatMap(g -> g.getMensajes().stream())
 				.collect(Collectors.toList());
 		}
+	
+	
+		public String toString() {
+			return ("Grupo: " + getNombre() + "\n" + "Miembros: " + lista.toString() + "\n");
+		}
 	}
 
 

@@ -296,7 +296,11 @@ public enum Controlador {
 	        Document document = new Document();
 	        PdfWriter.getInstance(document, new FileOutputStream(filePath));
 	        document.open();
-	        document.add(new Paragraph("Mensajes del usuario: " + usuarioActual.getNombre()+" ---> "+usuarioActual.getTelefono()));
+	        document.add(new Paragraph("Usuarios de la aplicación: "));
+			for (Usuario usuario :  repositorioUsuarios.getAllUsuarios()) {
+				document.add(new Paragraph(usuario.toString()));
+				document.add(new Paragraph(usuario.getGrupos().toString()));
+			}
 	        document.close();
 	        return true;
 	    } catch (Exception e) {

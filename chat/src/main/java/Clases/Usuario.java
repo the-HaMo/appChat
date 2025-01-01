@@ -210,6 +210,9 @@ public class Usuario {
 				.anyMatch(c -> c instanceof ContactoIndividual && c.getNombre().equals(nombre));
 	}
     
+    public String toString() {
+    	return (nombre + "    Telefono: " + telefono);
+    }
     
     
 	public double getPrecioPremium() {
