@@ -53,7 +53,6 @@ public class emoji {
             button.setBackground(Color.WHITE);
             button.addActionListener(e -> {
             	System.out.println(emojiID);
-            	Controlador.INSTANCE.getEmojiID(emojiID);
             });
             norte.add(button);
         }
