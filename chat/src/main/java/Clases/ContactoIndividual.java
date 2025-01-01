@@ -55,5 +55,9 @@ public class ContactoIndividual extends Contacto {
 			return new LinkedList<>();
 		}
 	}
+	
+	public String toString() {
+		return (usu.getNombre()+"    Telf: "+getTelefono() +" ");
+	}
 }
 
