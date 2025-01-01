@@ -143,4 +143,8 @@ public class Elemento extends JPanel {
     public Contacto getContacto() {
         return contacto;
     }
+
+	public Mensaje getMensaje() {
+		return ultimoMensaje;
+	}
 }

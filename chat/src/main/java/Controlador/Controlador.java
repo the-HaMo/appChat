@@ -14,6 +14,11 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
+import java.io.FileOutputStream;
+
 import Aplicacion.Login;
 import Clases.Contacto;
 import Clases.ContactoIndividual;
@@ -287,18 +292,17 @@ public enum Controlador {
 	public boolean generarPDF(String filePath) {
 	    // Lógica para generar el PDF en la ruta especificada
 	    // Puedes usar una biblioteca como iText para crear el PDF
-	    /*try {
+	   try {
 	        Document document = new Document();
 	        PdfWriter.getInstance(document, new FileOutputStream(filePath));
 	        document.open();
-	        document.add(new Paragraph("Contenido del PDF"));
+	        document.add(new Paragraph("Mensajes del usuario: " + usuarioActual.getNombre()+" ---> "+usuarioActual.getTelefono()));
 	        document.close();
 	        return true;
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	        return false;
-	    }*/
-		return false;
+	    }
 	}
 
 	public int getEmojiID(int id) {
