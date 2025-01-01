@@ -178,13 +178,12 @@ public enum Controlador {
 			adaptadorContactoIndividual.update((ContactoIndividual) contacto);
 		} else {
 			Grupo grupo = (Grupo) contacto;
+			grupo.addMensaje(mensaje);
 			for (ContactoIndividual c : grupo.getContactos()) {
 				Mensaje m = new Mensaje(texto, LocalDateTime.now(), usuarioActual, c);
-	            c.addMensaje(m);
 	            adaptadorMensaje.create(m);
 	            adaptadorContactoIndividual.update(c);
 			}
-			grupo.addMensaje(mensaje);
 			adaptadorGrupo.update(grupo);
 		}
 	}
