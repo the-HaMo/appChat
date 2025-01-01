@@ -271,6 +271,10 @@ public enum Controlador {
 		adaptadorUsu.update(usuarioActual);
 	}
 	
+	public int getEmojiID(int id) {
+		return id;
+	}
+	
 
 	
 }
