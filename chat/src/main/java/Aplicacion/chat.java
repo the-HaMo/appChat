@@ -49,6 +49,7 @@ public class chat {
     private JTextField Message;
     private JList<Elemento> lista;
     private DefaultListModel<Elemento> model;
+    private emoji emojiWindow = null;
     
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -335,8 +336,23 @@ private void initialize() {
     Image scalar = lupa.getImage().getScaledInstance(35, 35, Image.SCALE_SMOOTH);
     sendEmoji.setIcon(new ImageIcon(scalar));
     Emoji.add(sendEmoji);
-    emoji emojiWindow = new emoji();
     sendEmoji.addActionListener(e -> {
+    	if (lista.getSelectedIndex() != -1) {
+            emojiWindow = new emoji(model.getElementAt(lista.getSelectedIndex()).getContacto(), this);
+            if (emojiWindow.getFrame().isVisible()) {
+                emojiWindow.hide();
+            } else {
+                Point locationOnScreen = Message.getLocationOnScreen();
+                int emojiPanelHeight = emojiWindow.getFrame().getHeight();
+                int x = (int) locationOnScreen.getX() - emojiPanelHeight / 2 + 5;
+                int y = (int) locationOnScreen.getY() - emojiPanelHeight;
+                emojiWindow.getFrame().setLocation(x, y);
+                emojiWindow.show();
+            }
+        }
+    });
+    
+    /*sendEmoji.addActionListener(e -> {
     	 if (emojiWindow.getFrame().isVisible()) {
     	        emojiWindow.hide();
     	    } else {
@@ -347,7 +363,7 @@ private void initialize() {
     	        emojiWindow.getFrame().setLocation(x, y);
     	        emojiWindow.show();
     	    }
-    });
+    });*/
 
     JPanel Send = new JPanel(new BorderLayout());
     Send.setPreferredSize(new Dimension(45, 45));
@@ -419,6 +435,10 @@ private void initialize() {
                 }
             }
     });
+    
+    
+    
+    
     /*
     BubbleText m1 = new BubbleText(chat, "hola", Color.green, "Paco " + Clases.Mensaje.onlyHourNow(LocalDateTime.now()), BubbleText.SENT);
     chat.add(m1);

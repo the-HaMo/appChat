@@ -1,13 +1,13 @@
 package Aplicacion;
 
-import java.awt.EventQueue;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import Controlador.Controlador;
+import Clases.Contacto;
 import tds.BubbleText;
 
 import java.awt.GridLayout;
@@ -15,9 +15,13 @@ import java.awt.GridLayout;
 public class emoji {
 
     private JFrame frame;
+    private Contacto contacto;
+    private chat chat;
 
     // Constructor para inicializar la ventana de emoticonos
-    public emoji() {
+    public emoji(Contacto contacto,chat chat) {
+    	this.contacto = contacto;
+    	this.chat = chat;
         initialize();
     }
 
@@ -52,7 +56,8 @@ public class emoji {
             JButton button = new JButton(BubbleText.getEmoji((emojiID)));
             button.setBackground(Color.WHITE);
             button.addActionListener(e -> {
-            	System.out.println(emojiID);
+            	enviarEmoji(emojiID);
+            	frame.dispose();
             });
             norte.add(button);
         }
@@ -66,7 +71,8 @@ public class emoji {
             JButton button = new JButton(BubbleText.getEmoji((emojiID)));
             button.setBackground(Color.WHITE);
             button.addActionListener(e -> {
-            	System.out.println(emojiID);
+            	enviarEmoji(emojiID);
+            	frame.dispose();
             });
             sur.add(button);
         }
@@ -82,6 +88,10 @@ public class emoji {
     public void hide() {
         this.frame.setVisible(false);
     }
+    
+	public void enviarEmoji(int emojiID) {
+    	chat.enviarMensajeEmoji(contacto,emojiID);
+    	}
     
     public JFrame getFrame() {
     	return this.frame;
