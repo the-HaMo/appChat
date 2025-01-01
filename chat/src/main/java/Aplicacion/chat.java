@@ -27,6 +27,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.border.LineBorder;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
@@ -336,11 +337,16 @@ private void initialize() {
     Emoji.add(sendEmoji);
     emoji emojiWindow = new emoji();
     sendEmoji.addActionListener(e -> {
-    	if (emojiWindow.getFrame().isVisible()) {
-    		emojiWindow.hide();
-    	} else {
-    		emojiWindow.show();
-    	}
+    	 if (emojiWindow.getFrame().isVisible()) {
+    	        emojiWindow.hide();
+    	    } else {
+    	        Point locationOnScreen = Message.getLocationOnScreen(); 
+    	        int emojiPanelHeight = emojiWindow.getFrame().getHeight(); 
+    	        int x = (int) locationOnScreen.getX() - emojiPanelHeight/2 + 5; 
+    	        int y = (int) locationOnScreen.getY() - emojiPanelHeight; 
+    	        emojiWindow.getFrame().setLocation(x, y);
+    	        emojiWindow.show();
+    	    }
     });
 
     JPanel Send = new JPanel(new BorderLayout());
@@ -441,26 +447,47 @@ public void enviarMensajeTexto(Contacto contacto, String texto) {
 	}
 }
 
+public void enviarMensajeEmoji(Contacto contacto, int emoji) {
+	int selectContacto = lista.getSelectedIndex();
+	Controlador.INSTANCE.enviarMensaje(contacto, emoji);
+	cargarConversacion(contacto);
+	actualizarListaContactos();
+	if (selectContacto != -1 && selectContacto < model.getSize()) {
+		lista.setSelectedIndex(selectContacto);
+	}
+}
+
 //aqui se supone que se carga la conversacion con un contacto ya añadido, si se intena con uno no AÑADIDO se petara
 
 private void cargarConversacion(Contacto contacto) {
-    chat.removeAll(); // Clear the current chat panel
+	chat.removeAll(); // Clear the current chat panel
 
-    BubbleText bubbleText;
-    List<Mensaje> mensajes = Controlador.INSTANCE.getMensajesDeContacto(contacto);
-    for (Mensaje mensaje : mensajes) {
-        String displayName;
-        if (mensaje.getEmisor().equals(Controlador.INSTANCE.getUsuarioActual())) { // Si soy el emisor...
-            displayName = mensaje.getEmisor().getNombre();
-            bubbleText = new BubbleText(chat, mensaje.getTexto(), Color.green, displayName + " " + mensaje.getHora(), BubbleText.SENT);
-        } else { // Si no lo soy
-            displayName = contacto.getNombre();
-            bubbleText = new BubbleText(chat, mensaje.getTexto(), Color.white, displayName + " " + mensaje.getHora(), BubbleText.RECEIVED);
-        }
-        chat.add(bubbleText);
-    }
-    chat.revalidate();
-    chat.repaint();
+	BubbleText bubbleText;
+	List<Mensaje> mensajes = Controlador.INSTANCE.getMensajesDeContacto(contacto);
+	for (Mensaje mensaje : mensajes) {
+		String displayName;
+		if(mensaje.getTexto() != null) {
+			if (mensaje.getEmisor().equals(Controlador.INSTANCE.getUsuarioActual())) { // Si soy el emisor...
+				displayName = mensaje.getEmisor().getNombre();
+				bubbleText = new BubbleText(chat, mensaje.getTexto(), Color.green, displayName + " " + mensaje.getHora(), BubbleText.SENT);
+			} else { // Si no lo soy
+				displayName = contacto.getNombre();
+				bubbleText = new BubbleText(chat, mensaje.getTexto(), Color.white, displayName + " " + mensaje.getHora(), BubbleText.RECEIVED);
+			}
+
+		}else {
+			if (mensaje.getEmisor().equals(Controlador.INSTANCE.getUsuarioActual())) { // Si soy el emisor...
+				displayName = mensaje.getEmisor().getNombre();
+				bubbleText = new BubbleText(chat, mensaje.getEmoticono(), Color.green, displayName + " " + mensaje.getHora(), BubbleText.SENT,18);
+			} else { // Si no lo soy
+				displayName = contacto.getNombre();
+				bubbleText = new BubbleText(chat, mensaje.getEmoticono(), Color.white, displayName + " " + mensaje.getHora(), BubbleText.RECEIVED,18);
+			}
+		}
+		chat.add(bubbleText);
+	}
+	chat.revalidate();
+	chat.repaint();
 }
 
  public void actualizarListaContactos() {

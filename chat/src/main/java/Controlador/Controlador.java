@@ -165,42 +165,46 @@ public enum Controlador {
 		}
 	
 	public void enviarMensaje(Contacto contacto, String texto) {
+		Mensaje mensaje = new Mensaje(texto,LocalDateTime.now(), usuarioActual, contacto);
+		contacto.addMensaje(mensaje);
 		
-		MensajeDAO adaptadorMensaje = factoria.getMensajeDAO();
+        MensajeDAO adaptadorMensaje = factoria.getMensajeDAO();
 		ContactoIndividualDAO adaptadorContactoIndividual = factoria.getContactoDAO();
 		GrupoDAO adaptadorGrupo = factoria.getGrupoDAO();
-		Mensaje mensaje = new Mensaje(texto,LocalDateTime.now(), usuarioActual, contacto);
+		adaptadorMensaje.create(mensaje);
 		
-
 		if (contacto instanceof ContactoIndividual) {
-			contacto.addMensaje(mensaje);
-			adaptadorMensaje.create(mensaje);
 			adaptadorContactoIndividual.update((ContactoIndividual) contacto);
 		} else {
 			Grupo grupo = (Grupo) contacto;
 			for (ContactoIndividual c : grupo.getContactos()) {
 				Mensaje m = new Mensaje(texto, LocalDateTime.now(), usuarioActual, c);
-	            c.addMensaje(m);
 	            adaptadorMensaje.create(m);
 	            adaptadorContactoIndividual.update(c);
 			}
-			contacto.addMensaje(mensaje);
 			adaptadorGrupo.update(grupo);
 		}
 	}
 
 	public void enviarMensaje(Contacto contacto, int emoji) {
-		Mensaje mensaje = new Mensaje(LocalDateTime.now(),emoji, usuarioActual, contacto);
+		Mensaje mensaje = new Mensaje(emoji,LocalDateTime.now(), usuarioActual, contacto);
 		contacto.addMensaje(mensaje);
+		
         MensajeDAO adaptadorMensaje = factoria.getMensajeDAO();
 		ContactoIndividualDAO adaptadorContactoIndividual = factoria.getContactoDAO();
 		GrupoDAO adaptadorGrupo = factoria.getGrupoDAO();
 		adaptadorMensaje.create(mensaje);
+		
 		if (contacto instanceof ContactoIndividual) {
 			adaptadorContactoIndividual.update((ContactoIndividual) contacto);
 		} else {
-			adaptadorGrupo.update((Grupo) contacto);
-			adaptadorContactoIndividual.update((ContactoIndividual) contacto);
+			Grupo grupo = (Grupo) contacto;
+			for (ContactoIndividual c : grupo.getContactos()) {
+				Mensaje m = new Mensaje(emoji, LocalDateTime.now(), usuarioActual, c);
+	            adaptadorMensaje.create(m);
+	            adaptadorContactoIndividual.update(c);
+			}
+			adaptadorGrupo.update(grupo);
 		}
 	}
 	
@@ -275,6 +279,7 @@ public enum Controlador {
 		adaptadorUsu.update(usuarioActual);
 	}
 	
+
 	public void deshacerPremium() {
 		usuarioActual.setPremium(false);
 		UsuarioDAO adaptadorUsu = factoria.getUsuarioDAO();
@@ -284,7 +289,7 @@ public enum Controlador {
 	public boolean generarPDF(String filePath) {
 	    // Lógica para generar el PDF en la ruta especificada
 	    // Puedes usar una biblioteca como iText para crear el PDF
-	    try {
+	    /*try {
 	        Document document = new Document();
 	        PdfWriter.getInstance(document, new FileOutputStream(filePath));
 	        document.open();
@@ -294,9 +299,13 @@ public enum Controlador {
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	        return false;
-	    }
+	    }*/
+		return false;
 	}
 
+	public int getEmojiID(int id) {
+		return id;
+	}
 
 	
 }
