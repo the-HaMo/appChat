@@ -284,8 +284,8 @@ private void initialize() {
     Image scalar = lupa.getImage().getScaledInstance(35, 35, Image.SCALE_SMOOTH);
     sendEmoji.setIcon(new ImageIcon(scalar));
     Emoji.add(sendEmoji);
+    emoji emojiWindow = new emoji();
     sendEmoji.addActionListener(e -> {
-    	 emoji emojiWindow = new emoji();
     	 if (emojiWindow.getFrame().isVisible()) {
     	        emojiWindow.hide();
     	    } else {
