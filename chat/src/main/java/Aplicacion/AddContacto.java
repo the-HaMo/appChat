@@ -30,9 +30,9 @@ public class AddContacto {
 	private JFrame frame;
 	private JTextField txtNombre;
 	private JTextField txtTelefono;
-	private chat VentanaChat;
+	private Chat VentanaChat;
 
-	public AddContacto(chat VentanaChat) {
+	public AddContacto(Chat VentanaChat) {
 		this.VentanaChat = VentanaChat;
 		initialize();
 	}

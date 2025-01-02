@@ -21,7 +21,7 @@ import java.awt.Font;
 import javax.swing.ScrollPaneConstants;
 import java.awt.Component;
 
-public class buscadorView {
+public class BuscadorView {
 
     private JFrame frame;
     private JTextField telefono;
@@ -35,7 +35,7 @@ public class buscadorView {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    buscadorView window = new buscadorView();
+                	BuscadorView window = new BuscadorView();
                     window.frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -47,7 +47,7 @@ public class buscadorView {
     /**
      * Create the application.
      */
-    public buscadorView() {
+    public BuscadorView() {
         initialize();
     }
 

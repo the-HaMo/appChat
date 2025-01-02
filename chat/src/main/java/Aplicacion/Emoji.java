@@ -12,14 +12,14 @@ import tds.BubbleText;
 
 import java.awt.GridLayout;
 
-public class emoji {
+public class Emoji {
 
     private JFrame frame;
     private Contacto contacto;
-    private chat chat;
+    private Chat chat;
 
     // Constructor para inicializar la ventana de emoticonos
-    public emoji(Contacto contacto,chat chat) {
+    public Emoji(Contacto contacto,Chat chat) {
     	this.contacto = contacto;
     	this.chat = chat;
         initialize();
