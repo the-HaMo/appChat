@@ -231,6 +231,11 @@ private void initialize() {
     search.setIcon(new ImageIcon(scalara));
     search.setPreferredSize(new Dimension(45, 45));
     buttons.add(search);
+    
+    search.addActionListener(e -> {
+    	BuscadorView window = new BuscadorView();
+    	window.show();
+    });
 
     JSeparator separator_4 = new JSeparator();
     separator_4.setPreferredSize(new Dimension(10, 2));
@@ -363,8 +368,8 @@ private void initialize() {
     sendEmoji.setIcon(new ImageIcon(scalar));
     Emoji.add(sendEmoji);
     sendEmoji.addActionListener(e -> {
+    	emojiWindow = new Emoji(model.getElementAt(lista.getSelectedIndex()).getContacto(), this);
     	if (lista.getSelectedIndex() != -1) {
-            emojiWindow = new Emoji(model.getElementAt(lista.getSelectedIndex()).getContacto(), this);
             if (emojiWindow.getFrame().isVisible()) {
                 emojiWindow.hide();
             } else {
