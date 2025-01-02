@@ -14,9 +14,9 @@ import Controlador.Controlador;
 public class ModificateGrupoView {
 
     private JFrame ventanaGrupo;
-    private chat VentanaChat;
+    private Chat VentanaChat;
 
-    public ModificateGrupoView(chat VentanaChat) {
+    public ModificateGrupoView(Chat VentanaChat) {
         this.VentanaChat = VentanaChat;
         initialize();
     }

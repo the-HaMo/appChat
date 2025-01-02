@@ -39,7 +39,7 @@ public class CrearGrupoView {
     private JTextField Nombre;
     private List<ContactoIndividual> contactosLista;
     private JList<String> contactList;
-    private chat VentanaChat;
+    private Chat VentanaChat;
     private String foto="";
    
 
@@ -50,7 +50,7 @@ public class CrearGrupoView {
      * Create the application.
      */
 
-    public CrearGrupoView(List<ContactoIndividual> contactos,chat VentanaChat) {
+    public CrearGrupoView(List<ContactoIndividual> contactos,Chat VentanaChat) {
     	contactosLista = contactos;
     	contactList = new JList<>(contactos.stream().map(ContactoIndividual::getNombre).toArray(String[]::new));
     	this.VentanaChat = VentanaChat;
