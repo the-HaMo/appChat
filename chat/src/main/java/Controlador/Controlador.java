@@ -101,6 +101,12 @@ public enum Controlador {
 	    usuarioDAO.update(usuarioActual);
 	    return contacto;
 	}
+	
+	public void modificarContacto(ContactoIndividual contacto, String nombre) {
+		contacto.setNombre(nombre);
+		ContactoIndividualDAO contactoDAO = factoria.getContactoDAO();
+		contactoDAO.update(contacto);
+	}
 
 	
 	public List<Contacto> getContactosUsuarioActual() {
