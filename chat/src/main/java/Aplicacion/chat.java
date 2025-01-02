@@ -144,9 +144,35 @@ private void initialize() {
     addContacto.setIcon(new ImageIcon(addContactoScalar));
     buttons.add(addContacto);
     
+    JPopupMenu popupContacto = new JPopupMenu();
+    JMenuItem añadirContacto = new JMenuItem("Añadir Contacto");
+    JMenuItem modContacto = new JMenuItem("Modificar Contacto");
+    popupContacto.add(añadirContacto);
+    popupContacto.add(modContacto);
+    
     addContacto.addActionListener(e -> {
+    	popupContacto.show(addContacto, addContacto.getWidth()/2, addContacto.getHeight());
+    	
+    });
+    
+    añadirContacto.addActionListener(e -> {
         AddContacto Contacto = new AddContacto(this);
         Contacto.Mostrar();
+    });
+    
+    modContacto.addActionListener(e -> {
+    	ModificarContacto modificar=null;
+    	if (lista.getSelectedIndex() != -1) {
+    		if(model.getElementAt(lista.getSelectedIndex()).getContacto() instanceof ContactoIndividual) {
+    			ContactoIndividual contacto = (ContactoIndividual) model.getElementAt(lista.getSelectedIndex()).getContacto();
+    			modificar = new ModificarContacto(contacto,this);
+    			modificar.Mostrar();
+    		}else {
+    			JOptionPane.showMessageDialog(null, "No puedes modificar un grupo aqui");
+    		}
+    	}else{
+    		JOptionPane.showMessageDialog(null, "Seleccione un contacto");
+    	}
     });
 
     JSeparator separator_3 = new JSeparator();
@@ -351,19 +377,7 @@ private void initialize() {
             }
         }
     });
-    
-    /*sendEmoji.addActionListener(e -> {
-    	 if (emojiWindow.getFrame().isVisible()) {
-    	        emojiWindow.hide();
-    	    } else {
-    	        Point locationOnScreen = Message.getLocationOnScreen(); 
-    	        int emojiPanelHeight = emojiWindow.getFrame().getHeight(); 
-    	        int x = (int) locationOnScreen.getX() - emojiPanelHeight/2 + 5; 
-    	        int y = (int) locationOnScreen.getY() - emojiPanelHeight; 
-    	        emojiWindow.getFrame().setLocation(x, y);
-    	        emojiWindow.show();
-    	    }
-    });*/
+
 
     JPanel Send = new JPanel(new BorderLayout());
     Send.setPreferredSize(new Dimension(45, 45));
