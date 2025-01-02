@@ -21,7 +21,7 @@ import java.awt.Font;
 import javax.swing.ScrollPaneConstants;
 import java.awt.Component;
 
-public class buscadorView {
+public class BuscadorView {
 
     private JFrame frame;
     private JTextField telefono;
@@ -35,7 +35,7 @@ public class buscadorView {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    buscadorView window = new buscadorView();
+                	BuscadorView window = new BuscadorView();
                     window.frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -47,7 +47,7 @@ public class buscadorView {
     /**
      * Create the application.
      */
-    public buscadorView() {
+    public BuscadorView() {
         initialize();
     }
 
@@ -146,40 +146,25 @@ public class buscadorView {
         panelResultado.setLayout(new BoxLayout(panelResultado, BoxLayout.Y_AXIS)); // Usamos BoxLayout en vertical
 
         // Añadir mensajes
-     // Añadir mensajes
         for (int i = 0; i < 10; i++) {
             JPanel message = new JPanel();
             message.setLayout(new BorderLayout());
             message.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 
-            // Etiqueta para el emisor
             JLabel senderLabel = new JLabel("Emisor");
-            senderLabel.setHorizontalAlignment(SwingConstants.LEFT);
+            JLabel receiverLabel = new JLabel("Receptor", SwingConstants.RIGHT);
 
-            // Etiqueta para el receptor
-            JLabel receiverLabel = new JLabel("Receptor");
-            receiverLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+            JTextArea messageContent = new JTextArea("Texto del mensaje " + (i + 1));
+            messageContent.setLineWrap(true);
+            messageContent.setWrapStyleWord(true);
+            messageContent.setEditable(false);
 
-            // Contenedor del mensaje
-            JPanel messagePanel = new JPanel();
-            messagePanel.setLayout(new BorderLayout());
-            messagePanel.setBackground(Color.WHITE);
+            message.add(senderLabel, BorderLayout.WEST);
+            message.add(new JScrollPane(messageContent), BorderLayout.CENTER);
+            message.add(receiverLabel, BorderLayout.EAST);
 
-            // Etiqueta para el contenido del mensaje
-            JLabel messageContent = new JLabel("Texto del mensaje " + (i + 1));
-            messageContent.setHorizontalAlignment(SwingConstants.CENTER); // Centrar horizontalmente
-            messageContent.setVerticalAlignment(SwingConstants.CENTER);   // Centrar verticalmente
-            messageContent.setFont(new Font("Arial", Font.PLAIN, 14));    // Ajustar fuente y tamaño
-            messagePanel.add(messageContent, BorderLayout.CENTER);
-
-            // Añadir componentes al panel principal del mensaje
-            message.add(senderLabel, BorderLayout.WEST);    // Emisor a la izquierda
-            message.add(messagePanel, BorderLayout.CENTER); // Mensaje centrado
-            message.add(receiverLabel, BorderLayout.EAST);  // Receptor a la derecha
-
-            panelResultado.add(message); // Añadir el mensaje al panel de resultados
+            panelResultado.add(message);
         }
-
 
         // Scroll pane para los mensajes
         JScrollPane scrollPane = new JScrollPane(panelResultado);
