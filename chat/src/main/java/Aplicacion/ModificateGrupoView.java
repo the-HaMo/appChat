@@ -230,8 +230,13 @@ public class ModificateGrupoView {
         
         // Mejor CrearGrupoView
         botonConfirmar.addActionListener(e -> {
-            JOptionPane.showMessageDialog(ventanaGrupo, "Grupo Modificado!", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
-            this.ventanaGrupo.dispose();
+        	Elemento grupoSeleccionado = listaGrupos.getSelectedValue();
+            if (grupoSeleccionado == null) {
+                JOptionPane.showMessageDialog(ventanaGrupo, "Por favor, selecciona o crea un grupo antes.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(ventanaGrupo, "Grupo Modificado!", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
+                this.ventanaGrupo.dispose();
+            }
         });
     }
 
