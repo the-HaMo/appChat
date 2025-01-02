@@ -17,10 +17,10 @@ import Controlador.Controlador;
 public class CreateGrupoView {
 
     private JFrame ventanaGrupo;
-    private chat VentanaChat;
+    private Chat VentanaChat;
 
 
-    public CreateGrupoView(chat VentanaChat) {
+    public CreateGrupoView(Chat VentanaChat) {
     	this.VentanaChat = VentanaChat;
         initialize();
     }

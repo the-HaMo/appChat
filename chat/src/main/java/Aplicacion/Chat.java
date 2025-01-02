@@ -41,7 +41,7 @@ import java.awt.Font;
 
 import javax.swing.border.EtchedBorder;
 
-public class chat {
+public class Chat {
 
     private JFrame frame;
     private JPanel usuarioActualPanel;
@@ -49,13 +49,13 @@ public class chat {
     private JTextField Message;
     private JList<Elemento> lista;
     private DefaultListModel<Elemento> model;
-    private emoji emojiWindow = null;
+    private Emoji emojiWindow = null;
     
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    chat window = new chat();
+                	Chat window = new Chat();
                     window.frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -64,7 +64,7 @@ public class chat {
         });
     }
 
-    public chat() {
+    public Chat() {
         initialize();
     }
 
@@ -261,7 +261,7 @@ private void initialize() {
     });
     
 	serPremium.addActionListener(e -> {
-		premiumView premiumView = new premiumView(usuarioActualPanel, nombre);
+		PremiumView premiumView = new PremiumView(usuarioActualPanel, nombre);
     	premiumView.show();
 	});
 	
@@ -364,7 +364,7 @@ private void initialize() {
     Emoji.add(sendEmoji);
     sendEmoji.addActionListener(e -> {
     	if (lista.getSelectedIndex() != -1) {
-            emojiWindow = new emoji(model.getElementAt(lista.getSelectedIndex()).getContacto(), this);
+            emojiWindow = new Emoji(model.getElementAt(lista.getSelectedIndex()).getContacto(), this);
             if (emojiWindow.getFrame().isVisible()) {
                 emojiWindow.hide();
             } else {

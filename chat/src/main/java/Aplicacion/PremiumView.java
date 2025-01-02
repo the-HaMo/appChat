@@ -8,7 +8,7 @@ import javax.swing.*;
 
 import Controlador.Controlador;
 
-public class premiumView {
+public class PremiumView {
 
     private JFrame ventanaDescuento;
     private JComboBox<String> comboDescuentos;
@@ -20,7 +20,7 @@ public class premiumView {
     private JPanel usuarioActualPanel;
     private JLabel nombreUsuarioLabel;
 
-    public premiumView(JPanel usuarioActualPanel, JLabel nombreUsuarioLabel) {
+    public PremiumView(JPanel usuarioActualPanel, JLabel nombreUsuarioLabel) {
         this.usuarioActualPanel = usuarioActualPanel;
         this.nombreUsuarioLabel = nombreUsuarioLabel;
         initialize();

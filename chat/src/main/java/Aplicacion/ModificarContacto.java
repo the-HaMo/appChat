@@ -28,10 +28,10 @@ import java.awt.FlowLayout;
 		private JFrame frame;
 		private JTextField txtNombre;
 		private JTextField txtTelefono;
-		private chat VentanaChat;
+		private Chat VentanaChat;
 		private ContactoIndividual c;
 
-		public ModificarContacto(ContactoIndividual c, chat VentanaChat) {
+		public ModificarContacto(ContactoIndividual c, Chat VentanaChat) {
 			this.VentanaChat = VentanaChat;
 			this.c=c;
 			initialize();
