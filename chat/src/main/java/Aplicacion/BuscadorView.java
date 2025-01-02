@@ -9,6 +9,9 @@ import java.awt.Color;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.TitledBorder;
+
+import Controlador.Controlador;
+
 import javax.swing.border.LineBorder;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -16,6 +19,7 @@ import javax.swing.JButton;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.ScrollPaneConstants;
@@ -27,26 +31,7 @@ public class BuscadorView {
     private JTextField telefono;
     private JTextField contacto;
     private JTextField txtMensaje;
-
-    /**
-     * Launch the application.
-     */
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                	BuscadorView window = new BuscadorView();
-                    window.frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-    /**
-     * Create the application.
-     */
+   
     public BuscadorView() {
         initialize();
     }
@@ -57,14 +42,17 @@ public class BuscadorView {
     private void initialize() {
         frame = new JFrame();
         frame.setBounds(100, 100, 450, 300);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.getContentPane().setLayout(new BorderLayout(0, 0));
+        
+        ImageIcon icono = new ImageIcon(getClass().getResource("/logo.png"));
+        frame.setIconImage(icono.getImage());
+        frame.setTitle("Buscador");
         
         JPanel panelBúsqueda = new JPanel();
         frame.getContentPane().add(panelBúsqueda, BorderLayout.NORTH);
         panelBúsqueda.setLayout(new BorderLayout(0, 0));
         
-        // Crear un JLabel para el título con fuente grande y centrado
         JPanel panelTitulo = new JPanel();
         panelTitulo.setBackground(Color.GREEN);
         panelTitulo.setPreferredSize(new Dimension(10, 50));
@@ -82,37 +70,32 @@ public class BuscadorView {
         panelBúsqueda.add(Búsqueda, BorderLayout.CENTER);
         Búsqueda.setLayout(new BorderLayout(0, 10));
         
-        // Panel para teléfono y contacto (con BoxLayout)
         JPanel panelCampos = new JPanel();
         panelCampos.setBackground(Color.GREEN);
         panelCampos.setLayout(new BoxLayout(panelCampos, BoxLayout.X_AXIS)); // Usamos BoxLayout en horizontal
         Búsqueda.add(panelCampos, BorderLayout.CENTER);
-        
-        // Campo de teléfono
+      
         telefono = new JTextField();
         telefono.setText("teléfono");
         telefono.setMinimumSize(new Dimension(165, 20));
-        telefono.setMaximumSize(new Dimension(165, 20)); // Aseguramos que no se estire más allá del tamaño
-        telefono.setPreferredSize(new Dimension(165, 20)); // Aseguramos que tenga un tamaño consistente
+        telefono.setMaximumSize(new Dimension(165, 20)); 
+        telefono.setPreferredSize(new Dimension(165, 20));
         telefono.setColumns(10);
         panelCampos.add(telefono);
 
-        // Espaciador entre los campos
-        panelCampos.add(Box.createHorizontalStrut(10)); // Separador de 10 píxeles
-
-        // Campo de contacto
+        panelCampos.add(Box.createHorizontalStrut(10)); 
+        
         contacto = new JTextField();
         contacto.setText("contacto");
         contacto.setMinimumSize(new Dimension(165, 20));
-        contacto.setMaximumSize(new Dimension(165, 20)); // Aseguramos que no se estire más allá del tamaño
-        contacto.setPreferredSize(new Dimension(165, 20)); // Aseguramos que tenga un tamaño consistente
+        contacto.setMaximumSize(new Dimension(165, 20)); 
+        contacto.setPreferredSize(new Dimension(165, 20)); 
         contacto.setColumns(10);
         panelCampos.add(contacto);
         
         Component horizontalStrut = Box.createHorizontalStrut(10);
         panelCampos.add(horizontalStrut);
         
-        // Botón de búsqueda
         JButton buscar = new JButton("Buscar");
         buscar.setBackground(Color.WHITE);
         Búsqueda.add(buscar, BorderLayout.EAST);
@@ -142,8 +125,7 @@ public class BuscadorView {
         panelResultado.setBackground(Color.GREEN);
         frame.getContentPane().add(panelResultado, BorderLayout.CENTER);
 
-        // Cambiar FlowLayout a BoxLayout para apilar mensajes uno debajo del otro
-        panelResultado.setLayout(new BoxLayout(panelResultado, BoxLayout.Y_AXIS)); // Usamos BoxLayout en vertical
+        panelResultado.setLayout(new BoxLayout(panelResultado, BoxLayout.Y_AXIS)); 
 
         // Añadir mensajes
         for (int i = 0; i < 10; i++) {
@@ -151,7 +133,7 @@ public class BuscadorView {
             message.setLayout(new BorderLayout());
             message.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 
-            JLabel senderLabel = new JLabel("Emisor");
+            JLabel senderLabel = new JLabel(Controlador.INSTANCE.getUsuarioActual().getNombre());
             JLabel receiverLabel = new JLabel("Receptor", SwingConstants.RIGHT);
 
             JTextArea messageContent = new JTextArea("Texto del mensaje " + (i + 1));
@@ -188,5 +170,13 @@ public class BuscadorView {
         rellenoSur.setPreferredSize(new Dimension(10, 25));
         frame.getContentPane().add(rellenoSur, BorderLayout.SOUTH);
         rellenoSur.setLayout(new BorderLayout(0, 0));
+    }
+    
+    public void show() {
+    	this.frame.setVisible(true);
+    }
+    
+    public void close() {
+    	this.frame.dispose();
     }
 }

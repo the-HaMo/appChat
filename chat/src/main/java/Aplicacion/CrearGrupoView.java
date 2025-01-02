@@ -63,7 +63,7 @@ public class CrearGrupoView {
     private void initialize() {
         frame = new JFrame();
         frame.setBounds(100, 100, 450, 400);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         ImageIcon icono= new ImageIcon(getClass().getResource("/logo.png"));	//LOGO
 		frame.setIconImage(icono.getImage());	//LOGO
