@@ -177,7 +177,7 @@ public class Login {
 								casilla_telf.getText(),
 								casilla_contraseña.getText());
 						if (login) {
-							chat mens=new chat();
+							Chat mens=new Chat();
 							mens.Mostrar();
 							ventana.dispose();
 						} else {
