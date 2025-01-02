@@ -146,25 +146,40 @@ public class buscadorView {
         panelResultado.setLayout(new BoxLayout(panelResultado, BoxLayout.Y_AXIS)); // Usamos BoxLayout en vertical
 
         // Añadir mensajes
+     // Añadir mensajes
         for (int i = 0; i < 10; i++) {
             JPanel message = new JPanel();
             message.setLayout(new BorderLayout());
             message.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 
+            // Etiqueta para el emisor
             JLabel senderLabel = new JLabel("Emisor");
-            JLabel receiverLabel = new JLabel("Receptor", SwingConstants.RIGHT);
+            senderLabel.setHorizontalAlignment(SwingConstants.LEFT);
 
-            JTextArea messageContent = new JTextArea("Texto del mensaje " + (i + 1));
-            messageContent.setLineWrap(true);
-            messageContent.setWrapStyleWord(true);
-            messageContent.setEditable(false);
+            // Etiqueta para el receptor
+            JLabel receiverLabel = new JLabel("Receptor");
+            receiverLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 
-            message.add(senderLabel, BorderLayout.WEST);
-            message.add(new JScrollPane(messageContent), BorderLayout.CENTER);
-            message.add(receiverLabel, BorderLayout.EAST);
+            // Contenedor del mensaje
+            JPanel messagePanel = new JPanel();
+            messagePanel.setLayout(new BorderLayout());
+            messagePanel.setBackground(Color.WHITE);
 
-            panelResultado.add(message);
+            // Etiqueta para el contenido del mensaje
+            JLabel messageContent = new JLabel("Texto del mensaje " + (i + 1));
+            messageContent.setHorizontalAlignment(SwingConstants.CENTER); // Centrar horizontalmente
+            messageContent.setVerticalAlignment(SwingConstants.CENTER);   // Centrar verticalmente
+            messageContent.setFont(new Font("Arial", Font.PLAIN, 14));    // Ajustar fuente y tamaño
+            messagePanel.add(messageContent, BorderLayout.CENTER);
+
+            // Añadir componentes al panel principal del mensaje
+            message.add(senderLabel, BorderLayout.WEST);    // Emisor a la izquierda
+            message.add(messagePanel, BorderLayout.CENTER); // Mensaje centrado
+            message.add(receiverLabel, BorderLayout.EAST);  // Receptor a la derecha
+
+            panelResultado.add(message); // Añadir el mensaje al panel de resultados
         }
+
 
         // Scroll pane para los mensajes
         JScrollPane scrollPane = new JScrollPane(panelResultado);
