@@ -314,10 +314,23 @@ public enum Controlador {
 	        return false;
 	    }
 	}
-
-	public int getEmojiID(int id) {
-		return id;
+	
+	public List<String> resultadoTexto (String texto){
+		return getUsuarioActual().getListaContactos().stream()
+				.flatMap(c -> c.getMensajes().stream())
+				.map(m -> Optional.ofNullable(m.getTexto()))
+				.filter(m -> m.isPresent() && m.get().contains(texto))
+				.map(Optional::get)
+				.collect(Collectors.toList());
 	}
+	
+	
+	public List<String> resultadoTelefono (String tlf){
+		return getUsuarioActual().getContactosTelf().stream()
+			   .filter(t -> t.equals(tlf))
+			   .collect(Collectors.toList());
+	}
+	
 
 	
 }
