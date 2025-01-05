@@ -22,6 +22,9 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.util.LinkedList;
+import java.util.List;
+
 import javax.swing.ScrollPaneConstants;
 import java.awt.Component;
 
@@ -31,8 +34,10 @@ public class BuscadorView {
     private JTextField telefono;
     private JTextField contacto;
     private JTextField txtMensaje;
-   
+    private List<String> resultado = new LinkedList<String>();
+    
     public BuscadorView() {
+    	resultado = new LinkedList<String>();
         initialize();
     }
 
@@ -128,26 +133,38 @@ public class BuscadorView {
         panelResultado.setLayout(new BoxLayout(panelResultado, BoxLayout.Y_AXIS)); 
 
         // Añadir mensajes
-        for (int i = 0; i < 10; i++) {
-            JPanel message = new JPanel();
-            message.setLayout(new BorderLayout());
-            message.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+       
+        buscar.addActionListener(e -> {
+            panelResultado.removeAll(); // Limpiar resultados previos
+            resultado = Controlador.INSTANCE.resultadoTexto(txtMensaje.getText());
+            
+            if (resultado != null) {
+                System.out.println("Resultados encontrados: " + resultado.size());
+                for (String mensajeTexto : resultado) {
+                    JPanel message = new JPanel();
+                    message.setLayout(new BorderLayout());
+                    message.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 
-            JLabel senderLabel = new JLabel(Controlador.INSTANCE.getUsuarioActual().getNombre());
-            JLabel receiverLabel = new JLabel("Receptor", SwingConstants.RIGHT);
+                    JLabel senderLabel = new JLabel(" Emisor: " + Controlador.INSTANCE.getUsuarioActual().getNombre());
+                    JLabel receiverLabel = new JLabel("Receptor", SwingConstants.RIGHT);
 
-            JTextArea messageContent = new JTextArea("Texto del mensaje " + (i + 1));
-            messageContent.setLineWrap(true);
-            messageContent.setWrapStyleWord(true);
-            messageContent.setEditable(false);
+                    JTextArea messageContent = new JTextArea(mensajeTexto);
+                    messageContent.setLineWrap(true);
+                    messageContent.setWrapStyleWord(true);
+                    messageContent.setEditable(false);
 
-            message.add(senderLabel, BorderLayout.WEST);
-            message.add(new JScrollPane(messageContent), BorderLayout.CENTER);
-            message.add(receiverLabel, BorderLayout.EAST);
+                    message.add(senderLabel, BorderLayout.WEST);
+                    message.add(new JScrollPane(messageContent), BorderLayout.CENTER);
+                    message.add(receiverLabel, BorderLayout.EAST);
 
-            panelResultado.add(message);
-        }
+                    panelResultado.add(message);
+                }
+                panelResultado.revalidate();  // Actualizar el layout
+                panelResultado.repaint();     // Repintar la interfaz
+            }
+        });
 
+        
         // Scroll pane para los mensajes
         JScrollPane scrollPane = new JScrollPane(panelResultado);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
