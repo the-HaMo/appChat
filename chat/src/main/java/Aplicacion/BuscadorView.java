@@ -22,8 +22,10 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.ScrollPaneConstants;
 import java.awt.Component;
@@ -34,10 +36,12 @@ public class BuscadorView {
     private JTextField telefono;
     private JTextField contacto;
     private JTextField txtMensaje;
-    private List<String> resultado = new LinkedList<String>();
+    private Map<String, List<String>> resultadoTexto = new HashMap<String, List<String>>();
+    private List<String> resultadoTlf = new LinkedList<String>(); 
     
     public BuscadorView() {
-    	resultado = new LinkedList<String>();
+    	resultadoTexto = new HashMap<String, List<String>>();
+    	resultadoTlf = new LinkedList<String>();
         initialize();
     }
 
@@ -136,32 +140,49 @@ public class BuscadorView {
        
         buscar.addActionListener(e -> {
             panelResultado.removeAll(); // Limpiar resultados previos
-            resultado = Controlador.INSTANCE.resultadoTexto(txtMensaje.getText());
+
+            String textoBuscado = txtMensaje.getText().trim();
+            String telefonoBuscado = telefono.getText().trim();
+
+            resultadoTexto = Controlador.INSTANCE.resultadoTexto(textoBuscado);
+            resultadoTlf = Controlador.INSTANCE.resultadoTelefono(telefonoBuscado);
             
-            if (resultado != null) {
-                System.out.println("Resultados encontrados: " + resultado.size());
-                for (String mensajeTexto : resultado) {
-                    JPanel message = new JPanel();
-                    message.setLayout(new BorderLayout());
-                    message.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+            boolean buscarPorMensaje = !textoBuscado.isEmpty();
+            boolean buscarPorTelefono = !telefonoBuscado.isEmpty();
+            
+            if (!buscarPorMensaje && !buscarPorTelefono) {
+                // Si ambos campos están vacíos, no hacer nada
+                JLabel mensajeError = new JLabel("Por favor, ingrese un mensaje o un número de teléfono.");
+                panelResultado.add(mensajeError);
+            } else {
+                resultadoTexto.forEach((receptor, mensajes) -> {
+                	String tlfReceptor = Controlador.INSTANCE.getTelefonoPorNombre(receptor);
+                     if ((!buscarPorTelefono || resultadoTlf.contains(tlfReceptor)) && (!buscarPorMensaje || !mensajes.isEmpty())) {
+                        for (String mensajeTexto : mensajes) {
+                            JPanel message = new JPanel();
+                            message.setLayout(new BorderLayout());
+                            message.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 
-                    JLabel senderLabel = new JLabel(" Emisor: " + Controlador.INSTANCE.getUsuarioActual().getNombre());
-                    JLabel receiverLabel = new JLabel("Receptor", SwingConstants.RIGHT);
+                            JLabel senderLabel = new JLabel("Emisor: " + Controlador.INSTANCE.getUsuarioActual().getNombre());
+                            JLabel receiverLabel = new JLabel("Receptor: " + receptor, SwingConstants.RIGHT);
 
-                    JTextArea messageContent = new JTextArea(mensajeTexto);
-                    messageContent.setLineWrap(true);
-                    messageContent.setWrapStyleWord(true);
-                    messageContent.setEditable(false);
+                            JTextArea messageContent = new JTextArea(mensajeTexto);
+                            messageContent.setLineWrap(true);
+                            messageContent.setWrapStyleWord(true);
+                            messageContent.setEditable(false);
 
-                    message.add(senderLabel, BorderLayout.WEST);
-                    message.add(new JScrollPane(messageContent), BorderLayout.CENTER);
-                    message.add(receiverLabel, BorderLayout.EAST);
+                            message.add(senderLabel, BorderLayout.WEST);
+                            message.add(new JScrollPane(messageContent), BorderLayout.CENTER);
+                            message.add(receiverLabel, BorderLayout.EAST);
 
-                    panelResultado.add(message);
-                }
-                panelResultado.revalidate();  // Actualizar el layout
-                panelResultado.repaint();     // Repintar la interfaz
+                            panelResultado.add(message);
+                        }
+                    }
+                });
             }
+
+            panelResultado.revalidate();  // Actualizar el layout
+            panelResultado.repaint();     // Repintar la interfaz
         });
 
         
