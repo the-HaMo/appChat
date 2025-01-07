@@ -6,10 +6,12 @@ import Clases.Usuario;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.AbstractMap;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -314,21 +316,33 @@ public enum Controlador {
 	        return false;
 	    }
 	}
-	
-	public List<String> resultadoTexto (String texto){
-		return getUsuarioActual().getListaContactos().stream()
-				.flatMap(c -> c.getMensajes().stream())
-				.map(m -> Optional.ofNullable(m.getTexto()))
-				.filter(m -> m.isPresent() && m.get().contains(texto))
-				.map(Optional::get)
-				.collect(Collectors.toList());
+		
+	public Map<String, List<String>> resultadoTexto(String texto) {
+	    return getUsuarioActual().getListaContactos().stream()
+	        .flatMap(c -> c.getMensajes().stream())
+	        .map(m -> Optional.ofNullable(m.getTexto())
+	            .map(text -> Map.entry(m.getReceptor().getNombre(), text)))
+	        .filter(Optional::isPresent)  
+	        .map(Optional::get)  
+	        .filter(entry -> entry.getValue().contains(texto)) 
+	        .collect(Collectors.groupingBy(
+	            Map.Entry::getKey,
+	            Collectors.mapping(Map.Entry::getValue, Collectors.toList())
+	        ));
 	}
-	
-	
+
 	public List<String> resultadoTelefono (String tlf){
 		return getUsuarioActual().getContactosTelf().stream()
-			   .filter(t -> t.equals(tlf))
+			   .filter(t -> t != null && t.equals(tlf))
 			   .collect(Collectors.toList());
+	}
+	
+	public String getTelefonoPorNombre(String nombre) {
+		return getUsuarioActual().getListaContactos().stream()
+				.filter( c -> c.getNombre().equals(nombre))
+				.map(c -> c.getTelefono())
+				.findFirst()
+				.orElse("");
 	}
 	
 
