@@ -7,6 +7,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.LinkedList;
@@ -319,17 +321,31 @@ public enum Controlador {
 		
 	public Map<String, List<String>> resultadoTexto(String texto) {
 	    return getUsuarioActual().getListaContactos().stream()
-	        .flatMap(c -> c.getMensajes().stream())
+	        .flatMap(c -> {
+	            // Obtiene los mensajes tanto enviados como recibidos del contacto
+	            Stream<Mensaje> mensajesEnviados = c.getMensajes().stream();  // Mensajes enviados
+	            Stream<Mensaje> mensajesRecibidos = getMensajesDeContacto(c).stream(); // Mensajes recibidos
+	            return Stream.concat(mensajesEnviados, mensajesRecibidos);  // Concatenamos ambos flujos
+	        })
 	        .map(m -> Optional.ofNullable(m.getTexto())
-	            .map(text -> Map.entry(m.getReceptor().getNombre(), text)))
+	            .map(text -> Map.entry(m.getEmisor().getNombre() + "->" + m.getReceptor().getNombre(), text)))  // Obtenemos el emisor, receptor y el texto
 	        .filter(Optional::isPresent)  
-	        .map(Optional::get)  
-	        .filter(entry -> entry.getValue().contains(texto)) 
-	        .collect(Collectors.groupingBy(
-	            Map.Entry::getKey,
-	            Collectors.mapping(Map.Entry::getValue, Collectors.toList())
+	        .map(Optional::get)
+	        .filter(entry -> entry.getValue().contains(texto))  // Filtramos los mensajes que contienen el texto
+	        .collect(Collectors.toMap(
+	            Map.Entry::getKey,  // Clave: emisor -> receptor
+	            entry -> new ArrayList<>(Collections.singletonList(entry.getValue())),  // Valor: lista de un solo mensaje
+	            (existing, replacement) -> {
+	                // Resolver el conflicto: Si ya existe una lista de mensajes, añadimos el nuevo mensaje si no está duplicado
+	                if (!existing.contains(replacement.get(0))) {
+	                    existing.add(replacement.get(0));
+	                }
+	                return existing;
+	            }
 	        ));
 	}
+
+
 
 	public List<String> resultadoTelefono (String tlf){
 		return getUsuarioActual().getContactosTelf().stream()
