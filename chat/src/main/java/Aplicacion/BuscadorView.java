@@ -4,6 +4,8 @@ import java.awt.EventQueue;
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+
 import java.awt.Dimension;
 import java.awt.Color;
 import javax.swing.JScrollPane;
@@ -19,6 +21,7 @@ import javax.swing.JButton;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -73,16 +76,16 @@ public class BuscadorView {
         lblTitulo.setHorizontalAlignment(JLabel.CENTER); // Centrar el texto
         panelTitulo.add(lblTitulo, BorderLayout.CENTER);
         
-        JPanel Búsqueda = new JPanel();
-        Búsqueda.setBackground(Color.GREEN);
-        Búsqueda.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "buscar", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-        panelBúsqueda.add(Búsqueda, BorderLayout.CENTER);
-        Búsqueda.setLayout(new BorderLayout(0, 10));
+        JPanel Busqueda = new JPanel();
+        Busqueda.setBackground(Color.GREEN);
+        Busqueda.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "buscar", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+        panelBúsqueda.add(Busqueda, BorderLayout.CENTER);
+        Busqueda.setLayout(new BorderLayout(0, 10));
         
         JPanel panelCampos = new JPanel();
         panelCampos.setBackground(Color.GREEN);
         panelCampos.setLayout(new BoxLayout(panelCampos, BoxLayout.X_AXIS)); // Usamos BoxLayout en horizontal
-        Búsqueda.add(panelCampos, BorderLayout.CENTER);
+        Busqueda.add(panelCampos, BorderLayout.CENTER);
       
         telefono = new JTextField();
         telefono.setText("teléfono");
@@ -107,17 +110,53 @@ public class BuscadorView {
         
         JButton buscar = new JButton("Buscar");
         buscar.setBackground(Color.WHITE);
-        Búsqueda.add(buscar, BorderLayout.EAST);
+        Busqueda.add(buscar, BorderLayout.EAST);
         
         JPanel mensaje = new JPanel();
         mensaje.setBackground(Color.GREEN);
-        Búsqueda.add(mensaje, BorderLayout.NORTH);
+        Busqueda.add(mensaje, BorderLayout.NORTH);
         mensaje.setLayout(new BorderLayout(0, 0));
         
         txtMensaje = new JTextField();
         txtMensaje.setText("mensaje");
         mensaje.add(txtMensaje, BorderLayout.CENTER);
         txtMensaje.setColumns(10);
+        
+        JPanel opciones = new JPanel();
+        opciones.setBackground(Color.GREEN);
+        opciones.setPreferredSize(new Dimension(10, 20));
+        Busqueda.add(opciones, BorderLayout.SOUTH);
+        opciones.setLayout(new BoxLayout(opciones, BoxLayout.X_AXIS));
+        
+        JRadioButton TelefonoEmisor = new JRadioButton("Emisor");
+        TelefonoEmisor.setBackground(new Color(50, 205, 50));
+        JRadioButton TelefonoReceptor = new JRadioButton("Receptor");
+        TelefonoReceptor.setBackground(new Color(50, 205, 50));
+
+        ButtonGroup group = new ButtonGroup();
+        group.add(TelefonoEmisor);
+        group.add(TelefonoReceptor);
+
+        opciones.add(TelefonoEmisor);
+        opciones.add(TelefonoReceptor);
+        
+        Component horizontalStrut_1 = Box.createHorizontalStrut(20);
+        horizontalStrut_1.setMaximumSize(new Dimension(10, 32767));
+        horizontalStrut_1.setMinimumSize(new Dimension(10, 0));
+        horizontalStrut_1.setPreferredSize(new Dimension(10, 0));
+        opciones.add(horizontalStrut_1);
+        
+        JRadioButton ContactoEmisor = new JRadioButton("Emisor");
+        ContactoEmisor.setBackground(new Color(50, 205, 50));
+        JRadioButton ContactoReceptor = new JRadioButton("Receptor");
+        ContactoReceptor.setBackground(new Color(50, 205, 50));
+        ButtonGroup groupContacto = new ButtonGroup();
+        groupContacto.add(ContactoEmisor);
+        groupContacto.add(ContactoReceptor);
+        
+        opciones.add(ContactoReceptor);
+        opciones.add(ContactoEmisor);
+        
         
         JPanel rellenoDerecha = new JPanel();
         rellenoDerecha.setBackground(Color.GREEN);
@@ -129,7 +168,6 @@ public class BuscadorView {
         rellenoIzquierda.setBackground(Color.GREEN);
         panelBúsqueda.add(rellenoIzquierda, BorderLayout.EAST);
         
-        // Panel de resultados de búsqueda
         JPanel panelResultado = new JPanel();
         panelResultado.setBackground(Color.GREEN);
         frame.getContentPane().add(panelResultado, BorderLayout.CENTER);
@@ -141,11 +179,13 @@ public class BuscadorView {
         buscar.addActionListener(e -> {
             panelResultado.removeAll(); // Limpiar resultados previos
 
-            String textoBuscado = txtMensaje.getText().trim();
-            String telefonoBuscado = telefono.getText().trim();
+            String textoBuscado = txtMensaje.getText();
+            String telefonoBuscado = telefono.getText();
 
             resultadoTexto = Controlador.INSTANCE.resultadoTexto(textoBuscado);
             resultadoTlf = Controlador.INSTANCE.resultadoTelefono(telefonoBuscado);
+            
+            System.out.println(resultadoTexto.size());
             
             boolean buscarPorMensaje = !textoBuscado.isEmpty();
             boolean buscarPorTelefono = !telefonoBuscado.isEmpty();
@@ -155,15 +195,19 @@ public class BuscadorView {
                 JLabel mensajeError = new JLabel("Por favor, ingrese un mensaje o un número de teléfono.");
                 panelResultado.add(mensajeError);
             } else {
-                resultadoTexto.forEach((receptor, mensajes) -> {
+                resultadoTexto.forEach((receptorYemisor, mensajes) -> {
+                	String[] partes = receptorYemisor.split("->");
+                	String emisor = partes[0].trim();
+                	String receptor = partes[1].trim();
                 	String tlfReceptor = Controlador.INSTANCE.getTelefonoPorNombre(receptor);
                      if ((!buscarPorTelefono || resultadoTlf.contains(tlfReceptor)) && (!buscarPorMensaje || !mensajes.isEmpty())) {
                         for (String mensajeTexto : mensajes) {
+                        	System.out.println(mensajeTexto);
                             JPanel message = new JPanel();
                             message.setLayout(new BorderLayout());
                             message.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 
-                            JLabel senderLabel = new JLabel("Emisor: " + Controlador.INSTANCE.getUsuarioActual().getNombre());
+                            JLabel senderLabel = new JLabel("Emisor: " + emisor);
                             JLabel receiverLabel = new JLabel("Receptor: " + receptor, SwingConstants.RIGHT);
 
                             JTextArea messageContent = new JTextArea(mensajeTexto);
