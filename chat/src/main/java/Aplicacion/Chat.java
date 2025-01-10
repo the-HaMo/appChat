@@ -368,9 +368,9 @@ private void initialize() {
     sendEmoji.setIcon(new ImageIcon(scalar));
     Emoji.add(sendEmoji);
     sendEmoji.addActionListener(e -> {
-    	emojiWindow = new Emoji(model.getElementAt(lista.getSelectedIndex()).getContacto(), this);
     	if (lista.getSelectedIndex() != -1) {
-            if (emojiWindow.getFrame().isVisible()) {
+    		emojiWindow = new Emoji(model.getElementAt(lista.getSelectedIndex()).getContacto(), this);
+    		if (emojiWindow.getFrame().isVisible()) {
                 emojiWindow.hide();
             } else {
                 Point locationOnScreen = Message.getLocationOnScreen();

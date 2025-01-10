@@ -12,6 +12,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.TitledBorder;
 
+import Clases.Mensaje;
 import Controlador.Controlador;
 
 import javax.swing.border.LineBorder;
@@ -39,11 +40,11 @@ public class BuscadorView {
     private JTextField telefono;
     private JTextField contacto;
     private JTextField txtMensaje;
-    private Map<String, List<String>> resultadoTexto = new HashMap<String, List<String>>();
+    private List<Mensaje> resultadoTextoEnviado = new LinkedList<Mensaje>();
     private List<String> resultadoTlf = new LinkedList<String>(); 
     
     public BuscadorView() {
-    	resultadoTexto = new HashMap<String, List<String>>();
+    	resultadoTextoEnviado = new LinkedList<Mensaje>();
     	resultadoTlf = new LinkedList<String>();
         initialize();
     }
@@ -182,10 +183,11 @@ public class BuscadorView {
             String textoBuscado = txtMensaje.getText();
             String telefonoBuscado = telefono.getText();
 
-            resultadoTexto = Controlador.INSTANCE.resultadoTexto(textoBuscado);
+            resultadoTextoEnviado = Controlador.INSTANCE.resultadoTextoEnviados(textoBuscado);
             resultadoTlf = Controlador.INSTANCE.resultadoTelefono(telefonoBuscado);
-            
-            System.out.println(resultadoTexto.size());
+         
+            boolean emisorTelefono = TelefonoEmisor.isSelected();
+            boolean receptorTelefono = TelefonoReceptor.isSelected();
             
             boolean buscarPorMensaje = !textoBuscado.isEmpty();
             boolean buscarPorTelefono = !telefonoBuscado.isEmpty();
@@ -195,34 +197,35 @@ public class BuscadorView {
                 JLabel mensajeError = new JLabel("Por favor, ingrese un mensaje o un número de teléfono.");
                 panelResultado.add(mensajeError);
             } else {
-                resultadoTexto.forEach((receptorYemisor, mensajes) -> {
-                	String[] partes = receptorYemisor.split("->");
-                	String emisor = partes[0].trim();
-                	String receptor = partes[1].trim();
-                	String tlfReceptor = Controlador.INSTANCE.getTelefonoPorNombre(receptor);
-                     if ((!buscarPorTelefono || resultadoTlf.contains(tlfReceptor)) && (!buscarPorMensaje || !mensajes.isEmpty())) {
-                        for (String mensajeTexto : mensajes) {
-                        	System.out.println(mensajeTexto);
-                            JPanel message = new JPanel();
-                            message.setLayout(new BorderLayout());
-                            message.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+            	for (Mensaje msg : resultadoTextoEnviado) {
+            	    String emisor = msg.getEmisor().getNombre();
+            	    String receptor = msg.getReceptor().getNombre();
+            	    String tlfEmisor = Controlador.INSTANCE.getTelefonoPorNombre(emisor); 
+            	    String tlfReceptor = Controlador.INSTANCE.getTelefonoPorNombre(receptor);
 
-                            JLabel senderLabel = new JLabel("Emisor: " + emisor);
-                            JLabel receiverLabel = new JLabel("Receptor: " + receptor, SwingConstants.RIGHT);
+            	    // Mostrar solo si coincide con los criterios de búsqueda
+            	    if ((!buscarPorTelefono || resultadoTlf.contains(tlfReceptor) || resultadoTlf.contains(tlfEmisor))
+            	            && (!buscarPorMensaje || !resultadoTextoEnviado.isEmpty())) {
 
-                            JTextArea messageContent = new JTextArea(mensajeTexto);
-                            messageContent.setLineWrap(true);
-                            messageContent.setWrapStyleWord(true);
-                            messageContent.setEditable(false);
+            	        JPanel message = new JPanel();
+            	        message.setLayout(new BorderLayout());
+            	        message.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 
-                            message.add(senderLabel, BorderLayout.WEST);
-                            message.add(new JScrollPane(messageContent), BorderLayout.CENTER);
-                            message.add(receiverLabel, BorderLayout.EAST);
+            	        JLabel senderLabel = new JLabel("Emisor: " + emisor);
+            	        JLabel receiverLabel = new JLabel("Receptor: " + receptor, SwingConstants.RIGHT);
 
-                            panelResultado.add(message);
-                        }
-                    }
-                });
+            	        JTextArea messageContent = new JTextArea(msg.getTexto());
+            	        messageContent.setLineWrap(true);
+            	        messageContent.setWrapStyleWord(true);
+            	        messageContent.setEditable(false);
+
+            	        message.add(senderLabel, BorderLayout.WEST);
+            	        message.add(new JScrollPane(messageContent), BorderLayout.CENTER);
+            	        message.add(receiverLabel, BorderLayout.EAST);
+
+            	        panelResultado.add(message);
+            	    }
+            	}
             }
 
             panelResultado.revalidate();  // Actualizar el layout
