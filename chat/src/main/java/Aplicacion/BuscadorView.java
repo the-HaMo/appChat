@@ -185,7 +185,8 @@ public class BuscadorView {
 
             resultadoTextoEnviado = Controlador.INSTANCE.resultadoTextoEnviados(textoBuscado);
             resultadoTlf = Controlador.INSTANCE.resultadoTelefono(telefonoBuscado);
-         
+           
+            
             boolean emisorTelefono = TelefonoEmisor.isSelected();
             boolean receptorTelefono = TelefonoReceptor.isSelected();
             
