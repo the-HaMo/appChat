@@ -7,8 +7,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.LinkedList;
@@ -319,33 +317,46 @@ public enum Controlador {
 	    }
 	}
 		
-	public Map<String, List<String>> resultadoTexto(String texto) {
+	public Map<String, List<String>> resultadoTextoRecibidos(String texto) {
 	    return getUsuarioActual().getListaContactos().stream()
-	        .flatMap(c -> {
-	            // Obtiene los mensajes tanto enviados como recibidos del contacto
-	            Stream<Mensaje> mensajesEnviados = c.getMensajes().stream();  // Mensajes enviados
-	            Stream<Mensaje> mensajesRecibidos = getMensajesDeContacto(c).stream(); // Mensajes recibidos
-	            return Stream.concat(mensajesEnviados, mensajesRecibidos);  // Concatenamos ambos flujos
-	        })
+	        .flatMap(c -> getMensajesDeContacto(c).stream())
 	        .map(m -> Optional.ofNullable(m.getTexto())
-	            .map(text -> Map.entry(m.getEmisor().getNombre() + "->" + m.getReceptor().getNombre(), text)))  // Obtenemos el emisor, receptor y el texto
+	            .map(text -> Map.entry(m.getEmisor()+"->"+m.getReceptor().getNombre(), text)))
 	        .filter(Optional::isPresent)  
-	        .map(Optional::get)
-	        .filter(entry -> entry.getValue().contains(texto))  // Filtramos los mensajes que contienen el texto
-	        .collect(Collectors.toMap(
-	            Map.Entry::getKey,  // Clave: emisor -> receptor
-	            entry -> new ArrayList<>(Collections.singletonList(entry.getValue())),  // Valor: lista de un solo mensaje
-	            (existing, replacement) -> {
-	                // Resolver el conflicto: Si ya existe una lista de mensajes, añadimos el nuevo mensaje si no está duplicado
-	                if (!existing.contains(replacement.get(0))) {
-	                    existing.add(replacement.get(0));
-	                }
-	                return existing;
-	            }
+	        .map(Optional::get)  
+	        .filter(entry -> entry.getValue().contains(texto)) 
+	        .collect(Collectors.groupingBy(
+	            Map.Entry::getKey,
+	            Collectors.mapping(Map.Entry::getValue, Collectors.toList())
 	        ));
 	}
+	
+	public List<Mensaje> resultadoTextoEnviados(String texto) {
+	    return getUsuarioActual().getListaContactos().stream()
+	        .flatMap(c -> getMensajesDeContacto(c).stream())
+	        //.filter(m -> m.getEmisor().equals(getUsuarioActual()))
+	        .filter(m -> Optional.ofNullable(m.getTexto())
+	                .map(text -> text.contains(texto))
+	                .orElse(false))
+	        .collect(Collectors.toList());
+	}
+	
+	
+	public List<Mensaje> resultadoTextoRecibids(String texto) {
+	    return getUsuarioActual().getListaContactos().stream()
+	        .flatMap(c -> getMensajesDeContacto(c).stream())  // Obtenemos todos los mensajes de los contactos
+	        .filter(m -> {
+	            Contacto receptorContacto = m.getReceptor();
+	            return receptorContacto.getTelefono().equals(getUsuarioActual().getTelefono())
+	                   || receptorContacto.getNombre().equals(getUsuarioActual().getNombre());  // Comparar por teléfono o nombre asignado
+	        })
+	        .filter(m -> Optional.ofNullable(m.getTexto())  // Filtra por el texto contenido en el mensaje
+	                .map(text -> text.contains(texto))
+	                .orElse(false))
+	        .collect(Collectors.toList());  // Devuelve una lista con los resultados filtrados
+	}
 
-
+	
 
 	public List<String> resultadoTelefono (String tlf){
 		return getUsuarioActual().getContactosTelf().stream()
