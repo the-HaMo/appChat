@@ -1,6 +1,5 @@
 package Aplicacion;
 
-import java.awt.EventQueue;
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -26,10 +25,8 @@ import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import java.awt.Font;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.ScrollPaneConstants;
 import java.awt.Component;
@@ -40,12 +37,14 @@ public class BuscadorView {
     private JTextField telefono;
     private JTextField contacto;
     private JTextField txtMensaje;
-    private List<Mensaje> resultadoTextoEnviado = new LinkedList<Mensaje>();
-    private List<String> resultadoTlf = new LinkedList<String>(); 
+    private List<Mensaje> resultadoTextoEnviados = new LinkedList<Mensaje>();
+    private List<Mensaje> resultadoTextoRecibidos = new LinkedList<Mensaje>();
+    //private List<String> resultadoTlf = new LinkedList<String>(); 
     
     public BuscadorView() {
-    	resultadoTextoEnviado = new LinkedList<Mensaje>();
-    	resultadoTlf = new LinkedList<String>();
+    	resultadoTextoEnviados = new LinkedList<Mensaje>();
+    	resultadoTextoRecibidos = new LinkedList<Mensaje>();
+    	//resultadoTlf = new LinkedList<String>();
         initialize();
     }
 
@@ -183,50 +182,81 @@ public class BuscadorView {
             String textoBuscado = txtMensaje.getText();
             String telefonoBuscado = telefono.getText();
 
-            resultadoTextoEnviado = Controlador.INSTANCE.resultadoTextoEnviados(textoBuscado);
-            resultadoTlf = Controlador.INSTANCE.resultadoTelefono(telefonoBuscado);
+            resultadoTextoRecibidos = Controlador.INSTANCE.resultadoTextoRecibidos(textoBuscado);
+            resultadoTextoEnviados = Controlador.INSTANCE.resultadoTextoEnviados(textoBuscado);
            
-            
             boolean emisorTelefono = TelefonoEmisor.isSelected();
             boolean receptorTelefono = TelefonoReceptor.isSelected();
             
-            boolean buscarPorMensaje = !textoBuscado.isEmpty();
-            boolean buscarPorTelefono = !telefonoBuscado.isEmpty();
-            
-            if (!buscarPorMensaje && !buscarPorTelefono) {
-                // Si ambos campos están vacíos, no hacer nada
+            if (textoBuscado.isEmpty() && telefonoBuscado.isEmpty()) {
                 JLabel mensajeError = new JLabel("Por favor, ingrese un mensaje o un número de teléfono.");
                 panelResultado.add(mensajeError);
             } else {
-            	for (Mensaje msg : resultadoTextoEnviado) {
-            	    String emisor = msg.getEmisor().getNombre();
-            	    String receptor = msg.getReceptor().getNombre();
-            	    String tlfEmisor = Controlador.INSTANCE.getTelefonoPorNombre(emisor); 
-            	    String tlfReceptor = Controlador.INSTANCE.getTelefonoPorNombre(receptor);
+                for (Mensaje msg : resultadoTextoRecibidos) {
+                	
+                    String emisor = Controlador.INSTANCE.NombreEmisorDelUsuarioActual(msg.getEmisor().getTelefono());
+                    String receptor = Controlador.INSTANCE.getUsuarioActual().getNombre();
+                    String tlfEmisor = msg.getEmisor().getTelefono(); 
+                    String tlfReceptor = Controlador.INSTANCE.getUsuarioActual().getTelefono();
 
-            	    // Mostrar solo si coincide con los criterios de búsqueda
-            	    if ((!buscarPorTelefono || resultadoTlf.contains(tlfReceptor) || resultadoTlf.contains(tlfEmisor))
-            	            && (!buscarPorMensaje || !resultadoTextoEnviado.isEmpty())) {
+                    // Lógica de filtrado ajustada según la opción seleccionada
+                    boolean coincideTelefono = telefonoBuscado.isEmpty() || 
+                                                (emisorTelefono && telefonoBuscado.equals(tlfEmisor)) ||
+                                                (receptorTelefono && telefonoBuscado.equals(tlfReceptor));
 
-            	        JPanel message = new JPanel();
-            	        message.setLayout(new BorderLayout());
-            	        message.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+                    if (coincideTelefono && (textoBuscado.isEmpty() || !resultadoTextoRecibidos.isEmpty())) {
+                        JPanel message = new JPanel();
+                        message.setLayout(new BorderLayout());
+                        message.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 
-            	        JLabel senderLabel = new JLabel("Emisor: " + emisor);
-            	        JLabel receiverLabel = new JLabel("Receptor: " + receptor, SwingConstants.RIGHT);
+                        JLabel senderLabel = new JLabel("Emisor: " + emisor);
+                        JLabel receiverLabel = new JLabel("Receptor: " + receptor, SwingConstants.RIGHT);
 
-            	        JTextArea messageContent = new JTextArea(msg.getTexto());
-            	        messageContent.setLineWrap(true);
-            	        messageContent.setWrapStyleWord(true);
-            	        messageContent.setEditable(false);
+                        JTextArea messageContent = new JTextArea(msg.getTexto());
+                        messageContent.setLineWrap(true);
+                        messageContent.setWrapStyleWord(true);
+                        messageContent.setEditable(false);
 
-            	        message.add(senderLabel, BorderLayout.WEST);
-            	        message.add(new JScrollPane(messageContent), BorderLayout.CENTER);
-            	        message.add(receiverLabel, BorderLayout.EAST);
+                        message.add(senderLabel, BorderLayout.WEST);
+                        message.add(new JScrollPane(messageContent), BorderLayout.CENTER);
+                        message.add(receiverLabel, BorderLayout.EAST);
 
-            	        panelResultado.add(message);
-            	    }
-            	}
+                        panelResultado.add(message);
+                    }
+                }
+                
+                for (Mensaje msg : resultadoTextoEnviados) {
+                	
+                    String emisor = msg.getEmisor().getNombre();
+                    String receptor = msg.getReceptor().getNombre();
+                    String tlfEmisor = msg.getEmisor().getTelefono(); 
+                    String tlfReceptor = msg.getReceptor().getTelefono();
+
+                    // Lógica de filtrado ajustada según la opción seleccionada
+                    boolean coincideTelefono = telefonoBuscado.isEmpty() || 
+                                                (emisorTelefono && telefonoBuscado.equals(tlfEmisor)) ||
+                                                (receptorTelefono && telefonoBuscado.equals(tlfReceptor));
+
+                    if (coincideTelefono && (textoBuscado.isEmpty() || !resultadoTextoEnviados.isEmpty())) {
+                        JPanel message = new JPanel();
+                        message.setLayout(new BorderLayout());
+                        message.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+
+                        JLabel senderLabel = new JLabel("Emisor: " + emisor);
+                        JLabel receiverLabel = new JLabel("Receptor: " + receptor, SwingConstants.RIGHT);
+
+                        JTextArea messageContent = new JTextArea(msg.getTexto());
+                        messageContent.setLineWrap(true);
+                        messageContent.setWrapStyleWord(true);
+                        messageContent.setEditable(false);
+
+                        message.add(senderLabel, BorderLayout.WEST);
+                        message.add(new JScrollPane(messageContent), BorderLayout.CENTER);
+                        message.add(receiverLabel, BorderLayout.EAST);
+
+                        panelResultado.add(message);
+                    }
+                }
             }
 
             panelResultado.revalidate();  // Actualizar el layout
