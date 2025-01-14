@@ -6,12 +6,10 @@ import Clases.Usuario;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.util.AbstractMap;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -317,24 +315,10 @@ public enum Controlador {
 	    }
 	}
 		
-	public Map<String, List<String>> resultadoTextoRecibidos(String texto) {
-	    return getUsuarioActual().getListaContactos().stream()
-	        .flatMap(c -> getMensajesDeContacto(c).stream())
-	        .map(m -> Optional.ofNullable(m.getTexto())
-	            .map(text -> Map.entry(m.getEmisor()+"->"+m.getReceptor().getNombre(), text)))
-	        .filter(Optional::isPresent)  
-	        .map(Optional::get)  
-	        .filter(entry -> entry.getValue().contains(texto)) 
-	        .collect(Collectors.groupingBy(
-	            Map.Entry::getKey,
-	            Collectors.mapping(Map.Entry::getValue, Collectors.toList())
-	        ));
-	}
-	
 	public List<Mensaje> resultadoTextoEnviados(String texto) {
 	    return getUsuarioActual().getListaContactos().stream()
 	        .flatMap(c -> getMensajesDeContacto(c).stream())
-	        //.filter(m -> m.getEmisor().equals(getUsuarioActual()))
+	        .filter(m -> m.getEmisor().equals(getUsuarioActual()))
 	        .filter(m -> Optional.ofNullable(m.getTexto())
 	                .map(text -> text.contains(texto))
 	                .orElse(false))
@@ -342,20 +326,22 @@ public enum Controlador {
 	}
 	
 	
-	public List<Mensaje> resultadoTextoRecibids(String texto) {
+	public List<Mensaje> resultadoTextoRecibidos(String texto) {
 	    return getUsuarioActual().getListaContactos().stream()
-	        .flatMap(c -> getMensajesDeContacto(c).stream())  // Obtenemos todos los mensajes de los contactos
-	        .filter(m -> {
-	            Contacto receptorContacto = m.getReceptor();
-	            return receptorContacto.getTelefono().equals(getUsuarioActual().getTelefono())
-	                   || receptorContacto.getNombre().equals(getUsuarioActual().getNombre());  // Comparar por teléfono o nombre asignado
-	        })
-	        .filter(m -> Optional.ofNullable(m.getTexto())  // Filtra por el texto contenido en el mensaje
+	        .flatMap(c -> getMensajesDeContacto(c).stream())  
+	        .filter(m -> 
+	            		m.getReceptor().getTelefono().equals(getUsuarioActual().getTelefono())
+	                   || m.getReceptor().getNombre().equals(getUsuarioActual().getNombre())  
+	        )
+	        .filter(m -> Optional.ofNullable(m.getTexto())  
 	                .map(text -> text.contains(texto))
 	                .orElse(false))
-	        .collect(Collectors.toList());  // Devuelve una lista con los resultados filtrados
+	        .collect(Collectors.toList());  
 	}
-
+	
+	public String NombreEmisorDelUsuarioActual(String telefono) {
+		return getUsuarioActual().getContacto(telefono).getNombre();
+	}
 	
 
 	public List<String> resultadoTelefono (String tlf){
@@ -375,7 +361,6 @@ public enum Controlador {
 
 	
 }
-
 
 
 
