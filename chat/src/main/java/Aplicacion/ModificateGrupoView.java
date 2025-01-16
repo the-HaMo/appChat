@@ -26,7 +26,7 @@ public class ModificateGrupoView {
         ventanaGrupo.setMinimumSize(new Dimension(720, 480));
         ventanaGrupo.setMaximumSize(new Dimension(720, 480));
         ventanaGrupo.setBounds(100, 100, 450, 300);
-        ventanaGrupo.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        ventanaGrupo.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         ventanaGrupo.getContentPane().setLayout(new BorderLayout(0, 0));
 
         ImageIcon icono = new ImageIcon(getClass().getResource("/logo.png")); // LOGO
