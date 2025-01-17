@@ -11,6 +11,8 @@ import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.Color;
 import java.awt.Component;
@@ -181,7 +183,12 @@ public class Login {
 							mens.Mostrar();
 							ventana.dispose();
 						} else {
-							System.err.println("Nombre de usuario o contraseña no valido");
+							JOptionPane.showMessageDialog(
+	        	                    ventana,
+	        	                    "El contacto ya registrado o contraseña y usuario inválidos.",
+	        	                    "Aviso",
+	        	                    JOptionPane.WARNING_MESSAGE
+	        	                );
 					}						
 				}
 			});
