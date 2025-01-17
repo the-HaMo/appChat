@@ -182,7 +182,19 @@ public class BuscadorView {
             String textoBuscado = txtMensaje.getText();
             String telefonoBuscado = telefono.getText();
             String nombreBuscado = contacto.getText();
-
+            
+            if (textoBuscado.equals("mensaje")) {
+            	textoBuscado = "";
+            }
+            
+            if (telefonoBuscado.equals("teléfono")) {
+            	telefonoBuscado = "";
+            }
+            
+            if (nombreBuscado.equals("contacto")) {
+            	nombreBuscado = "";
+            }
+            
             resultadoTextoRecibidos = Controlador.INSTANCE.resultadoTextoRecibidos(textoBuscado);
             resultadoTextoEnviados = Controlador.INSTANCE.resultadoTextoEnviados(textoBuscado);
            
