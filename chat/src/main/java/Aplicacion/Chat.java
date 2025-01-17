@@ -412,10 +412,12 @@ private void initialize() {
     sendButton.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			String texto = Message.getText();
+			if (lista.getSelectedIndex() != -1) {
 			Contacto c = model.getElementAt(lista.getSelectedIndex()).getContacto();
 			if (!texto.equals("")) {
 				enviarMensajeTexto(c,texto);
 				Message.setText("");
+			}
 			}
 		}
 	});
@@ -432,10 +434,6 @@ private void initialize() {
 
 
     chat = new JPanel();
-    chat.setSize(new Dimension(450, 570));
-    chat.setPreferredSize(new Dimension(10, 565));
-    chat.setMinimumSize(new Dimension(10, 550));
-    chat.setMaximumSize(new Dimension(10, 550));
     chat.setLayout(new BoxLayout(chat, BoxLayout.Y_AXIS));
     chat.setBorder(new LineBorder(new Color(0, 0, 0)));
     JScrollPane scrollChat = new JScrollPane(chat);
@@ -454,21 +452,7 @@ private void initialize() {
                 }
             }
     });
-    
-    
-    
-    
-    /*
-    BubbleText m1 = new BubbleText(chat, "hola", Color.green, "Paco " + Clases.Mensaje.onlyHourNow(LocalDateTime.now()), BubbleText.SENT);
-    chat.add(m1);
-    BubbleText m2 = new BubbleText(chat, "hola jefe", Color.white, "Jorge " + Clases.Mensaje.onlyHourNow(LocalDateTime.now()), BubbleText.RECEIVED);
-    chat.add(m2);
-    BubbleText m3 = new BubbleText(chat, 7, Color.white, "Jorge " + Clases.Mensaje.onlyHourNow(LocalDateTime.now()), BubbleText.RECEIVED, 18);
-    chat.add(m3);
-    BubbleText m4 = new BubbleText(chat, "hola que tal bien??.", Color.green, "Paco " + Clases.Mensaje.onlyHourNow(LocalDateTime.now()), BubbleText.SENT);
-    chat.add(m4);*/
-    chat.scrollRectToVisible(new Rectangle(0, 420, 1, 1));
-
+     
     frame.repaint();
     frame.revalidate();
 }
@@ -500,8 +484,8 @@ public void enviarMensajeEmoji(Contacto contacto, int emoji) {
 
 private void cargarConversacion(Contacto contacto) {
 	chat.removeAll(); // Clear the current chat panel
-
 	BubbleText bubbleText;
+	int heights = 0;
 	List<Mensaje> mensajes = Controlador.INSTANCE.getMensajesDeContacto(contacto);
 	for (Mensaje mensaje : mensajes) {
 		String displayName;
@@ -509,22 +493,31 @@ private void cargarConversacion(Contacto contacto) {
 			if (mensaje.getEmisor().equals(Controlador.INSTANCE.getUsuarioActual())) { // Si soy el emisor...
 				displayName = mensaje.getEmisor().getNombre();
 				bubbleText = new BubbleText(chat, mensaje.getTexto(), Color.green, displayName + " " + mensaje.getHora(), BubbleText.SENT);
+				heights += bubbleText.getHeight();
 			} else { // Si no lo soy
 				displayName = contacto.getNombre();
 				bubbleText = new BubbleText(chat, mensaje.getTexto(), Color.white, displayName + " " + mensaje.getHora(), BubbleText.RECEIVED);
+				heights += bubbleText.getHeight();
 			}
 
 		}else {
 			if (mensaje.getEmisor().equals(Controlador.INSTANCE.getUsuarioActual())) { // Si soy el emisor...
 				displayName = mensaje.getEmisor().getNombre();
 				bubbleText = new BubbleText(chat, mensaje.getEmoticono(), Color.green, displayName + " " + mensaje.getHora(), BubbleText.SENT,18);
+				heights += bubbleText.getHeight();
 			} else { // Si no lo soy
 				displayName = contacto.getNombre();
 				bubbleText = new BubbleText(chat, mensaje.getEmoticono(), Color.white, displayName + " " + mensaje.getHora(), BubbleText.RECEIVED,18);
+				heights += bubbleText.getHeight();
 			}
 		}
 		chat.add(bubbleText);
 	}
+	chat.setSize(new Dimension(10, heights));
+    chat.setPreferredSize(new Dimension(10, heights));
+    chat.setMinimumSize(new Dimension(10, heights));
+    chat.setMaximumSize(new Dimension(10, heights));
+	chat.scrollRectToVisible(new Rectangle(0, heights, 1, 1));
 	chat.revalidate();
 	chat.repaint();
 }

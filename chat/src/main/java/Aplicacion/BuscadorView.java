@@ -181,14 +181,29 @@ public class BuscadorView {
 
             String textoBuscado = txtMensaje.getText();
             String telefonoBuscado = telefono.getText();
-
+            String nombreBuscado = contacto.getText();
+            
+            if (textoBuscado.equals("mensaje")) {
+            	textoBuscado = "";
+            }
+            
+            if (telefonoBuscado.equals("teléfono")) {
+            	telefonoBuscado = "";
+            }
+            
+            if (nombreBuscado.equals("contacto")) {
+            	nombreBuscado = "";
+            }
+            
             resultadoTextoRecibidos = Controlador.INSTANCE.resultadoTextoRecibidos(textoBuscado);
             resultadoTextoEnviados = Controlador.INSTANCE.resultadoTextoEnviados(textoBuscado);
            
             boolean emisorTelefono = TelefonoEmisor.isSelected();
             boolean receptorTelefono = TelefonoReceptor.isSelected();
+            boolean emisorContacto = ContactoEmisor.isSelected();
+            boolean receptorContacto = ContactoReceptor.isSelected();
             
-            if (textoBuscado.isEmpty() && telefonoBuscado.isEmpty()) {
+            if (textoBuscado.isEmpty() && telefonoBuscado.isEmpty() && nombreBuscado.isEmpty()) {
                 JLabel mensajeError = new JLabel("Por favor, ingrese un mensaje o un número de teléfono.");
                 panelResultado.add(mensajeError);
             } else {
@@ -200,11 +215,15 @@ public class BuscadorView {
                     String tlfReceptor = Controlador.INSTANCE.getUsuarioActual().getTelefono();
 
                     // Lógica de filtrado ajustada según la opción seleccionada
-                    boolean coincideTelefono = telefonoBuscado.isEmpty() || 
-                                                (emisorTelefono && telefonoBuscado.equals(tlfEmisor)) ||
-                                                (receptorTelefono && telefonoBuscado.equals(tlfReceptor));
+                    boolean coincidencias = 
+                    	    (telefonoBuscado.isEmpty() || 
+                    	        (emisorTelefono && telefonoBuscado.equals(tlfEmisor)) ||
+                    	        (receptorTelefono && telefonoBuscado.equals(tlfReceptor))) &&
+                    	    (nombreBuscado.isEmpty() || 
+                    	        (emisorContacto && nombreBuscado.equals(emisor)) ||
+                    	        (receptorContacto && nombreBuscado.equals(receptor)));
 
-                    if (coincideTelefono && (textoBuscado.isEmpty() || !resultadoTextoRecibidos.isEmpty())) {
+                    if (coincidencias && (textoBuscado.isEmpty() || !resultadoTextoRecibidos.isEmpty())) {
                         JPanel message = new JPanel();
                         message.setLayout(new BorderLayout());
                         message.setBorder(BorderFactory.createLineBorder(Color.GRAY));
@@ -233,11 +252,16 @@ public class BuscadorView {
                     String tlfReceptor = msg.getReceptor().getTelefono();
 
                     // Lógica de filtrado ajustada según la opción seleccionada
-                    boolean coincideTelefono = telefonoBuscado.isEmpty() || 
-                                                (emisorTelefono && telefonoBuscado.equals(tlfEmisor)) ||
-                                                (receptorTelefono && telefonoBuscado.equals(tlfReceptor));
+                    boolean coincidencias = 
+                    	    (telefonoBuscado.isEmpty() || 
+                    	        (emisorTelefono && telefonoBuscado.equals(tlfEmisor)) ||
+                    	        (receptorTelefono && telefonoBuscado.equals(tlfReceptor))) &&
+                    	    (nombreBuscado.isEmpty() || 
+                    	        (emisorContacto && nombreBuscado.equals(emisor)) ||
+                    	        (receptorContacto && nombreBuscado.equals(receptor)));
 
-                    if (coincideTelefono && (textoBuscado.isEmpty() || !resultadoTextoEnviados.isEmpty())) {
+
+                    if (coincidencias && (textoBuscado.isEmpty() || !resultadoTextoEnviados.isEmpty())) {
                         JPanel message = new JPanel();
                         message.setLayout(new BorderLayout());
                         message.setBorder(BorderFactory.createLineBorder(Color.GRAY));
