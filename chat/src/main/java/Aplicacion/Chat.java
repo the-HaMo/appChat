@@ -209,7 +209,7 @@ private void initialize() {
     });
     
     modificarGrupo.addActionListener(e -> {
-    	ModificateGrupoView grupoView = new ModificateGrupoView(this);
+    	ModificateGrupoView grupoView = new ModificateGrupoView();
     	grupoView.Mostrar();
     });
     
