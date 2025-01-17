@@ -1,4 +1,4 @@
-package Aplicacion;
+package Clases;
 
 public interface Descuento {
 
