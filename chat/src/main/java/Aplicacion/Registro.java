@@ -13,6 +13,8 @@ import java.awt.FlowLayout;
 import javax.swing.JTextField;
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Component;
 import javax.swing.Box;
 import java.text.SimpleDateFormat;
@@ -37,8 +39,6 @@ public class Registro {
     private JTextField textTelefono;
     private JPasswordField textContraseña1;
     private JPasswordField textContraseña2;
-    private String Fecha;
-    private JButton botonregistro;
     private JLabel lblImagen;
     private SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
     private JDateChooser dateChooser = new JDateChooser();
@@ -263,13 +263,13 @@ public class Registro {
                             textAreaSaludo.getText()
                     );
                     if (registrado) {
-                        System.out.println("Usuario registrado correctamente");
+                        JOptionPane.showMessageDialog(ventanaReg, "Usuario registrado correctamente", "Registro", JOptionPane.INFORMATION_MESSAGE);
                     } else {
-                        System.out.println("Error al registrar el usuario");
+                        JOptionPane.showMessageDialog(ventanaReg, "Error al registrar el usuario", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                     ventanaReg.setVisible(false);
                 } else {
-                    System.out.println("Rellena todos los campos");
+                    JOptionPane.showMessageDialog(ventanaReg, "Rellene todos los campos", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });

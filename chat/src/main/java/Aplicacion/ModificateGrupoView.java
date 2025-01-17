@@ -14,10 +14,8 @@ import Controlador.Controlador;
 public class ModificateGrupoView {
 
     private JFrame ventanaGrupo;
-    private Chat VentanaChat;
 
-    public ModificateGrupoView(Chat VentanaChat) {
-        this.VentanaChat = VentanaChat;
+    public ModificateGrupoView() {
         initialize();
     }
 
@@ -234,8 +232,8 @@ public class ModificateGrupoView {
             if (grupoSeleccionado == null) {
                 JOptionPane.showMessageDialog(ventanaGrupo, "Por favor, selecciona o crea un grupo antes.", "Aviso", JOptionPane.WARNING_MESSAGE);
             } else {
-            	Controlador.INSTANCE.modificarGrupo(grupoSeleccionado.getNombreGrupo(), grupoSeleccionado.getContactosGrupo());
-            	JOptionPane.showMessageDialog(ventanaGrupo, "Grupo Modificado!", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(ventanaGrupo, "Grupo Modificado!", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
+                Controlador.INSTANCE.modificarGrupo(grupoSeleccionado.getNombreGrupo());
                 this.ventanaGrupo.dispose();
             }
         });
