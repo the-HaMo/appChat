@@ -247,7 +247,7 @@ public enum Controlador {
 	}	
 	
 	
-	public void editarGrupo(String nombreGrupo, List<ContactoIndividual> contactos, String foto) {
+	public void modificarGrupo(String nombreGrupo, List<ContactoIndividual> contactos) {
 	    // Buscar el grupo por su nombre
 	    Grupo grupo = usuarioActual.getListaContactos().stream()
 	            .filter(c -> c instanceof Grupo && c.getNombre().equals(nombreGrupo))
@@ -258,7 +258,6 @@ public enum Controlador {
 	    if (grupo != null) {
 	        grupo.clearContactos();
 	        grupo.setNombre(nombreGrupo);
-	        // grupo.setPhoto
 	        for (ContactoIndividual contacto : contactos) {
 	        	grupo.addContacto(contacto);
 	        }
