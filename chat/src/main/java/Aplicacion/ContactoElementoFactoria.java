@@ -5,8 +5,6 @@ import Clases.Mensaje;
 
 public class ContactoElementoFactoria implements ElementoInterfaz {
 
-	
-
 	    private Contacto contacto;
 	    private Mensaje mensaje;
 

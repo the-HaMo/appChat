@@ -1,4 +1,3 @@
-
 // premiumView.java
 package Aplicacion;
 
@@ -6,6 +5,9 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+import Clases.Descuento;
+import Clases.DescuentoFecha;
+import Clases.DescuentoNumMensajes;
 import Controlador.Controlador;
 
 public class PremiumView {
