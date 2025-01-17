@@ -1,4 +1,3 @@
-
 package Aplicacion;
 
 
@@ -8,6 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
+import java.util.List;
 
 import Clases.*;
 
@@ -145,5 +145,15 @@ public class Elemento extends JPanel {
 
 	public Mensaje getMensaje() {
 		return ultimoMensaje;
+	}
+
+	public String getNombreGrupo() {
+		Grupo g = (Grupo) contacto;
+		return g.getNombre();
+	}
+	
+	public List<ContactoIndividual> getContactosGrupo() {
+		Grupo g = (Grupo) contacto;
+		return g.getContactos();
 	}
 }

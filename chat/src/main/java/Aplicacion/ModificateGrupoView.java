@@ -235,6 +235,7 @@ public class ModificateGrupoView {
                 JOptionPane.showMessageDialog(ventanaGrupo, "Por favor, selecciona o crea un grupo antes.", "Aviso", JOptionPane.WARNING_MESSAGE);
             } else {
                 JOptionPane.showMessageDialog(ventanaGrupo, "Grupo Modificado!", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
+                //Controlador.INSTANCE.modificarGrupo(grupoSeleccionado.getNombreGrupo(), grupoSeleccionado.getContactosGrupo());
                 this.ventanaGrupo.dispose();
             }
         });
