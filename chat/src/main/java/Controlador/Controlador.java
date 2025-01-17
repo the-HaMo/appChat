@@ -247,20 +247,14 @@ public enum Controlador {
 	}	
 	
 	
-	public void modificarGrupo(String nombreGrupo, List<ContactoIndividual> contactos) {
+	public void modificarGrupo(String nombreGrupo) {
 	    // Buscar el grupo por su nombre
 	    Grupo grupo = usuarioActual.getListaContactos().stream()
 	            .filter(c -> c instanceof Grupo && c.getNombre().equals(nombreGrupo))
 	            .map(c -> (Grupo) c)
 	            .findFirst()
 	            .orElse(null);
-	    
 	    if (grupo != null) {
-	        grupo.clearContactos();
-	        grupo.setNombre(nombreGrupo);
-	        for (ContactoIndividual contacto : contactos) {
-	        	grupo.addContacto(contacto);
-	        }
 	        GrupoDAO grupoDao = factoria.getGrupoDAO();
 	        UsuarioDAO adaptadorUsu = factoria.getUsuarioDAO();
 	        grupoDao.update(grupo);
