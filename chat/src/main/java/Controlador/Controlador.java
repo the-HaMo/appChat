@@ -310,6 +310,7 @@ public enum Controlador {
 		
 	public List<Mensaje> resultadoTextoEnviados(String texto) {
 	    return getUsuarioActual().getListaContactos().stream()
+	    	.filter(c -> c instanceof ContactoIndividual)
 	        .flatMap(c -> getMensajesDeContacto(c).stream())
 	        .filter(m -> m.getEmisor().equals(getUsuarioActual()))
 	        .filter(m -> Optional.ofNullable(m.getTexto())
@@ -321,6 +322,7 @@ public enum Controlador {
 	
 	public List<Mensaje> resultadoTextoRecibidos(String texto) {
 	    return getUsuarioActual().getListaContactos().stream()
+	    	.filter(c -> c instanceof ContactoIndividual)
 	        .flatMap(c -> getMensajesDeContacto(c).stream())  
 	        .filter(m -> 
 	            		m.getReceptor().getTelefono().equals(getUsuarioActual().getTelefono())
