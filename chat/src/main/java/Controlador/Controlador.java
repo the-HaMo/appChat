@@ -54,7 +54,7 @@ public enum Controlador {
 	public boolean loginUsuario(String telefono, String password) {
 		Usuario usuario = repositorioUsuarios.findUsuario(telefono);
 		
-		if (usuario != null && usuario.getContraseña().equals(password)) {
+		if (usuario != null && usuario.isPassword(password)) {
 			this.usuarioActual = usuario;
 			return true;
 		}
@@ -353,9 +353,8 @@ public enum Controlador {
 				.orElse("");
 	}
 	
-
-	
 }
+
 
 
 
