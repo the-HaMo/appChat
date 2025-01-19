@@ -36,18 +36,22 @@ public class TDSGrupoDAO implements GrupoDAO{
 	private Grupo entidadToGrupo(Entidad eGrupo) {
 		String nombre = servPersistencia.recuperarPropiedadEntidad(eGrupo, NOMBRE);
 		String foto = servPersistencia.recuperarPropiedadEntidad(eGrupo, FOTO);
-		Grupo grupo= new Grupo(nombre,new LinkedList<Mensaje>(), new LinkedList<ContactoIndividual>(),foto);
+		Grupo grupo= new Grupo(nombre,new LinkedList<Mensaje>(),new LinkedList<ContactoIndividual>(),foto);
 		grupo.setId(eGrupo.getId());
 		PoolDAO.getInstancia().addObjeto(grupo.getId(), grupo);
 		
-		List<Mensaje> mensajes = MensajesDesdeID(servPersistencia.recuperarPropiedadEntidad(eGrupo, MENSAJES));
-		for (Mensaje m : mensajes) {
-			grupo.addMensaje(m);
-		}
 		List<ContactoIndividual> contactos = codigosAContactos(servPersistencia.recuperarPropiedadEntidad(eGrupo, CONTACTOS));
 		for (ContactoIndividual c : contactos) {
 			grupo.addContacto(c);
 		}
+		
+		String idMensajes = servPersistencia.recuperarPropiedadEntidad(eGrupo, MENSAJES);
+        if (idMensajes!=null) {
+            List<Mensaje> mensajes = MensajesDesdeID(idMensajes);
+            for (Mensaje m : mensajes) {
+                grupo.addMensaje(m);
+            }
+        }		
 		return grupo;
 	}
 
