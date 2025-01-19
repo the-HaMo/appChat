@@ -31,8 +31,14 @@ public enum Controlador {
 	private Usuario usuarioActual;
 	private FactoriaDAO factoria;
 	private RepositorioUsuarios repositorioUsuarios;
+	private UsuarioDAO usuarioDAO;
+	private ContactoIndividualDAO contactoDAO;
+	private GrupoDAO grupoDAO;
+	private MensajeDAO mensajeDAO;
 
 	private Controlador() {
+		
+		
 		usuarioActual = null;
 		repositorioUsuarios = RepositorioUsuarios.INSTANCE;
 		try {
@@ -40,6 +46,10 @@ public enum Controlador {
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}
+		usuarioDAO = factoria.getUsuarioDAO();
+		contactoDAO = factoria.getContactoDAO();
+		grupoDAO = factoria.getGrupoDAO();
+		mensajeDAO = factoria.getMensajeDAO();
 	}
 		
 
@@ -77,7 +87,6 @@ public enum Controlador {
             }
             Usuario usuario = new Usuario(nombre, telefono, contraseña, link, fechaNacimiento, saludo);
             repositorioUsuarios.addUsuario(usuario);
-            UsuarioDAO usuarioDAO = factoria.getUsuarioDAO(); // Adaptador DAO para almacenar el nuevo Usuario en la BD
             usuarioDAO.create(usuario);
             return true;
         }
@@ -95,7 +104,6 @@ public enum Controlador {
 			return null;
 		}
 	    usuarioActual.addContacto(contacto);
-	    ContactoIndividualDAO contactoDAO = factoria.getContactoDAO(); // Adaptador DAO para almacenar el nuevo Contacto en la BD
 	    contactoDAO.create(contacto);
 	    UsuarioDAO usuarioDAO = factoria.getUsuarioDAO(); // Habra que hacer que se actualice los contactos del usuario
 	    usuarioDAO.update(usuarioActual);
@@ -104,7 +112,6 @@ public enum Controlador {
 	
 	public void modificarContacto(ContactoIndividual contacto, String nombre) {
 		contacto.setNombre(nombre);
-		ContactoIndividualDAO contactoDAO = factoria.getContactoDAO();
 		contactoDAO.update(contacto);
 	}
 
@@ -153,10 +160,8 @@ public enum Controlador {
 		// Se añade el grupo al usuario actual y al resto de participantes
 		usuarioActual.addContacto(g);
 		// Conexion con persistencia
-		GrupoDAO adaptadorGrupo = factoria.getGrupoDAO();
-		UsuarioDAO adaptadorUsu = factoria.getUsuarioDAO();
-		adaptadorGrupo.create(g);
-		adaptadorUsu.update(usuarioActual);
+		grupoDAO.create(g);
+		usuarioDAO.update(usuarioActual);
 
 		return g;
 	}
@@ -168,52 +173,45 @@ public enum Controlador {
 		}
 	
 	public void enviarMensaje(Contacto contacto, String texto) {
-
-		MensajeDAO adaptadorMensaje = factoria.getMensajeDAO();
-		ContactoIndividualDAO adaptadorContactoIndividual = factoria.getContactoDAO();
-		GrupoDAO adaptadorGrupo = factoria.getGrupoDAO();
+		
 		Mensaje mensaje = new Mensaje(texto,LocalDateTime.now(), usuarioActual, contacto);
-
 
 		if (contacto instanceof ContactoIndividual) {
 			contacto.addMensaje(mensaje);
-			adaptadorMensaje.create(mensaje);
-			adaptadorContactoIndividual.update((ContactoIndividual) contacto);
+			mensajeDAO.create(mensaje);
+			contactoDAO.update((ContactoIndividual) contacto);
 		} else {
 			Grupo grupo = (Grupo) contacto;
 			for (ContactoIndividual c : grupo.getContactos()) {
 				Mensaje m = new Mensaje(texto, LocalDateTime.now(), usuarioActual, c);
 	            c.addMensaje(m);
-	            adaptadorMensaje.create(m);
-	            adaptadorContactoIndividual.update(c);
+	            mensajeDAO.create(m);
+	            contactoDAO.update(c);
 			}
 			grupo.addMensaje(mensaje);
-			adaptadorGrupo.update(grupo);
+			grupoDAO.update(grupo);
 		}
 	}
 	
 	public void enviarMensaje(Contacto contacto, int emoji) {
 
-		MensajeDAO adaptadorMensaje = factoria.getMensajeDAO();
-		ContactoIndividualDAO adaptadorContactoIndividual = factoria.getContactoDAO();
-		GrupoDAO adaptadorGrupo = factoria.getGrupoDAO();
 		Mensaje mensaje = new Mensaje(emoji,LocalDateTime.now(), usuarioActual, contacto);
 
 
 		if (contacto instanceof ContactoIndividual) {
 			contacto.addMensaje(mensaje);
-			adaptadorMensaje.create(mensaje);
-			adaptadorContactoIndividual.update((ContactoIndividual) contacto);
+			mensajeDAO.create(mensaje);
+			contactoDAO.update((ContactoIndividual) contacto);
 		} else {
 			Grupo grupo = (Grupo) contacto;
 			for (ContactoIndividual c : grupo.getContactos()) {
 				Mensaje m = new Mensaje(emoji, LocalDateTime.now(), usuarioActual, c);
 	            c.addMensaje(m);
-	            adaptadorMensaje.create(m);
-	            adaptadorContactoIndividual.update(c);
+	            mensajeDAO.create(m);
+	            contactoDAO.update(c);
 			}
-			contacto.addMensaje(mensaje);
-			adaptadorGrupo.update(grupo);
+			grupo.addMensaje(mensaje);
+			grupoDAO.update(grupo);
 		}
 	}
 	
@@ -310,7 +308,7 @@ public enum Controlador {
 		
 	public List<Mensaje> resultadoTextoEnviados(String texto) {
 	    return getUsuarioActual().getListaContactos().stream()
-	    	.filter(c -> c instanceof ContactoIndividual)
+	    	//.filter(c -> c instanceof ContactoIndividual)
 	        .flatMap(c -> getMensajesDeContacto(c).stream())
 	        .filter(m -> m.getEmisor().equals(getUsuarioActual()))
 	        .filter(m -> Optional.ofNullable(m.getTexto())
@@ -354,21 +352,3 @@ public enum Controlador {
 	}
 	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
