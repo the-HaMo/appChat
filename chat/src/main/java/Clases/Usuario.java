@@ -163,21 +163,14 @@ public class Usuario {
     }
 
     public boolean contieneTelf(String telf) {
-        for (Contacto c : listaContactos) {
-            if (c.getTelefono().equals(telf)) {
-                return true;
-            }
-        }
-        return false;
+    	return listaContactos.stream()
+    	                     .anyMatch(c -> c.getTelefono().equals(telf));
+
     }
     
     public boolean contieneContacto(Contacto contacto) {
-        for (Contacto c : listaContactos) {
-            if (c.getTelefono() != null && c.getTelefono().equals(contacto.getTelefono())) {
-                return true;
-            }
-        }
-        return false;
+        return listaContactos.stream()
+                             .anyMatch(c -> c.getTelefono() != null && c.getTelefono().equals(contacto.getTelefono()));
     }
 
     
