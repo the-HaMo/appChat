@@ -16,7 +16,6 @@ import beans.Entidad;
 import beans.Propiedad;
 
 /**
- * 
  * Clase que implementa el Adaptador DAO concreto de Usuario para el tipo H2.
  * 
  */
