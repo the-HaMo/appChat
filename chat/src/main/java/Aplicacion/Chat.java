@@ -500,7 +500,7 @@ private void cargarConversacion(Contacto contacto) {
 				heights += bubbleText.getHeight();
 			}
 
-		}else {
+		}else {//Emojis
 			if (mensaje.getEmisor().equals(Controlador.INSTANCE.getUsuarioActual())) { // Si soy el emisor...
 				displayName = mensaje.getEmisor().getNombre();
 				bubbleText = new BubbleText(chat, mensaje.getEmoticono(), Color.green, displayName + " " + mensaje.getHora(), BubbleText.SENT,18);
